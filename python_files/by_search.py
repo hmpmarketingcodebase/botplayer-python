@@ -50,7 +50,7 @@ if(opsy=='linux'):
 
 pp=0
 while(1):
- try:
+ try: 
       state="Finish"
       pp=pp+1
 #Connection
@@ -252,11 +252,11 @@ while(1):
                 except NoSuchElementException:     
                    sleep(1)   
       ##### exceptions 
-
       try:
          driver.close() 
-      except:
+      except :
          sleep(1)
+      
       try:
          cnx = connectiondb()
       except MySQLdb.Error as err:
@@ -267,8 +267,10 @@ while(1):
          error_proxy(in_use_proxy,id_proxy,cnx)
       finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)
- except:
-    try:
-       driver.close()
-    except:
-       sleep(5)  
+ except :
+      print("error")
+      try:
+         driver.close() 
+      except:
+         
+         sleep(1)
