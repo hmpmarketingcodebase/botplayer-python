@@ -52,9 +52,17 @@ try:
 except MySQLdb.Error as err:  
    print("Something went wrong: (Accounts) {}".format(err))   
 
+#get playlist_album
+try:
+   cursor.execute("select * from playlist_album where play = " + id_playlist_album)  
+   playlist_album = cursor.fetchone()
+   id_album = str(playlist_album[1])  
+except MySQLdb.Error as err:  
+   print("Something went wrong: (Accounts) {}".format(err))
+   
 #get album
 try:
-   cursor.execute("select * from album where id = " + id_playlist_album)  
+   cursor.execute("select * from album where id = " + id_album)  
    albums = cursor.fetchone()
    url_album = str(albums[2]) 
    name_album = str(albums[1]) 
@@ -125,10 +133,10 @@ while(by_save <= int(behaivor_by_save)):
 by_album=1
 while(by_album <= int(behaivor_by_album)):
       if(opsy=="windows"):
-         cmd=('start by_album.bat ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) + ' ' + opsy )
+         cmd=('start by_album.bat ' + str(behaivor_margin_play) + ' ' + str(id_playlist_album) + ' ' + str(country) + ' ' + opsy )
          subprocess.call(cmd, shell=True, cwd='shell/windows/')
       elif(opsy=="linux"):
-         cmd=('./by_album.sh ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) + ' ' + opsy + ' & disown')
+         cmd=('./by_album.sh ' + str(behaivor_margin_play) + ' ' + str(id_playlist_album) + ' ' + str(country) + ' ' + opsy + ' & disown')
          subprocess.call(cmd, shell=True, cwd='shell/linux/')
       print(cmd)
       by_album = by_album + 1
