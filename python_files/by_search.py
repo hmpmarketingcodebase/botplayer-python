@@ -252,14 +252,10 @@ while(1):
                 except NoSuchElementException:     
                    sleep(1)   
       ##### exceptions 
+
       try:
          driver.close() 
-      except WebDriverException:
-         sleep(1)
-      
-      try:
-         driver.close() 
-      except WebDriverException:
+      except:
          sleep(1)
       try:
          cnx = connectiondb()
@@ -273,6 +269,6 @@ while(1):
       print(user_account + " > " + state)
  except:
     try:
-       driver.close
+       driver.close()
     except:
        sleep(5)  
