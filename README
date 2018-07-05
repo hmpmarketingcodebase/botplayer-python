@@ -7,7 +7,7 @@ sudo apt-get install python3.6
 3 create folder and "cd folder" 
 4 download and extract bot player in "folder"
 5 cd bot_player folder
-6 chmod +x chromedriver
+6 chmod +x tools/chromedriver
 7 Add the driver to your PATH so other tools can find it:
 export PATH=$PATH:/path-to-extracted-file/bot_player/chromedriver
 8- pmysql
