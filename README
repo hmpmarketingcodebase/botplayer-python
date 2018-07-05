@@ -29,7 +29,7 @@ example:
 5 - "$ id_playlist_songs" = 1 >> get playlist songs that have id = 2 from database
 6 - "$ os" = (windows or linux)
 7 - to start bot >> python3 robot.py robot_name 1 4 1 1 1 linux
-8 - to stop bot >> killall chrome chromedriver python3
+8 - to stop bot >> killall chrome chromedriver python3 Xvfb
 
 #structure:
 
