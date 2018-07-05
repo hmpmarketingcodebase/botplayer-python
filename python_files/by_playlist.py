@@ -14,7 +14,6 @@ import sys
 import MySQLdb
 import datetime
 from proxy_function import proxy_connect
-from account_checker import checker
 from heart import connectiondb
 from heart import replay
 from heart import doubleclick
