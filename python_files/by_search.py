@@ -50,7 +50,7 @@ if(opsy=='linux'):
 
 pp=0
 while(1):
- 
+ try:
       state="Finish"
       pp=pp+1
 #Connection
@@ -271,4 +271,8 @@ while(1):
          error_proxy(in_use_proxy,id_proxy,cnx)
       finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)
-
+ except:
+    try:
+       driver.close
+    except:
+       sleep(5)  
