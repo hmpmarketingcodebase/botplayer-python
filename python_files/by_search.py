@@ -51,19 +51,17 @@ if(opsy=='linux'):
 pp=0
 while(1):
  try: 
+  try:
       state="Finish"
       pp=pp+1
 #Connection
-      try:
-        cnx = connectiondb()
-      except MySQLdb.Error as err:
-        print("Error connection")
+      cnx = connectiondb()
 
 #get proxy
       proxy = proxis(country,cnx)
       in_use_proxy = str(proxy[3]) 
-      proxy_ip = str(proxy[1])
-      #proxy_ip = ":"  
+      #proxy_ip = str(proxy[1])
+      proxy_ip = ":"  
       id_proxy = str(proxy[0])       
       proxy_in_use(in_use_proxy,id_proxy,cnx)
 
@@ -267,6 +265,9 @@ while(1):
          error_proxy(in_use_proxy,id_proxy,cnx)
       finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)
+  except MySQLdb.Error as err:
+       print("----->Error connection")
+       sleep(600)
  except :
       print("error")
       try:

@@ -50,14 +50,12 @@ if(opsy=='linux'):
    
 pp=0
 while(1):
- try:
-      pp=pp+1      
+ try: 
+  try:
       state="Finish"
+      pp=pp+1
 #Connection
-      try:
-        cnx = connectiondb()
-      except MySQLdb.Error as err:
-        print("Error connection")
+      cnx = connectiondb()
 
 #get proxy
       proxy = proxis(country,cnx)
@@ -394,15 +392,30 @@ while(1):
                                nn=1
                           except NoSuchElementException:
                             sleep(1)                                  
-   ###exceptions             
+      ##### exceptions 
+      try:
+         driver.close() 
+      except :
+         sleep(1)
+      
+      try:
+         cnx = connectiondb()
+      except MySQLdb.Error as err:
+         print("Error connection")
+      if(connect != 1):  
+         error_account(user_account,password_account,cnx)
+      if(connect_proxy != 1):        
+         error_proxy(in_use_proxy,id_proxy,cnx)
+      finish(proxy_ip,user_account,cnx,state)     
+      print(user_account + " > " + state)
+  except MySQLdb.Error as err:
+       print("----->Error connection")
+       sleep(600)
+ except :
+      print("error")
       try:
          driver.close() 
       except:
+         
          sleep(1)
-      
- except:
-      try:
-         driver.close() 
-      except:
-         sleep(1)
-      
+

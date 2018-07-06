@@ -9,11 +9,9 @@ from selenium.webdriver.chrome.options import Options
 import datetime
 
 def connectiondb():
-   try:
-       cnx = MySQLdb.connect("sql148.main-hosting.eu","u474651307_user1","Pa$$w0rd","u474651307_spoti")
-       return cnx
-   except MySQLdb.Error as err:
-       print("Error connection")
+   cnx = MySQLdb.connect("sql148.main-hosting.eu","u474651307_user1","Pa$$w0rd","u474651307_spoti")
+   return cnx
+   
 
 # replay if pause
 def replay(driver):
