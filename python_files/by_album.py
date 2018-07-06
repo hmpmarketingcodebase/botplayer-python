@@ -50,6 +50,7 @@ if(opsy=='linux'):
 
 pp=0
 while(1):
+ try: 
   try:
       state="Finish"
       pp=pp+1
@@ -286,3 +287,10 @@ while(1):
   except MySQLdb.Error as err:
        print("----->Error connection")
        sleep(600)
+ except :
+      print("error")
+      try:
+         driver.close() 
+      except:
+         
+         sleep(1)
