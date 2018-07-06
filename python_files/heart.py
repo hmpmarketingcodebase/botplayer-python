@@ -77,6 +77,7 @@ def player_(d,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii):
            print("replay")
          else:
            if(replay(d)==1):
+              print("playing >")
               doubleclick(d,x,song_album_url)
               i=i-1
               sleep(5)
@@ -84,6 +85,7 @@ def player_(d,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii):
               i=i+1
               iii=ii*i
               if(i==3):
+                  print("yeah !!")
                   log_update(str(ii),str(iii),proxy_ip,user_account,cnx)                                    
     except NoSuchElementException:
            sleep(1)
@@ -114,12 +116,13 @@ def player_album(d,song_name,ms,x,proxy_ip,user_account,cnx,ii):
            if(replay(d)==1):
               doubleclick_album(d,x)
               i=i-1
+              sleep(5)
            else:
               print("playing >")
               i=i+1
               iii=ii*i
               if(i==3):
-                  print("yeaah!!")
+                  print("yeaah!! " + str(i))
                   log_update(str(ii),str(iii),proxy_ip,user_account,cnx)                                    
     except NoSuchElementException:
            sleep(1)
@@ -209,7 +212,7 @@ def songs_album(id_album,cnx):
 def playlist_album(play_album,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from playlist_album where play = '" + str(play_album) + "' order by RAND()")
+         curs.execute("select * from playlist_album where play = " + str(int(play_album)) + " order by RAND()")
          songs = curs.fetchall()
          return songs
       except MySQLdb.Error as err:  

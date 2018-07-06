@@ -38,7 +38,7 @@ from heart import error_account
 from heart import error_proxy
 
 margin_play = sys.argv[1] # margin play(duration of song = 120 seconds # margin play = 20 seconds # then play song between 100 and 120 seconds)
-play_album = sys.argv[2] # id album(get from database)
+play_album_ = sys.argv[2] # id album(get from database)
 country = sys.argv[3] # country
 opsy = sys.argv[4] #operation system (windows or linux)
 
@@ -50,7 +50,6 @@ if(opsy=='linux'):
 
 pp=0
 while(1):
- try: 
   try:
       state="Finish"
       pp=pp+1
@@ -77,7 +76,7 @@ while(1):
       albums = albums_(cnx)
       
 #get playlist_album
-      play_album = playlist_album(play_album,cnx)
+      play_album = playlist_album(str(play_album_),cnx)
 
 #get artist      
       artists = artist(cnx)
@@ -111,6 +110,30 @@ while(1):
       except TimeoutException:
           try:
               driver.get("https://accounts.spotify.com/en/login")
+              
+              sleep(5)
+
+              driver.refesh()
+              sleep(5)
+
+              driver.refesh()
+              sleep(5)
+
+              driver.refesh()
+              sleep(5)
+
+              driver.refesh()
+              sleep(5)
+
+              driver.refesh()
+              sleep(5)
+
+              driver.refesh()
+              sleep(5)
+
+              driver.refesh()
+              sleep(5)
+
               WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'login-username')))
               print (user_account + " > Proxy is ready!")
               connect_proxy=1
@@ -181,8 +204,20 @@ while(1):
                  search.send_keys(song_album_name)
                  sleep(5)
                  # click album tab
-                 a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'ALBUMS')]")))
-                 a.click()
+                 try:
+                     a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'ALBUMS')]")))
+                     a.click()
+                 except TimeoutException:
+                     try:
+                         print("album tab not found")
+                         driver.refresh()
+                         a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'ALBUMS')]")))
+                         a.click()
+                     except TimeoutException:
+                         driver.refresh()
+                         a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'ALBUMS')]")))
+                         a.click()
+                
                  sleep(1)
                  driver.execute_script("window.scrollBy(0, 1000);")
                  sleep(1)
@@ -251,10 +286,3 @@ while(1):
   except MySQLdb.Error as err:
        print("----->Error connection")
        sleep(600)
- except :
-      print("error")
-      try:
-         driver.close() 
-      except:
-         
-         sleep(1)

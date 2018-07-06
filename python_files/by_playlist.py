@@ -392,11 +392,12 @@ while(1):
                                nn=1
                           except NoSuchElementException:
                             sleep(1)                                  
-      ##### exceptions 
+   ###exceptions             
       try:
          driver.close() 
-      except :
+      except:
          sleep(1)
+      
       
       try:
          cnx = connectiondb()
@@ -418,4 +419,3 @@ while(1):
       except:
          
          sleep(1)
-
