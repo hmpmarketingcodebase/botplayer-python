@@ -194,6 +194,7 @@ while(1):
                               #wait until the result appears if not clean search input and put again other search X2 ## if not exit reload other
                               wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
                            except TimeoutException:
+                              driver.refresh()
                               search.clear()
                               sleep(2)
                               search.clear()
@@ -230,23 +231,64 @@ while(1):
                                 cl.click()
                                 nn=1
                                 sleep(2)
+
+                            try:         
+                                pplay = driver.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
+                            except:
+                                driver.refresh()
+                                sleep(5)
+                                try:
+                                    pplay = driver.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
+                                except:
+                                    driver.close()
                           except NoSuchElementException:
                             print("...")                                  
                 except StaleElementReferenceException:
                      sleep(1)          
                 # click library > left menu
+                try:
+                   biblio = driver.find_element_by_xpath("//div[@class='navBar-expand']//li[3][@class='navBar-group']")         
+                   biblio.click()                   
+                except:
+                   try:
+                       driver.refresh()
+                       biblio = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[3][@class='navBar-group']")))
+                       biblio.click()                   
+                   except:
+                       try:
+                          driver.refresh()
+                          biblio = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[3][@class='navBar-group']")))
+                          biblio.click()                   
+                       except:
+                          driver.refresh()
+                          biblio = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[3][@class='navBar-group']")))
+                          biblio.click()  
+                          
 
-                biblio = driver.find_element_by_xpath("//div[@class='navBar-expand']//li[3][@class='navBar-group']")         
-                biblio.click()                    
                 # click track tab
-                a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/collection/tracks']")))
-                a.click()
+                try:
+                    a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/collection/tracks']")))
+                    a.click()
+                except:
+                    try:
+                        driver.refresh()
+                        a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/collection/tracks']")))
+                        a.click()
+                    except:
+                        driver.refresh()
+                        a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/collection/tracks']")))
+                        a.click()
+
                 driver.execute_script("window.scrollBy(0, 1000);")
                 sleep(5)
                 driver.execute_script("window.scrollBy(0, 1000);")
-                sleep(5)                
+                sleep(5)     
+                driver.execute_script("window.scrollBy(0, 1000);")
+                sleep(5)     
                 ii=0
                 for ss in song_s:
+                        driver.execute_script("window.scrollBy(0, 1000);")
+                        sleep(5)
                         ii=ii+1
                         song_name = ss[1]
                         song_duration = int(ss[3])
@@ -261,6 +303,21 @@ while(1):
                         x=0
                         nn=0 
                         sleep(1)
+                        try:
+                           #wait until the result appears if not clean search input and put again other search X2 ## if not exit reload other
+                           wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']")))
+                        except:
+                           try:
+                              driver.refresh()
+                              wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']")))
+                           except:
+                              
+                              try:
+                                driver.refresh()
+                                wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']")))
+                              except TimeoutException:
+                                sleep(2)   
+								
                         #change curent device to webdriver device 
                         change_device(driver) 
                         sleep(1)

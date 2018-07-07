@@ -144,6 +144,14 @@ while(1):
 
                 url = "https://open.spotify.com/collection/playlists"
                 driver.get(url)
+                try:
+                   a = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, "//div[@class='terms-of-service-modal__buttons-container']//button[@class='btn btn-green']"))) 
+                   a.click()
+                   print("agree")
+                   sleep(5) 
+                except:
+                   sleep(5) 
+                   
                 # if name of playlist already exist delete and create another
                 try:
                     driver.execute_script("window.scrollBy(0, 1000);")
@@ -182,15 +190,14 @@ while(1):
                     driver.get(url)
                     playlist_ = w.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='asideButton']//button[@class='btn btn-green btn-small asideButton-button']")))
                     playlist_.click()
-                    sleep(2)
+                    sleep(5)
                     print(user_account + " > Crate Playlist : " + name_playlist)
                 except WebDriverException:
                     driver.get(url)
                     playlist_ = w.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='asideButton']//button[@class='btn btn-green btn-small asideButton-button']")))
                     playlist_.click()
-                    sleep(7)
+                    sleep(5)
                     print(user_account + " > Crate Playlist : " + name_playlist)
-
 
                 try: 
                     input = w.until(EC.visibility_of_element_located((By.XPATH, "//div[@class='inputBox']//input[@class='inputBox-input']")))
@@ -253,15 +260,15 @@ while(1):
                            sleep(5)
                            search.clear()
                            sleep(5)
-                           sleep(5)
                            search.send_keys(song_name + " " + song_artist_name)
                            try:
                               wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
                            except TimeoutException:
+                              driver.refresh()
                               search.clear()
-                              sleep(2)
+                              sleep(5)
                               search.clear()
-                              sleep(2)
+                              sleep(5)
                               search.send_keys(song_name + " " + song_artist_name)
                               try:
                                 wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
@@ -293,6 +300,16 @@ while(1):
                                 save.click()
                                 sleep(3)
                                 print(user_account + " > " + song_name + " to Playlist : " )
+                            try:         
+                                pplay = driver.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
+                            except:
+                                driver.refresh()
+                                sleep(5)
+                                try:
+                                    pplay = driver.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
+                                except:
+                                    driver.close()
+ 
                           except NoSuchElementException:
                             print("1")
 
@@ -314,8 +331,24 @@ while(1):
                             print("+")
                 sleep(2)     
                 # click library > left menu
-                biblio = driver.find_element_by_xpath("//div[@class='navBar-expand']//li[3][@class='navBar-group']")         
-                biblio.click()                    
+                try:
+                   biblio = driver.find_element_by_xpath("//div[@class='navBar-expand']//li[3][@class='navBar-group']")         
+                   biblio.click()                   
+                except:
+                   try:
+                       driver.refresh()
+                       biblio = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[3][@class='navBar-group']")))
+                       biblio.click()                   
+                   except:
+                       try:
+                          driver.refresh()
+                          biblio = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[3][@class='navBar-group']")))
+                          biblio.click()                   
+                       except:
+                          driver.refresh()
+                          biblio = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[3][@class='navBar-group']")))
+                          biblio.click()  
+                    
                 #driver.get("https://open.spotify.com/collection/playlists")
                 
                 try:

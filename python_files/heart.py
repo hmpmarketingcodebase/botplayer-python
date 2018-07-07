@@ -16,8 +16,7 @@ def connectiondb():
 # replay if pause
 def replay(driver):
     try:
-       play = driver.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar']//div[@class='now-playing-bar__center']//div[@class='player-controls__buttons']//button[@class='control-button spoticon-pause-16 control-button--circled']")  
-          
+       play = driver.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar']//div[@class='now-playing-bar__center']//div[@class='player-controls__buttons']//button[@class='control-button spoticon-pause-16 control-button--circled']")           
        return 0        
     except NoSuchElementException:
        return 1
@@ -62,8 +61,18 @@ def player_(d,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii):
 
        while(f<=sl):
          f=f+1 
-         sleep(5)         
-         pplay = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
+         sleep(5)
+         try:         
+            pplay = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
+         except:
+            d.refresh()
+            sleep(5)
+            try:
+                pplay = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
+            except:
+                killed_account(user_account)
+                d.close() 
+             
            
          if(pplay != song_name):
            print(song_name + " ^ "+ pplay)
@@ -100,8 +109,15 @@ def player_album(d,song_name,ms,x,proxy_ip,user_account,cnx,ii):
        i=0
        while(f<=sl):
          f=f+1 
-         sleep(4)
-         pplay = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
+         sleep(5)
+         try:         
+            pplay = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
+         except:
+            d.refresh()
+            try:
+                pplay = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
+            except:
+                d.close() 
          if(pplay != song_name):
            print("> "+ pplay);
            change_device(d)
@@ -320,6 +336,7 @@ def default_ua(driver):
     driver.get("chrome-extension://lkmofgnohbedopheiphabfhfjgkhfcgf/popup.html")
     try:
        driver.find_element_by_xpath("//a[@id='default']").click()
+       sleep(5)
     except NoSuchElementException:
        print("X 3")
 
@@ -335,7 +352,18 @@ def finish(proxy_ip,user_account,cnx,msg):
 def error_account(user_account,password_account,cnx):
     try:
         cursor = cnx.cursor()
-        cursor.execute("UPDATE `account` SET `error`=1 WHERE `user`='"+user_account+"' and `password`='"+str(password_account)+"'")
+        cursor.execute("UPDATE `account` SET `error`=3 WHERE `user`='"+user_account+"' and `password`='"+str(password_account)+"'")
+        cnx.commit() 
+    except MySQLdb.Error as err:
+        print("Something went wrong: (connection) {}".format(err))
+
+def killed_account(user_account):
+    try:  
+        cnx = connectiondb()
+        cursor = cnx.cursor()
+        cmd="UPDATE `account` SET `error`=4 WHERE `user`='"+user_account+"' "
+        print(cmd)
+        cursor.execute(cmd)
         cnx.commit() 
     except MySQLdb.Error as err:
         print("Something went wrong: (connection) {}".format(err))

@@ -117,14 +117,20 @@ while(1):
               print (user_account + " > Proxy is ready!")
               connect_proxy=1
           except TimeoutException:
-              driver.get("https://accounts.spotify.com/en/login")
-              print (user_account + " > Loading took too much time! (proxy)")
-              connect_proxy=0
-              state="Error Proxy!" 
-              try:
-                 driver.close() 
-              except WebDriverException:
-                 sleep(1)
+             try:
+                 driver.get("https://accounts.spotify.com/en/login")
+                 WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'login-username')))
+                 print (user_account + " > Proxy is ready!")
+                 connect_proxy=1
+             except TimeoutException:
+                 driver.get("https://accounts.spotify.com/en/login")
+                 print (user_account + " > Loading took too much time! (proxy)")
+                 connect_proxy=0
+                 state="Error Proxy!" 
+                 try:
+                    driver.close() 
+                 except:
+                    sleep(1)
           
       connect=1
       #check proxy connection
@@ -186,7 +192,7 @@ while(1):
                         try:
                            #wait until the result appears if not clean search input and put again other search X2 ## if not exit reload other
                            wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
-                        except TimeoutException:
+                        except:
                            search.clear()
                            sleep(5)
                            search.clear()
@@ -194,7 +200,8 @@ while(1):
                            search.send_keys(song_name + " " + song_artist_name)
                            try:
                               wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
-                           except TimeoutException:
+                           except:
+                              driver.refresh()
                               search.clear()
                               sleep(2)
                               search.clear()
@@ -202,7 +209,7 @@ while(1):
                               search.send_keys(song_name + " " + song_artist_name)
                               try:
                                 wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
-                              except TimeoutException:
+                              except:
                                 sleep(2)   
                          
                         song_album = int(s[4])
@@ -215,10 +222,13 @@ while(1):
                                  song_album_name = al[1]   
                         x=0
                         nn=0
-                        #change curent device to webdriver device 
-                        change_device(driver)
-                        sleep(1)
-                        change_device(driver)
+                        #change curent device to webdriver device
+                        try: 
+                           change_device(driver)
+                           sleep(1)
+                           change_device(driver)
+                        except:
+                           sleep(2)
 
                         while((x<=50)and(nn<=0)):
                           x=x+1
@@ -241,6 +251,7 @@ while(1):
                                     ms=(random.randrange(40, 80))
                                 print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                 player_(driver,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii)
+                                
                                 nn=1
                           except NoSuchElementException:
                              print("x+")
@@ -267,8 +278,10 @@ while(1):
       print(user_account + " > " + state)
   except MySQLdb.Error as err:
        print("----->Error connection")
+       finish(proxy_ip,user_account,cnx,"max request limit per hour")
        sleep(600)
  except :
+      
       print("error")
       try:
          driver.close() 

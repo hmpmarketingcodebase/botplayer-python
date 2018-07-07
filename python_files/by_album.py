@@ -111,30 +111,6 @@ while(1):
       except TimeoutException:
           try:
               driver.get("https://accounts.spotify.com/en/login")
-              
-              sleep(5)
-
-              driver.refesh()
-              sleep(5)
-
-              driver.refesh()
-              sleep(5)
-
-              driver.refesh()
-              sleep(5)
-
-              driver.refesh()
-              sleep(5)
-
-              driver.refesh()
-              sleep(5)
-
-              driver.refesh()
-              sleep(5)
-
-              driver.refesh()
-              sleep(5)
-
               WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'login-username')))
               print (user_account + " > Proxy is ready!")
               connect_proxy=1
