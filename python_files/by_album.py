@@ -61,7 +61,7 @@ while(1):
       proxy = proxis(country,cnx)
       in_use_proxy = str(proxy[3]) 
       proxy_ip = str(proxy[1])
-      #proxy_ip = ":"  
+       #proxy_ip = ":"  
       id_proxy = str(proxy[0])       
       proxy_in_use(in_use_proxy,id_proxy,cnx)
 
