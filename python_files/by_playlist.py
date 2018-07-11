@@ -435,7 +435,7 @@ while(1):
       try:
          cnx = connectiondb()
       except MySQLdb.Error as err:
-         print("Error connection")
+          print("Something went wrong: (proxies select) {}".format(err))
       if(connect != 1):  
          error_account(user_account,password_account,cnx)
       if(connect_proxy != 1):        
@@ -443,7 +443,7 @@ while(1):
       finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)
   except MySQLdb.Error as err:
-       print("----->Error connection")
+       print(">>>>>> Something went wrong: (proxies select) {}".format(err))
        sleep(600)
  except :
       print("error")

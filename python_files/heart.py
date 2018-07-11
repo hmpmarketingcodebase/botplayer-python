@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.options import Options
 import datetime
 
 def connectiondb():
-   cnx = MySQLdb.connect("sql148.main-hosting.eu","u474651307_user1","Pa$$w0rd","u474651307_spoti")
+   cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.","spoti")
    return cnx
    
 
