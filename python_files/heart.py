@@ -1,5 +1,5 @@
 import os
-from os import path
+from os import path 
 import MySQLdb
 from time import sleep
 from selenium.common.exceptions import NoSuchElementException
