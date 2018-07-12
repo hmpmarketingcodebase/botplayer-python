@@ -61,7 +61,7 @@ while(1):
       proxy = proxis(country,cnx)
       in_use_proxy = str(proxy[3]) 
       proxy_ip = str(proxy[1])
-       #proxy_ip = ":"  
+      #proxy_ip = ":"  
       id_proxy = str(proxy[0])       
       proxy_in_use(in_use_proxy,id_proxy,cnx)
 
@@ -139,7 +139,24 @@ while(1):
               print("connect : account " + user_account)
               #come back to default ua 
               default_ua(driver)
-    
+
+              url = "https://open.spotify.com/browse/featured"
+              driver.get(url)
+              try:
+                try:
+                      wait = WebDriverWait(driver, 30)
+                      # click search if not fin reload page X 2 if not exist quit and reload other
+                      a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
+                    
+                except TimeoutException:
+                      driver.get("https://open.spotify.com/browse/featured")
+                      a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
+              except TimeoutException:
+                driver.get("https://open.spotify.com/browse/featured")
+                a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
+                a.click()
+
+
               for p_a in play_album:
                #get album of current play_album
                for al in albums:
@@ -151,8 +168,6 @@ while(1):
                  song_album_url = al[2] 
                  song_album_name = al[1]
                  song = songs_album(p_a[1],cnx)   
-                 url = "https://open.spotify.com/browse/featured"
-                 driver.get(url)
                  try:
                   try:
                       wait = WebDriverWait(driver, 30)
