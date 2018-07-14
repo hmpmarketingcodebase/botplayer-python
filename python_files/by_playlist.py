@@ -60,8 +60,8 @@ while(1):
 #get proxy
       proxy = proxis(country,cnx)
       in_use_proxy = str(proxy[3]) 
-      proxy_ip = str(proxy[1])
-      #proxy_ip = ":"  
+      #proxy_ip = str(proxy[1])
+      proxy_ip = ":"  
       id_proxy = str(proxy[0])       
       proxy_in_use(in_use_proxy,id_proxy,cnx)
 
@@ -129,10 +129,16 @@ while(1):
             connect=-1
             try:
                  #if it's an invalid spotify account then connect = 0
-                 driver.find_element_by_xpath("//p[@class='alert alert-warning']")                   
+                 driver.find_element_by_xpath("//p[@class='alert alert-warning']")
                  connect=0
-                 print (user_account + " > Cannot connect")
-                 state="Error Account!"
+                 state="Cannot Connect"
+                 try:
+                    driver.find_element_by_xpath("//p[@class='alert alert-warning']//span[contains(text(), 'Incorrect username or password.')]")
+                    connect=-1
+                    state="Inc usr or passwd."
+                 except:
+                    connect=0
+                 print(user_account +' > ' + state)
             except NoSuchElementException:
                  connect=1
         
@@ -452,7 +458,7 @@ while(1):
          cnx = connectiondb()
       except MySQLdb.Error as err:
           print("Something went wrong: (proxies select) {}".format(err))
-      if(connect != 1):  
+      if(connect == -1):  
          error_account(user_account,password_account,cnx)
       if(connect_proxy != 1):        
          error_proxy(in_use_proxy,id_proxy,cnx)

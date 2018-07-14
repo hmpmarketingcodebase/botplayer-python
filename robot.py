@@ -26,9 +26,15 @@ id_playlist=sys.argv[6]
 #os (windows or linux)
 opsy=sys.argv[7]
 
+os.system("git pull origin master & disown")
+sleep(20)
+os.system("chmod -R 777 shell")
+os.system("chmod -R 777 tools")
+sleep(10)
+print("Ready!!")
 #Connection
 try:
-  cnx = MySQLdb.connect("sql148.main-hosting.eu","u474651307_user1","Pa$$w0rd","u474651307_spoti")
+  cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.","spoti")
   cursor = cnx.cursor()
 except MySQLdb.Error as err:
   print("Error connection")
