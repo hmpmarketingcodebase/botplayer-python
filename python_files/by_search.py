@@ -47,7 +47,7 @@ if(opsy=='linux'):
    from pyvirtualdisplay import Display
    display = Display(visible=0, size=(1366, 768))
    display.start()
-
+ 
 pp=0
 while(1):
  try: 
