@@ -21,21 +21,11 @@ if(opsy=="linux"):
    sleep(10)
    print("Ready!!")
 
-
-
-name=sys.argv[1]
-behaivor=sys.argv[2]
-number_threads=sys.argv[3]
-country=sys.argv[4] 
-id_playlist_album=sys.argv[5]    
-id_playlist=sys.argv[6]
-opsy=sys.argv[7]
-
    
-if(opsy=="windows"):         
+if(sys.argv[7]=="windows"):         
          cmd=('python robot.py ' + str(sys.argv[1]) + ' ' + str(sys.argv[2]) + ' ' + str(sys.argv[3]) +  ' ' + str(sys.argv[4]) + ' ' + str(sys.argv[5]) + ' ' + str(sys.argv[6]) + ' ' + str(sys.argv[7]) )
          subprocess.call(cmd, shell=True)
-elif(opsy=="linux"):
+elif(sys.argv[7]=="linux"):
          cmd=('python3 robot.py ' + str(sys.argv[1]) + ' ' + str(sys.argv[2]) + ' ' + str(sys.argv[3]) +  ' ' + str(sys.argv[4]) + ' ' + str(sys.argv[5]) + ' ' + str(sys.argv[6]) + ' ' + str(sys.argv[7]))
          subprocess.call(cmd, shell=True)
    
