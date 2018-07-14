@@ -155,10 +155,13 @@ while(1):
                 # if name of playlist already exist delete and create another
                 try:
                     driver.execute_script("window.scrollBy(0, 1000);")
-                    sleep(1)
+                    sleep(2)
+                    driver.execute_script("window.scrollBy(0, 1000);")
+                    sleep(2)
+                    driver.execute_script("window.scrollBy(0, 1000);")
+                    sleep(2)
                     w = WebDriverWait(driver, 5)
-                    a = w.until(EC.visibility_of_element_located((By.XPATH, "//section[@class='contentSpacing']//div[@class='container-fluid container-fluid--noSpaceAround']//div[@class='col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2']//a[@title='"+name_playlist+"']")))
-                    playlist_ = w.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='contentSpacing']//div[@class='container-fluid container-fluid--noSpaceAround']//div[@class='col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2']")))
+                    playlist_ = w.until(EC.visibility_of_element_located((By.XPATH, "//section[@class='contentSpacing']//div[@class='container-fluid container-fluid--noSpaceAround']//div[@class='col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2']//a[@title='"+name_playlist+"']")))
                     ActionChains(driver).context_click(playlist_).perform() 
                     delete = w.until(EC.visibility_of_element_located((By.XPATH, "//nav[@class='react-contextmenu react-contextmenu--visible']//div[3][@class='react-contextmenu-item']")))
                     ActionChains(driver).move_to_element(delete).perform() 
@@ -231,6 +234,8 @@ while(1):
                 search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))
                 #fetch all songs  
                 for s in song:                
+                    #try:
+                        print(s[1])
                         song_name = s[1]
                         song_duration = int(s[3])
                         song_artist = int(s[6])
@@ -246,60 +251,80 @@ while(1):
                              if(int(al[0]) == song_album):
                                  song_album_url = al[2] 
                                  song_album_url = song_album_url[24:]   
+                                 song_album_name = al[1] 
                         #put song + artist search input
-                        search.clear()
-                        sleep(5)
-                        search.clear()
-                        sleep(5)
+                        wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[2][@class='navBar-group']"))).click()
+                        wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[1][@class='navBar-group']"))).click()
+                        search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                  
                         search.send_keys(song_name + " " + song_artist_name)
                         try:
                            #wait until the result appears if not clean search input and put again other search X2 ## if not exit reload other
                            wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
-                        except TimeoutException:
-                           search.clear()
-                           sleep(5)
-                           search.clear()
-                           sleep(5)
+                        except :
+                           driver.get("https://open.spotify.com/search/")
+                           search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                           
                            search.send_keys(song_name + " " + song_artist_name)
                            try:
                               wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
-                           except TimeoutException:
-                              driver.refresh()
-                              search.clear()
-                              sleep(5)
-                              search.clear()
-                              sleep(5)
+                           except:
+                              driver.get("https://open.spotify.com/search/")
+                              search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))
                               search.send_keys(song_name + " " + song_artist_name)
                               try:
                                 wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
-                              except TimeoutException:
-                                sleep(2)   
+                              except :
+                                sleep(2)
                         
                         x=0
                         nn=0
+                        sleep(5)
                         while((x<=50)and(nn<=0)):
                           try:
                             x=x+1
                             # get song result
-                            txt = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='second-line ellipsis-one-line']//a[@href='"+song_album_url+"']")
-                            men = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
-                            # move cursor to song                             
-                            ActionChains(driver).move_to_element(men).perform()                    
-                            sleep(2)
-                            # right click
-                            men2 = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")               
-                            ActionChains(driver).context_click(men2).perform() 
-                            sleep(2)
-                            # click add 
-                            save = driver.find_element_by_xpath("//nav[@class='react-contextmenu react-contextmenu--visible']//div[4][@class='react-contextmenu-item']")
-                            print(save.text)
-                            if (("Add" in save.text) or ("Ajouter" in save.text)):
+                            txt = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='tracklist-name']")
+                            txt2 = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='second-line ellipsis-one-line']//span[3]")
+                            print("song name : " + txt.text + " = " + song_name)
+                            print("album name : " + txt2.text + " = " + song_album_name)
+                            if(song_name == txt.text and txt2.text==song_album_name):
+                               # if song state = pause or play = other song > replay
+                               #txt = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='second-line ellipsis-one-line']//a[@href='"+song_album_url+"']")
+                               men = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
+                               # move cursor to song                             
+                               ActionChains(driver).move_to_element(men).perform()                    
+                               sleep(2)
+                               # right click
+                               men2 = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")               
+                               ActionChains(driver).context_click(men2).perform() 
+                               sleep(2)
+                               # click add 
+                               save = driver.find_element_by_xpath("//nav[@class='react-contextmenu react-contextmenu--visible']//div[4][@class='react-contextmenu-item']")
+                               print(save.text)
+                               if (("Add" in save.text) or ("Ajouter" in save.text)):
                                 nn=1
                                 ActionChains(driver).move_to_element(save).perform() 
                                 sleep(1)
                                 save.click()
                                 sleep(3)
                                 print(user_account + " > " + song_name + " to Playlist : " )
+
+                                nnn=0
+                                xx=0
+                                # find playlist and add song
+                                while((xx<=50)and(nnn<=0)):
+                                  try:
+                                    xx=xx+1
+                                    biblio = driver.find_element_by_xpath("//div[@class='dialog dialog--without-background']//div[@class='container-fluid container-fluid--noSpaceAround']//div['"+str(xx)+"'][@class='col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2']//div[@class='mo-info']")         
+                                    if(biblio.text == name_playlist):
+                                        add = driver.find_element_by_xpath("//div[@class='dialog dialog--without-background']//div[@class='container-fluid container-fluid--noSpaceAround']//div['"+str(xx)+"'][@class='col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2']")
+                                        ActionChains(driver).move_to_element(add).perform()                    
+                                        sleep(2)                    
+                                        add.click()                    
+                                        sleep(5)                    
+                                        nnn=1
+                                  except NoSuchElementException:
+                                    print("err=1")
+                            #play bar left back
                             try:         
                                 pplay = driver.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
                             except:
@@ -308,27 +333,14 @@ while(1):
                                 try:
                                     pplay = driver.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
                                 except:
-                                    driver.close()
- 
+                                    print("bad account")
+                                    driver.close() 
                           except NoSuchElementException:
                             print("1")
 
-                        nn=0
-                        x=0
-                        # find playlist and add song
-                        while((x<=50)and(nn<=0)):
-                          try:
-                            x=x+1
-                            biblio = driver.find_element_by_xpath("//div[@class='dialog dialog--without-background']//div[@class='container-fluid container-fluid--noSpaceAround']//div['"+str(x)+"'][@class='col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2']//div[@class='mo-info']")         
-                            if(biblio.text == name_playlist):
-                                add = driver.find_element_by_xpath("//div[@class='dialog dialog--without-background']//div[@class='container-fluid container-fluid--noSpaceAround']//div['"+str(x)+"'][@class='col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2']")
-                                ActionChains(driver).move_to_element(add).perform()                    
-                                sleep(2)                    
-                                add.click()                    
-                                sleep(5)                    
-                                nn=1
-                          except NoSuchElementException:
-                            print("+")
+                    #except:
+                    #    print("err 2")
+                    #    sleep(1)
                 sleep(2)     
                 # click library > left menu
                 try:
@@ -356,6 +368,10 @@ while(1):
                       # click playlist tab 
                       a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/collection/playlists']")))
                       a.click()
+                      driver.execute_script("window.scrollBy(0, 1000);")
+                      sleep(2)
+                      driver.execute_script("window.scrollBy(0, 1000);")
+                      sleep(2)
                       driver.execute_script("window.scrollBy(0, 1000);")
                       a = wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='contentSpacing']//div[@class='container-fluid container-fluid--noSpaceAround']//div[@class='col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2']//a[@title='"+name_playlist+"']")))
                       a.click()                 

@@ -189,10 +189,9 @@ while(1):
                  album_link = song_album_url
                  album_link =album_link[24:]
                  _link = album_link
-                 search.clear()
-                 sleep(5)
-                 search.clear()
-                 sleep(5)
+                 wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[2][@class='navBar-group']"))).click()
+                 wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[1][@class='navBar-group']"))).click()
+                 search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                  
                  search.send_keys(song_album_name)
                  sleep(5)
                  # click album tab

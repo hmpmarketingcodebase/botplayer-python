@@ -177,33 +177,27 @@ while(1):
                                  song_album_url = song_album_url[24:] 
                                  song_album_name = al[1]
                         #put song + artist search input
-                        search.clear()
-                        sleep(5)
-                        search.clear()
-                        sleep(5)
+                        wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[2][@class='navBar-group']"))).click()
+                        wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[1][@class='navBar-group']"))).click()
+                        search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                  
                         search.send_keys(song_name + " " + song_artist_name)
                         try:
+                           #wait until the result appears if not clean search input and put again other search X2 ## if not exit reload other
                            wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
-                        except TimeoutException:
-                           search.clear()
-                           sleep(5)
-                           search.clear()
-                           sleep(5)
+                        except :
+                           driver.get("https://open.spotify.com/search/")
+                           search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                           
                            search.send_keys(song_name + " " + song_artist_name)
                            try:
-                              #wait until the result appears if not clean search input and put again other search X2 ## if not exit reload other
                               wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
-                           except TimeoutException:
-                              driver.refresh()
-                              search.clear()
-                              sleep(2)
-                              search.clear()
-                              sleep(2)
+                           except:
+                              driver.get("https://open.spotify.com/search/")
+                              search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))
                               search.send_keys(song_name + " " + song_artist_name)
                               try:
                                 wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
-                              except TimeoutException:
-                                sleep(2)   
+                              except :
+                                sleep(2)
 
                         x=0
                         nn=0

@@ -174,7 +174,8 @@ while(1):
                    search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))
                    ii=0
                    #fetch all songs 
-                   for s in song:          
+                   for s in song:
+                    try:   
                         ii=ii+1
                         song_name = s[1]
                         song_duration = int(s[3])
@@ -184,33 +185,27 @@ while(1):
                              if(int(a[0]) == song_artist):
                                  song_artist_name = a[1]
                         #put song + artist search input
-                        search.clear()
-                        sleep(5)
-                        search.clear()
-                        sleep(5)
+                        wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[2][@class='navBar-group']"))).click()
+                        wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[1][@class='navBar-group']"))).click()
+                        search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                  
                         search.send_keys(song_name + " " + song_artist_name)
                         try:
                            #wait until the result appears if not clean search input and put again other search X2 ## if not exit reload other
                            wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
                         except:
-                           search.clear()
-                           sleep(5)
-                           search.clear()
-                           sleep(5)
+                           driver.get("https://open.spotify.com/search/")
+                           search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                           
                            search.send_keys(song_name + " " + song_artist_name)
                            try:
                               wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
                            except:
-                              driver.refresh()
-                              search.clear()
-                              sleep(2)
-                              search.clear()
-                              sleep(2)
+                              driver.get("https://open.spotify.com/search/")
+                              search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))
                               search.send_keys(song_name + " " + song_artist_name)
                               try:
                                 wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
-                              except:
-                                sleep(2)   
+                              except :
+                                sleep(2)  
                          
                         song_album = int(s[4])
                         song_album_url = ""
@@ -229,21 +224,19 @@ while(1):
                            change_device(driver)
                         except:
                            sleep(2)
-
+                        sleep(5)
                         while((x<=50)and(nn<=0)):
                           x=x+1
                           # double click to play
-                          doubleclick(driver,x,song_album_url)
-                          sleep(5)
                           try:
                              txt = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='tracklist-name']")
                              txt2 = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='second-line ellipsis-one-line']//span[3]")
-                            
+                             print("song name : " + txt.text + " = " + song_name)
+                             print("album name : " + txt2.text + " = " + song_album_name)
                              if(song_name == txt.text and txt2.text==song_album_name):
                                 # if song state = pause or play = other song > replay
                                 if(replay(driver)==1):
                                    doubleclick(driver,x,song_album_url)
-                                  
                                 # play 9 song between 60 and 80 seconds and 1 between song_duration variable and margin_play variable (song_duration and margin_play in database behivor table)
                                 if(pp%10==0):                                                
                                     ms=(random.randrange(int(song_duration) - int(margin_play) , int(song_duration)))
@@ -254,8 +247,9 @@ while(1):
                                 
                                 nn=1
                           except NoSuchElementException:
-                             print("x+")
-
+                             err=1
+                    except:
+                        sleep(1)
                  except StaleElementReferenceException:
                      sleep(1)    
                 except NoSuchElementException:     
