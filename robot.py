@@ -17,6 +17,6 @@ elif(sys.argv[7]=="linux"):
    sleep(10)
    print("Ready!!")
 
-   cmd=('python3 robot.py ' + str(sys.argv[1]) + ' ' + str(sys.argv[2]) + ' ' + str(sys.argv[3]) +  ' ' + str(sys.argv[4]) + ' ' + str(sys.argv[5]) + ' ' + str(sys.argv[6]) + ' ' + str(sys.argv[7]))
+   cmd=('python3 spotify.py ' + str(sys.argv[1]) + ' ' + str(sys.argv[2]) + ' ' + str(sys.argv[3]) +  ' ' + str(sys.argv[4]) + ' ' + str(sys.argv[5]) + ' ' + str(sys.argv[6]) + ' ' + str(sys.argv[7]))
    subprocess.call(cmd, shell=True)
    
