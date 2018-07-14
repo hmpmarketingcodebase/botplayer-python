@@ -74,7 +74,7 @@ try:
    name_album = str(albums[1]) 
 except MySQLdb.Error as err:  
    print("Something went wrong: (Accounts) {}".format(err))   
- 
+
 
 #get behaivor
 try:
