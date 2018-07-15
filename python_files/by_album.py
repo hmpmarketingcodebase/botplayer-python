@@ -161,9 +161,10 @@ while(1):
                 a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
                 a.click()
 
-
+              ii=0
               for p_a in play_album:
                #get album of current play_album
+               
                for al in albums:
                 if(int(al[0]) == p_a[1]):
                  try:
@@ -231,7 +232,7 @@ while(1):
                    driver.refresh()
                    wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']")))
    
-                 ii=0
+                 
                  for s in song:
                          ii=ii+1
                          song_name = s[1]

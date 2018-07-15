@@ -59,7 +59,7 @@ def player_(d,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii):
        sl = int(ms / 5)
        f=0
        i=0
-
+       m=0
        while(f<=sl):
          f=f+1 
          sleep(5)
@@ -76,6 +76,7 @@ def player_(d,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii):
              
            
          if(pplay != song_name):
+           m=m+1
            print(song_name + " ^ "+ pplay)
            change_device(d)
            sleep(1)
@@ -85,11 +86,16 @@ def player_(d,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii):
            men2 = d.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")               
            ActionChains(d).double_click(men2).perform()
            print("replay")
+           if(m==3):
+              d.refresh()
          else:
+           m=m-1
            if(replay(d)==1):
               print("playing >")
               doubleclick(d,x,song_album_url)
               i=i-1
+              if(i==-2):
+                 d.refresh()
               sleep(5)
            else:
               i=i+1
@@ -108,6 +114,7 @@ def player_album(d,song_name,ms,x,proxy_ip,user_account,cnx,ii):
        sl = int(ms / 5)
        f=0
        i=0
+       m=0
        while(f<=sl):
          f=f+1 
          sleep(5)
@@ -129,17 +136,23 @@ def player_album(d,song_name,ms,x,proxy_ip,user_account,cnx,ii):
            men2 = d.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")               
            ActionChains(d).double_click(men2).perform()
            print("replay")
+           m=m+1
+           if(m==3):
+              d.refresh()
          else:
+           m=m-1
            if(replay(d)==1):
               doubleclick_album(d,x)
               i=i-1
+              if(i==2):
+                 d.refresh()
               sleep(5)
            else:
               print("playing >")
               i=i+1
               iii=ii*i
               if(i==3):
-                  print("yeaah!! " + str(i))
+                  print("yeaah!! ")
                   log_update(str(ii),str(iii),proxy_ip,user_account,cnx)                                    
     except NoSuchElementException:
            sleep(1)

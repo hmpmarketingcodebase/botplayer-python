@@ -93,7 +93,7 @@ behaivor_by_save = math.floor(int(behaivor_by_direct_save) * int(number_threads)
 #run by playlist process
 by_playlist=1
 while(by_playlist <= int(behaivor_by_playlist)):
-      if(opsy=="windows"):         
+      if(opsy=="windows"):          
          cmd=('start by_playlist.bat ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) +  ' ' + str(name_playlist) + ' ' + opsy )
          subprocess.call(cmd, shell=True, cwd='shell/windows/')
       elif(opsy=="linux"):
