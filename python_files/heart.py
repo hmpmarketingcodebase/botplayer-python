@@ -295,6 +295,7 @@ def next_run(next_start,proxy_ip,user_account):
             print("Something went wrong: (search) {}".format(err))   
 
 def config_driver(os):
+ PROXY = "10.128.0.2:8080" # IP:PORT or HOST:PORT 
  if (os=='linux'):
   try:
     #print(path.dirname(path.abspath(__file__)))
@@ -303,6 +304,7 @@ def config_driver(os):
     chrome_options = Options()
     chrome_options.add_argument('--ignore-certificate-errors')
     chrome_options.add_argument('--ignore-ssl-errors')
+    chrome_options.add_argument('--proxy-server=%s' % PROXY)
     chrome_options.add_extension(direct+'/Chrome-proxy-helper-master.crx')
     chrome_options.add_extension(direct+ '/extension_2_0_0_0.crx')
     driver = webdriver.Chrome(executable_path=executable_path, chrome_options=chrome_options)
@@ -317,6 +319,7 @@ def config_driver(os):
     chrome_options = Options()
     chrome_options.add_argument('--ignore-certificate-errors')
     chrome_options.add_argument('--ignore-ssl-errors')
+    chrome_options.add_argument('--proxy-server=%s' % PROXY)
     chrome_options.add_extension('tools/Chrome-proxy-helper-master.crx')
     chrome_options.add_extension('tools/extension_2_0_0_0.crx')
     driver = webdriver.Chrome(executable_path=executable_path, chrome_options=chrome_options)
