@@ -50,8 +50,8 @@ if(opsy=='linux'):
  
 pp=0
 while(1):
- try: 
-  try:
+ #try: 
+  #try:
       state="Finish"
       pp=pp+1
 #Connection
@@ -92,9 +92,8 @@ while(1):
       
 #config webdriver
       driver = config_driver(opsy)
-      driver.get("https://whatismyipaddress.com/fr/mon-ip")
-      print("ip is : " + driver.find_element_by_xpath("//div[@id='section_left']//div[2]").text)
-      sleep(10)
+      #driver.get("https://whatismyipaddress.com/fr/mon-ip")
+      #print("ip is : " + driver.find_element_by_xpath("//div[@id='section_left']//div[2]").text)
 #connect to proxy by extension, connexion browser side
       proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),driver)
  
@@ -279,15 +278,15 @@ while(1):
       print(state)
       finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)
-  except MySQLdb.Error as err:
-       print("----->Error connection")
-       finish(proxy_ip,user_account,cnx,"max request limit")
-       sleep(600)
- except :
+  #except MySQLdb.Error as err:
+  #     print("----->Error connection")
+  #     finish(proxy_ip,user_account,cnx,"max request limit")
+  #     sleep(600)
+ #except :
       
-      print("error")
-      try:
-         driver.close() 
-      except:
+ #     print("error")
+  #    try:
+  #       driver.close() 
+  #    except:
          
-         sleep(1)
+   #      sleep(1)
