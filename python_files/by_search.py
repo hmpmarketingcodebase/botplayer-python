@@ -92,7 +92,9 @@ while(1):
       
 #config webdriver
       driver = config_driver(opsy)
-      
+      driver.get("https://whatismyipaddress.com/fr/mon-ip")
+      print("ip is : " + driver.find_element_by_xpath("//div[@id='section_left']//div[2]").text)
+      sleep(10)
 #connect to proxy by extension, connexion browser side
       proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),driver)
  
