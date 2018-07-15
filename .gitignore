@@ -1,3 +1,4 @@
 python_files/*.out
-shell/*.out
+shell/linux/*.out
 tools/*.out
+*.out
