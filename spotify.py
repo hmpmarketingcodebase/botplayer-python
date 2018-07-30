@@ -5,8 +5,9 @@ import sys
 import MySQLdb
 import datetime
 import subprocess
-sys.path.insert(0, 'python_files/')
+sys.path.insert(0, 'scripts/')
 from heart import connectiondb
+import random
 
 #name of bot
 name=sys.argv[1]
@@ -30,6 +31,7 @@ opsy=sys.argv[7]
 #Connection
 try:
   cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.","spoti")
+  #cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf","spoti") 
   cursor = cnx.cursor()
 except MySQLdb.Error as err:
   print("Error connection")
@@ -80,10 +82,16 @@ try:
    behaivor_by_search=behaivor[5] # %
    behaivor_by_direct_save=behaivor[6] # % 
    behaivor_margin_play=behaivor[7] 
+   min_play=behaivor[8] 
+   max_play=behaivor[9] 
+   number_of_server=behaivor[10] 
    
 except MySQLdb.Error as err:  
    print("Something went wrong: (Behaivor) {}".format(err))   
 
+#playin on 24 hours
+# = number of execution per thread in 24 hours
+t = int(random.randrange(int(min_play),int(max_play))/ (int(number_of_server) * int(number_threads)) )
 #manage and call thread (percentage)
 behaivor_by_playlist = math.floor(int(behaivor_by_playlist) * int(number_threads) / 100)
 behaivor_by_album = math.floor(int(behaivor_by_album) * int(number_threads) / 100)
@@ -94,11 +102,10 @@ behaivor_by_save = math.floor(int(behaivor_by_direct_save) * int(number_threads)
 by_playlist=1
 while(by_playlist <= int(behaivor_by_playlist)):
       if(opsy=="windows"):          
-         cmd=('start by_playlist.bat ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) +  ' ' + str(name_playlist) + ' ' + opsy )
-         subprocess.call(cmd, shell=True, cwd='shell/windows/')
+         cmd=('start python by_playlist.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) +  ' ' + str(name_playlist) + ' ' + str(t) + ' ' + opsy )
       elif(opsy=="linux"):
-         cmd=('./by_playlist.sh ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) +  ' ' + str(name_playlist) + ' ' + opsy + ' & disown')
-         subprocess.call(cmd, shell=True, cwd='shell/linux/')
+         cmd=('nohup python3 by_playlist.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) +  ' ' + str(name_playlist) + ' ' + str(t) + ' ' + opsy + ' 0</dev/null &')
+      subprocess.call(cmd, shell=True, cwd='scriptes/')
       print(cmd)
       by_playlist = by_playlist + 1
       
@@ -108,11 +115,10 @@ while(by_playlist <= int(behaivor_by_playlist)):
 by_search=1
 while(by_search <= int(behaivor_by_search)):
       if(opsy=="windows"):
-         cmd=('start by_search.bat ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) + ' ' + opsy )
-         subprocess.call(cmd, shell=True, cwd='shell/windows/')
+         cmd=('start python by_search.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) + ' ' + str(t) + ' ' + opsy )
       elif(opsy=="linux"): 
-         cmd=('./by_search.sh ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) + ' ' + opsy + ' & disown')
-         subprocess.call(cmd, shell=True, cwd='shell/linux/')
+         cmd=('nohup python3 by_search.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) + ' ' + str(t) + ' ' + opsy + ' 0</dev/null &')
+      subprocess.call(cmd, shell=True, cwd='scriptes/')
       print(cmd)
       by_search = by_search + 1
       sleep(10)  
@@ -121,11 +127,10 @@ while(by_search <= int(behaivor_by_search)):
 by_save=1
 while(by_save <= int(behaivor_by_save)):
       if(opsy=="windows"):
-         cmd=('start by_save.bat ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) + ' ' + opsy )
-         subprocess.call(cmd, shell=True, cwd='shell/windows/')
+         cmd=('start by_save.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) + ' ' + str(t) + ' ' + opsy )
       elif(opsy=="linux"):
-         cmd=('./by_save.sh ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) + ' ' + opsy + ' & disown')
-         subprocess.call(cmd, shell=True, cwd='shell/linux/')
+         cmd=('nohup python3 by_save.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(country) + ' ' + str(t) + ' ' + opsy + ' 0</dev/null &')
+      subprocess.call(cmd, shell=True, cwd='scriptes/')
       print(cmd)
       by_save = by_save + 1
       sleep(10)  
@@ -134,11 +139,10 @@ while(by_save <= int(behaivor_by_save)):
 by_album=1
 while(by_album <= int(behaivor_by_album)):
       if(opsy=="windows"):
-         cmd=('start by_album.bat ' + str(behaivor_margin_play) + ' ' + str(id_playlist_album) + ' ' + str(country) + ' ' + opsy )
-         subprocess.call(cmd, shell=True, cwd='shell/windows/')
+         cmd=('start python by_album.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist_album) + ' ' + str(country) + ' ' + str(t) + ' ' + opsy )
       elif(opsy=="linux"):
-         cmd=('./by_album.sh ' + str(behaivor_margin_play) + ' ' + str(id_playlist_album) + ' ' + str(country) + ' ' + opsy + ' & disown')
-         subprocess.call(cmd, shell=True, cwd='shell/linux/')
+         cmd=('nohup python3 by_album.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist_album) + ' ' + str(country) + ' ' + str(t) + ' ' + opsy + ' 0</dev/null &')
+      subprocess.call(cmd, shell=True, cwd='scriptes/')
       print(cmd)
       by_album = by_album + 1
       sleep(10)  

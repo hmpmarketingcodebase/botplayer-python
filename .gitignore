@@ -1,4 +1,4 @@
-python_files/*.out
-shell/linux/*.out
+scripts/*.out
+scripts/*/__pycache__/*
 tools/*.out
 *.out

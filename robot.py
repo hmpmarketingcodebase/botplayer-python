@@ -12,7 +12,6 @@ elif(sys.argv[7]=="linux"):
    sleep(5)
    os.system("git pull origin master & disown")
    sleep(20)
-   os.system("chmod -R 777 shell")
    os.system("chmod -R 777 tools")
    sleep(10)
    print("Ready!!")
