@@ -5,7 +5,7 @@ import sys
 import MySQLdb
 import datetime
 import subprocess
-sys.path.insert(0, 'scripts/')
+sys.path.insert(0, 'scripts/spotify/')
 import random
 
 os.system("git stash save --keep-index & disown")
