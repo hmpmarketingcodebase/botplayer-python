@@ -10,8 +10,7 @@ import random
 os.system("git stash save --keep-index & disown")
 sleep(5)
 os.system("git pull origin master & disown")
-sleep(20)
-os.system("chmod -R 777 tools")
+#os.system("chmod -R 777 tools")
 sleep(10)
 print("Ready!!")
 
