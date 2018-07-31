@@ -34,7 +34,8 @@ if(opsy=='Linux'):
    from pyvirtualdisplay import Display
    display = Display(visible=0, size=(1366, 768))
    display.start()
-
+   os.system("echo 3 >/proc/sys/vm/drop_caches")
+   sleep(5)
 pid=10
 while(1):
  
