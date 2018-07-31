@@ -409,5 +409,5 @@ def clean_memory():
          sleep(120)
          
 def kill_process(parent_pid):
-   os.system("pkill -TERM -P " + parent_pid)
+   os.system("pkill -TERM -P " + str(parent_pid))
    print("# " + str(parent_pid) + " Killes")
