@@ -407,8 +407,6 @@ def clean_memory():
          print("process killed")         
          os.system("killall chrome chromedriver")
          sleep(5)
-         os.system("echo 3 >/proc/sys/vm/drop_caches")
-         sleep(120)
          
 def kill_process(parent_pid):
    os.system("pkill -TERM -P " + str(parent_pid))
