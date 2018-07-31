@@ -16,6 +16,7 @@ import datetime
 import platform
 from requests import get
 import heart
+import psutil
 sys.path.append("..")
 import common.heart
 
@@ -40,6 +41,8 @@ while(1):
  vv=0
  while(vv<int(part)):
   vv=vv+1  
+  if(opsy=='Linux'):
+      common.heart.clean_memory()
   if(int(part_sec)<1):
       part_sec=2
   tt= int(random.randrange(1,int(part_sec)))
@@ -94,6 +97,10 @@ while(1):
 
 #config webdriver
       driver = common.heart.config_driver()
+      driver.service.process # is a Popen instance for the chromedriver process
+      p = psutil.Process(driver.service.process.pid)
+      print("#####################################")
+      print ("PID : " + str(p.pid))
       
 #connect to proxy by extension, connexion browser side
       common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),driver)
@@ -346,7 +353,12 @@ while(1):
                                     pplay = driver.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
                                 except:
                                     print("bad account")
-                                    driver.close() 
+                                    try:
+                                         if(opsy=='Linux'):
+                                            common.heart.kill_process(pid) 
+                                         driver.close()
+                                    except:
+                                         err=1
                           except NoSuchElementException:
                             print("1")
                     except:
@@ -411,6 +423,8 @@ while(1):
                 wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']")))
                 for s in song_s:
                     try:                
+                        if(opsy=='Linux'):
+                           common.heart.clean_memory()
                         ii=ii+1                
                         song_name = s[1]
                         song_artist = int(s[6])
@@ -466,7 +480,7 @@ while(1):
                           driver.refresh()             
    ###exceptions             
       try:
-         driver.close() 
+         common.heart.kill_process(pid) 
       except:
          sleep(1)
       
@@ -486,9 +500,9 @@ while(1):
        print(">>>>>> Something went wrong: (proxies select) {}".format(err))
        err=1
    except :
-      print("error")
+      print("---")
       try:
-         driver.close() 
+         common.heart.kill_process(pid)
       except:
          
          sleep(1)

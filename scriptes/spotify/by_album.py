@@ -16,8 +16,10 @@ import datetime
 from requests import get
 import platform
 import heart
+import psutil
 sys.path.append("..")
 import common.heart
+
 
 #get public ip
 mypubilcip = get('https://api.ipify.org').text
@@ -39,6 +41,13 @@ while(1):
  pp=0
  vv=0
  while(vv<int(part)):
+  
+  try:
+       if(opsy=='Linux'):
+          common.heart.kill_process(pid) 
+       driver.close()
+  except:
+       err=1
   vv=vv+1  
   if(int(part_sec)<1):
       part_sec=2
@@ -91,7 +100,10 @@ while(1):
 
 #config webdriver
       driver = common.heart.config_driver()
-      
+      driver.service.process # is a Popen instance for the chromedriver process
+      p = psutil.Process(driver.service.process.pid)
+      print("#####################################")
+      print ("PID : " + str(p.pid))      
 #connect to proxy by extension, connexion browser side
       common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),driver)
  
@@ -181,6 +193,7 @@ while(1):
                #get album of current play_album
              
                for al in albums:
+                
                 try:
                   if(int(al[0]) == p_a[1]):
                      try:
@@ -258,6 +271,8 @@ while(1):
                  
                      for s in song:
                         try:
+                         if(opsy=='Linux'):
+                            common.heart.clean_memory()
                          ii=ii+1
                          song_name = s[1]
                          song_duration = int(s[3])
@@ -301,10 +316,13 @@ while(1):
                     driver.refresh() 
                     
       ##### exceptions 
+      
       try:
-         driver.close() 
-      except :
-         sleep(1)
+          if(opsy=='Linux'):
+             common.heart.kill_process(pid) 
+          driver.close()
+      except:
+          err=1
       
       try:
          cnx = common.heart.connectiondb('spoti')
@@ -321,8 +339,10 @@ while(1):
        print("----->Error connection")
        sleep(600)
    except :
-      print("error")
+      print("---")
       try:
-         driver.close() 
-      except:    
-         sleep(1)
+          if(opsy=='Linux'):
+             common.heart.kill_process(pid) 
+          driver.close()
+      except:
+          err=1

@@ -18,6 +18,8 @@ import platform
 import heart
 sys.path.append("..")
 import common.heart
+import os
+import psutil
 
 mypubilcip = get('https://api.ipify.org').text
 
@@ -34,11 +36,19 @@ if(opsy=='Linux'):
    display = Display(visible=0, size=(1366, 768))
    display.start()
  
-
+pid=10
 while(1):
+ try:
+   if(opsy=='Linux'):
+      common.heart.kill_process(pid) 
+   driver.close()
+ except:
+   err=1
  pp=0
  vv=0
  while(vv<int(part)):
+  if(opsy=='Linux'):
+     common.heart.clean_memory()
   vv=vv+1  
   if(int(part_sec)<1):
       part_sec=2
@@ -94,6 +104,10 @@ while(1):
       
 #config webdriver
       driver = common.heart.config_driver()
+      driver.service.process # is a Popen instance for the chromedriver process
+      p = psutil.Process(driver.service.process.pid)
+      print("#####################################")
+      print ("PID : " + str(p.pid))
       #driver.get("https://whatismyipaddress.com/fr/mon-ip")
       #print("ip is : " + driver.find_element_by_xpath("//div[@id='section_left']//div[2]").text)
 #connect to proxy by extension, connexion browser side
@@ -134,9 +148,11 @@ while(1):
                  connect_proxy=0
                  state="Error Proxy!" 
                  try:
-                    driver.close() 
+                   if(opsy=='Linux'):
+                      common.heart.kill_process(pid) 
+                   driver.close()
                  except:
-                    sleep(1)
+                   err=1
       connect=1
       #check proxy connection
       if(connect_proxy==1):
@@ -190,6 +206,8 @@ while(1):
                    #fetch all songs 
                    for s in song:
                     try:      
+                        if(opsy=='Linux'):
+                           common.heart.clean_memory()
                         ii=ii+1
                         song_name = s[1]
                         song_duration = int(s[3])
@@ -278,9 +296,11 @@ while(1):
                    sleep(1)   
       ##### exceptions 
       try:
-         driver.close() 
-      except :
-         sleep(1)
+         if(opsy=='Linux'):
+            common.heart.kill_process(pid) 
+         driver.close()
+      except:
+          err=1
       
       try:
          cnx = common.heart.connectiondb('spoti')
@@ -298,8 +318,8 @@ while(1):
        print("----->Error connection")
        #common.heart.finish(proxy_ip,user_account,cnx,"max request limit")
    except:   
-      print("error")
+      print("---")
       try:
-         driver.close() 
+         common.heart.kill_process(pid) 
       except:  
          sleep(1)

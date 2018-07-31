@@ -12,6 +12,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import platform
 from urllib.parse import quote
+import psutil
+import random
 
 def connectiondb(database):
    cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
@@ -207,7 +209,8 @@ def clear_cache(driver, timeout=60):
     sleep(5)
 
 def config_driver():
- PROXY = "10.128.0.2:8080" # IP:PORT 
+ PROXY = "10.128.0.2:8080" # IP:PORT
+ sleep(int(random.randrange(1,60))) 
  os= platform.system() #operation system (windows or linux)
  if (os=='Linux'):
   try:
@@ -222,7 +225,7 @@ def config_driver():
     chrome_options.add_extension(direct+ '/extension_2_0_0_0.crx')
     chrome_options.add_extension(direct+'/Quick-Language-Switcher_v0.0.0.4.crx')
     driver = webdriver.Chrome(executable_path=executable_path, chrome_options=chrome_options)
-    driver.maximize_window()
+    #driver.maximize_window()
     driver.delete_all_cookies()
     clear_cache(driver)
     return driver  
@@ -383,3 +386,28 @@ def error_proxy(in_use_proxy,id_proxy,cnx):
          cnx.commit() 
     except MySQLdb.Error as err:
          print("Something went wrong: (Proxies update) {}".format(err))
+
+
+
+def sizeof_fmt(num, suffix='B'):
+    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
+        if abs(num) < 1024.0:
+            return "%3.1f%s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.1f%s%s" % (num, 'Yi', suffix)
+
+def clean_memory():
+   mem = psutil.virtual_memory()
+   mem_ = sizeof_fmt(mem.free)
+   print('Free memory :'+ str(mem_))
+   if('MiB' in mem_):
+      s = mem_[:-3]
+      #print('memory use:'+ str(s))
+      if(float(s) < 200 ):
+         print("process killed")
+         os.system("killall chrome chromedriver")
+         sleep(120)
+         
+def kill_process(parent_pid):
+   os.system("pkill -TERM -P " + parent_pid)
+   print("# " + str(parent_pid) + " Killes")
