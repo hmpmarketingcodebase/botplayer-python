@@ -16,8 +16,8 @@ import psutil
 import random
 
 def connectiondb(database):
-   cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
-   #cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf","spoti")    
+   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
+   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf","spoti")    
    return cnx
    
 def proxis(country,cnx):
@@ -220,6 +220,7 @@ def config_driver():
     chrome_options = Options()
     chrome_options.add_argument('--ignore-certificate-errors')
     chrome_options.add_argument('--ignore-ssl-errors')
+    chrome_options.add_argument('--load-extension=path_to_the_extension_folder')
     #chrome_options.add_argument('--proxy-server=%s' % PROXY)
     chrome_options.add_extension(direct+'/Chrome-proxy-helper-master.crx')
     chrome_options.add_extension(direct+ '/extension_2_0_0_0.crx')
