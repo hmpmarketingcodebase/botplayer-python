@@ -220,7 +220,9 @@ def config_driver():
     chrome_options = Options()
     chrome_options.add_argument('--ignore-certificate-errors')
     chrome_options.add_argument('--ignore-ssl-errors')
-    chrome_options.add_argument('--load-extension=path_to_the_extension_folder')
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-setuid-sandbox")
+
     #chrome_options.add_argument('--proxy-server=%s' % PROXY)
     chrome_options.add_extension(direct+'/Chrome-proxy-helper-master.crx')
     chrome_options.add_extension(direct+ '/extension_2_0_0_0.crx')
