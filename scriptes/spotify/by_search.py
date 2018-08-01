@@ -59,7 +59,7 @@ while(1):
   print("will be playing at :" + str(ttb) )
   sleep(tt)
   while(pl1<0): 
-   try: 
+   #try: 
     try:
       state="finish"
       pp=pp+1
@@ -317,12 +317,12 @@ while(1):
     except MySQLdb.Error as err:
        print("----->Error connection")
        #common.heart.finish(proxy_ip,user_account,cnx,"max request limit")
-   except:   
-      try:
-          e = sys.exc_info()[0]
-          print(str(e))
-          if(opsy=='Linux'):
-             common.heart.kill_process(pid) 
-          driver.close()
-      except:
-          err=1
+   #except:   
+   #   try:
+    #      e = sys.exc_info()[0]
+    #      print(str(e))
+    #      if(opsy=='Linux'):
+    #         common.heart.kill_process(pid) 
+    #      driver.close()
+    #  except:
+    #      err=1
