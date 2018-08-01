@@ -339,8 +339,9 @@ while(1):
        print("----->Error connection")
        sleep(600)
    except :
-      print("---")
       try:
+          e = sys.exc_info()[0]
+          print(str(e))
           if(opsy=='Linux'):
              common.heart.kill_process(pid) 
           driver.close()

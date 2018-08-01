@@ -318,8 +318,11 @@ while(1):
        print("----->Error connection")
        #common.heart.finish(proxy_ip,user_account,cnx,"max request limit")
    except:   
-      print("---")
       try:
-         common.heart.kill_process(pid) 
-      except:  
-         sleep(1)
+          e = sys.exc_info()[0]
+          print(str(e))
+          if(opsy=='Linux'):
+             common.heart.kill_process(pid) 
+          driver.close()
+      except:
+          err=1
