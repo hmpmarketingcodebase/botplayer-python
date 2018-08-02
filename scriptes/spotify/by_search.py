@@ -112,7 +112,6 @@ while(1):
       #print("ip is : " + driver.find_element_by_xpath("//div[@id='section_left']//div[2]").text)
 #connect to proxy by extension, connexion browser side
       common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),driver)
- 
       #view current ip
       #driver.get("http://www.mon-ip.com/info-adresse-ip.php")
       lang = country

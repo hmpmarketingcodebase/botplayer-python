@@ -16,8 +16,8 @@ import psutil
 import random
 
 def connectiondb(database):
-   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
-   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
+   cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
+   #cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
    return cnx
    
 def proxis(country,cnx):
@@ -220,8 +220,8 @@ def config_driver():
     chrome_options = Options()
     chrome_options.add_argument('--ignore-certificate-errors')
     chrome_options.add_argument('--ignore-ssl-errors')
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-setuid-sandbox")
+    #chrome_options.add_argument("--no-sandbox")
+    #chrome_options.add_argument("--disable-setuid-sandbox")
 
     #chrome_options.add_argument('--proxy-server=%s' % PROXY)
     chrome_options.add_extension(direct+'/Chrome-proxy-helper-master.crx')
@@ -242,6 +242,9 @@ def config_driver():
     chrome_options = Options()
     chrome_options.add_argument('--ignore-certificate-errors')
     chrome_options.add_argument('--ignore-ssl-errors')
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-setuid-sandbox")
+    chrome_options.add_argument("--enzzdzable-extensions")
     #chrome_options.add_argument('--proxy-server=%s' % PROXY)
     chrome_options.add_extension('../../tools/Chrome-proxy-helper-master.crx')
     chrome_options.add_extension('../../tools/extension_2_0_0_0.crx')
