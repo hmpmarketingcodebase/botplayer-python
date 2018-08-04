@@ -77,9 +77,9 @@ t=int(random.randrange(min_play,max_play))
 by_playlist=1
 while(by_playlist <= int(behaivor_by_playlist)):
       if(opsy=="Windows"):          
-         cmd=('start python by_playlist.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(name_playlist) + ' ' + str(t))
+         cmd=('start python by_playlist.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(t))
       elif(opsy=="Linux"):
-         cmd=('by_search python3 by_playlist.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(name_playlist) + ' ' + str(t) + ' by_search')
+         cmd=('by_search python3 by_playlist.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) +  ' ' + str(t) + ' by_search')
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       print(cmd)
       by_playlist = by_playlist + 1
