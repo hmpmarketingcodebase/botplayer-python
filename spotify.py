@@ -28,8 +28,8 @@ opsy = platform.system() #operation system (windows or linux)
 
 #Connection
 try:
-  #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.","spoti")
-  cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf","spoti") 
+  cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.","spoti")
+  #cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf","spoti") 
   cursor = cnx.cursor()
 except MySQLdb.Error as err:
   print("Error connection")
@@ -79,7 +79,7 @@ while(by_playlist <= int(behaivor_by_playlist)):
       if(opsy=="Windows"):          
          cmd=('start python by_playlist.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(t))
       elif(opsy=="Linux"):
-         cmd=('python3 by_playlist.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' '  + str(t) + ' & disown')
+         cmd=('nohup  python3 by_playlist.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' '  + str(t) + ' 0</dev/null &')
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       print(cmd)
       by_playlist = by_playlist + 1
@@ -92,7 +92,7 @@ while(by_search <= int(behaivor_by_search)):
       if(opsy=="Windows"):
          cmd=('start python by_search.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' +  str(t) )
       elif(opsy=="Linux"): 
-         cmd=('python3 by_search.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' +  str(t)+ ' & disown')
+         cmd=('nohup  python3 by_search.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' +  str(t)+ ' 0</dev/null &')
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       print(cmd)
       by_search = by_search + 1
@@ -104,7 +104,7 @@ while(by_save <= int(behaivor_by_direct_save)):
       if(opsy=="Windows"):
          cmd=('start by_save.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' +  str(t) )
       elif(opsy=="Linux"):
-         cmd=('python3 by_save.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' +  str(t) + ' & disown')
+         cmd=('nohup  python3 by_save.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' +  str(t) + ' 0</dev/null &')
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       print(cmd)
       by_save = by_save + 1
@@ -116,7 +116,7 @@ while(by_album <= int(behaivor_by_album)):
       if(opsy=="Windows"):
          cmd=('start python by_album.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist_album) + ' ' + str(t) )
       elif(opsy=="Linux"):
-         cmd=('python3 by_album.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist_album) + ' ' + str(t)  + ' & disown')
+         cmd=('nohup  python3 by_album.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist_album) + ' ' + str(t)  + ' 0</dev/null &')
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       print(cmd)
       by_album = by_album + 1
