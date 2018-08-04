@@ -28,8 +28,8 @@ opsy = platform.system() #operation system (windows or linux)
 
 #Connection
 try:
-  cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.","spoti")
-  #cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf","spoti") 
+  #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.","spoti")
+  cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf","spoti") 
   cursor = cnx.cursor()
 except MySQLdb.Error as err:
   print("Error connection")
@@ -79,7 +79,7 @@ while(by_playlist <= int(behaivor_by_playlist)):
       if(opsy=="Windows"):          
          cmd=('start python by_playlist.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' + str(t))
       elif(opsy=="Linux"):
-         cmd=('python3 by_playlist.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) +  ' ' + str(t) + ' & disown')
+         cmd=('python3 by_playlist.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' '  + str(t) + ' & disown')
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       print(cmd)
       by_playlist = by_playlist + 1
@@ -88,14 +88,14 @@ while(by_playlist <= int(behaivor_by_playlist)):
 
 #run by search process
 by_search=1
-while(<= int(behaivor_by_search)):
+while(by_search <= int(behaivor_by_search)):
       if(opsy=="Windows"):
          cmd=('start python by_search.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' +  str(t) )
       elif(opsy=="Linux"): 
          cmd=('python3 by_search.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' +  str(t)+ ' & disown')
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       print(cmd)
-      = + 1
+      by_search = by_search + 1
       sleep(10)  
 
 #run by direct save process
