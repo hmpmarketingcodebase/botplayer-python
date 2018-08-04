@@ -48,7 +48,7 @@ while(1):
  vv=0
  while(vv<int(part)):
   if(opsy=='Linux'):
-      common.heart.clean_memory()
+     common.heart.clean_memory()
   vv=vv+1  
   if(int(part_sec)<1):
       part_sec=2

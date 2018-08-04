@@ -16,8 +16,8 @@ import psutil
 import random
 
 def connectiondb(database):
-   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
-   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
+   cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
+   #cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
    return cnx
    
 def proxis(country,cnx):
@@ -63,8 +63,22 @@ def proxy_connect(proxy,port,driver):
 
 def account(cnx):
       try:
+         now = datetime.datetime.now()
          curs = cnx.cursor()
-         curs.execute("select * from account where error = 2 order by in_use asc, RAND()")
+         if((int(now.hour)<8)):
+             curs.execute("select * from account where error = 2 order by in_use asc, RAND()")
+             print("#1")
+         elif((int(now.hour)>20)):          
+             curs.execute("select * from account where error = 2 and in_use > 0 order by in_use asc, RAND()")
+             print("#2")
+         else:
+             rd = int(random.randrange(1,3))
+             if(rd <= 1):
+                 curs.execute("select * from account where error = 2 order by in_use asc, RAND()")
+                 print("#3")
+             else :
+                 curs.execute("select * from account where error = 2 and in_use > 0 order by in_use asc, RAND()")                 
+                 print("#4")
          account = curs.fetchone() 
          return account
       except MySQLdb.Error as err:  
