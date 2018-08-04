@@ -52,13 +52,14 @@ except MySQLdb.Error as err:
     print("Something went wrong: {}".format(err))
 
 i=0
-os.system("git stash save --keep-index & disown")
-sleep(5)
-os.system("git pull origin master & disown")
-#os.system("chmod -R 777 tools")
-sleep(10)
-os.system("rm nohup.out")
-sleep(5)
+if(opsy=="Linux"):
+    os.system("git stash save --keep-index & disown")
+    sleep(5)
+    os.system("git pull origin master & disown")
+    #os.system("chmod -R 777 tools")
+    sleep(10)
+    os.system("rm nohup.out")
+    sleep(5)
 print("Ready!!")
 #get behaivor
 try:
