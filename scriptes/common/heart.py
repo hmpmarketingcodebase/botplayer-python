@@ -65,20 +65,21 @@ def account(cnx):
       try:
          now = datetime.datetime.now()
          curs = cnx.cursor()
-         if((int(now.hour)<8)):
-             curs.execute("select * from account where error = 2 and in_use = (select min(in_use) from account) order by in_use asc, RAND()")
-             print("#1")
-         elif((int(now.hour)>20)):          
-             curs.execute("select * from account where error = 2 and in_use > (select min(in_use) from account) order by in_use asc, RAND()")
-             print("#2")
-         else:
-             rd = int(random.randrange(1,3))
-             if(rd <= 1):
-                 curs.execute("select * from account where error = 2  and in_use = (select min(in_use) from account) order by in_use asc, RAND()")
-                 print("#3")
-             else :
-                 curs.execute("select * from account where error = 2 and in_use > (select min(in_use) from account) order by in_use asc, RAND()")                 
-                 print("#4")
+         curs.execute("select * from account where error = 2 order by in_use asc, RAND()")
+         #if((int(now.hour)<8)):
+         #    curs.execute("select * from account where error = 2 and in_use = (select min(in_use) from account) order by in_use asc, RAND()")
+         #    print("#1")
+         #elif((int(now.hour)>20)):          
+         #    curs.execute("select * from account where error = 2 and in_use > (select min(in_use) from account) order by in_use asc, RAND()")
+         #    print("#2")
+         #else:
+         #    rd = int(random.randrange(1,3))
+         #    if(rd <= 1):
+         #        curs.execute("select * from account where error = 2  and in_use = (select min(in_use) from account) order by in_use asc, RAND()")
+         #        print("#3")
+         #    else :
+         #        curs.execute("select * from account where error = 2 and in_use > (select min(in_use) from account) order by in_use asc, RAND()")                 
+         #        print("#4")
          account = curs.fetchone() 
          return account
       except MySQLdb.Error as err:  
