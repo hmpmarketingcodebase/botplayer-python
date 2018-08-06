@@ -16,7 +16,7 @@ start_date=datetime.datetime.now()
 #behivor id (from behaivor tabble)
 behaivor=sys.argv[2]
 #how many thread ?
-number_threads=sys.argv[3]
+number_threads=8
 #1 = run and 0 = stop
 running = 1
 #id playlist album
@@ -53,6 +53,10 @@ except MySQLdb.Error as err:
 
 i=0
 if(opsy=="Linux"):
+    os.system("git config --global user.email 'zzakariaa10@yahoo.fr' & disown")
+    sleep(5)
+    os.system("git config --global user.email 'git config --global user.name 'Zak'")
+    sleep(5)
     os.system("git stash save --keep-index & disown")
     sleep(5)
     os.system("git pull origin master & disown")
