@@ -20,9 +20,9 @@ number_threads=8
 #1 = run and 0 = stop
 running = 1
 #id playlist album
-id_playlist_album=sys.argv[4]    
+id_playlist_album=sys.argv[3]    
 #id playlist
-id_playlist=sys.argv[5]
+id_playlist=sys.argv[4]
 #os (windows or linux)
 opsy = platform.system() #operation system (windows or linux)
 
