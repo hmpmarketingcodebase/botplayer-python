@@ -16,13 +16,13 @@ start_date=datetime.datetime.now()
 #behivor id (from behaivor tabble)
 behaivor=sys.argv[2]
 #how many thread ?
-number_threads=8
+number_threads=sys.argv[3]
 #1 = run and 0 = stop
 running = 1
 #id playlist album
-id_playlist_album=sys.argv[3]    
+id_playlist_album=sys.argv[4]    
 #id playlist
-id_playlist=sys.argv[4]
+id_playlist=sys.argv[5]
 #os (windows or linux)
 opsy = platform.system() #operation system (windows or linux)
 
@@ -60,7 +60,7 @@ if(opsy=="Linux"):
     os.system("git stash save --keep-index & disown")
     sleep(5)
     os.system("git pull origin master & disown")
-    os.system("chmod -R 777 tools")
+    #os.system("chmod -R 777 tools")
     sleep(10)
     os.system("rm nohup.out")
     sleep(5)
