@@ -418,6 +418,10 @@ def sizeof_fmt(num, suffix='B'):
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 def clean_memory():
+   os.system("sudo bash clean_ram.sh")
+   sleep(5)
+   os.system("sudo bash clean_tmp.sh")
+   sleep(5)
    mem = psutil.virtual_memory()
    mem_ = sizeof_fmt(mem.free)
    print('Free memory :'+ str(mem_))
@@ -432,3 +436,4 @@ def clean_memory():
 def kill_process(parent_pid):
    os.system("pkill -TERM -P " + str(parent_pid))
    print("# " + str(parent_pid) + " Killed")
+
