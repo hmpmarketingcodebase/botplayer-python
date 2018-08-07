@@ -42,7 +42,6 @@ try:
 except MySQLdb.Error as err:
     print("Something went wrong: {}".format(err))
 
-
 #reset in use account
 try:
     cmd="update account set in_use = '0'"
@@ -86,6 +85,7 @@ except MySQLdb.Error as err:
    print("Something went wrong: (Behaivor) {}".format(err))   
 
 t=int(random.randrange(min_play,max_play))
+t=t/(number_of_server * number_threads)
 #run by playlist process
 by_playlist=1
 while(by_playlist <= int(behaivor_by_playlist)):
@@ -96,14 +96,13 @@ while(by_playlist <= int(behaivor_by_playlist)):
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       print(cmd)
       by_playlist = by_playlist + 1
-      
       sleep(10)  
 
 #run by search process
 by_search=1
 while(by_search <= int(behaivor_by_search)):
       if(opsy=="Windows"):
-         cmd=('start python by_search.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' +  str(t) )
+         cmd=('start python by_search.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' +  str(t))
       elif(opsy=="Linux"): 
          cmd=('nohup  python3 by_search.py ' + str(behaivor_margin_play) + ' ' + str(id_playlist) + ' ' +  str(t)+ ' 0</dev/null &')
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
@@ -133,4 +132,4 @@ while(by_album <= int(behaivor_by_album)):
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       print(cmd)
       by_album = by_album + 1
-      sleep(10)  
+      sleep(10)
