@@ -54,7 +54,7 @@ i=0
 if(opsy=="Linux"):
     os.system("git config --global user.email 'zzakariaa10@yahoo.fr' & disown")
     sleep(5)
-    os.system("git config --global user.email 'git config --global user.name 'Zak'")
+    os.system("git config --global user.name 'Zak'")
     sleep(5)
     os.system("git stash save --keep-index & disown")
     sleep(5)
@@ -85,7 +85,7 @@ except MySQLdb.Error as err:
    print("Something went wrong: (Behaivor) {}".format(err))   
 
 t=int(random.randrange(min_play,max_play))
-t=t/(number_of_server * number_threads)
+t=t/int(int(number_of_server) * int(number_threads))
 #run by playlist process
 by_playlist=1
 while(by_playlist <= int(behaivor_by_playlist)):
