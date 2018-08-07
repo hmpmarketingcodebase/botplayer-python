@@ -418,9 +418,12 @@ def sizeof_fmt(num, suffix='B'):
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 def clean_memory():
-   os.system("sudo bash clean_ram.sh")
+   cmd=('sudo bash clean_ram.sh & disown')
+   subprocess.call(cmd, shell=True, cwd='../spotify/')
    sleep(5)
-   os.system("sudo bash clean_tmp.sh")
+   cmd=('sudo bash clean_tmp.sh & disown')
+   subprocess.call(cmd, shell=True, cwd='../spotify/')
+
    sleep(5)
    mem = psutil.virtual_memory()
    mem_ = sizeof_fmt(mem.free)
