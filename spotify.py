@@ -85,7 +85,7 @@ except MySQLdb.Error as err:
    print("Something went wrong: (Behaivor) {}".format(err))   
 
 t=int(random.randrange(min_play,max_play))
-t=t/int(int(number_of_server) * int(number_threads))
+t=int(t/int(int(number_of_server) * int(number_threads)))
 #run by playlist process
 by_playlist=1
 while(by_playlist <= int(behaivor_by_playlist)):
