@@ -14,6 +14,7 @@ import platform
 from urllib.parse import quote
 import psutil
 import random
+import subprocess
 
 def connectiondb(database):
    #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
