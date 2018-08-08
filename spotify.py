@@ -85,7 +85,7 @@ except MySQLdb.Error as err:
 
 t=int(random.randrange(min_play,max_play))
 t=int(t/int(int(number_of_server) * int(number_threads)))
-elif(opsy=="Linux"):
+if(opsy=="Linux"):
    cmd=('rm nohup.out & disown')
    subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
 sleep(5)
