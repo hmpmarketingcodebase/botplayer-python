@@ -89,7 +89,7 @@ if(opsy=="Linux"):
    cmd=('rm nohup.out & disown')
    subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
    sleep(3)
-   cmd=('python3 cleaner.py & disown')
+   cmd=('nohup python3 cleaner.py 0</dev/null &')
    subprocess.call(cmd, shell=True, cwd='scriptes/common/')
    
 sleep(5)
