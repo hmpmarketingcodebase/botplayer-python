@@ -20,9 +20,10 @@ sys.path.append("..")
 import common.heart
 import os
 import psutil
-
-mypubilcip = get('https://api.ipify.org').text
-
+try:
+   mypubilcip = get('https://api.ipify.org').text
+except:
+   mypubilcip = "-"
 margin_play = sys.argv[1] # margin play(duration of song = 120 seconds # margin play = 20 seconds # then play song between 100 and 120 seconds)
 id_playlist = sys.argv[2] # id playlist (list of songs)
 part = sys.argv[3] # 

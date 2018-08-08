@@ -22,7 +22,11 @@ import common.heart
 
 
 #get public ip
-mypubilcip = get('https://api.ipify.org').text
+try:
+   mypubilcip = get('https://api.ipify.org').text
+except:
+   mypubilcip = "-"
+
 
 margin_play = sys.argv[1] # margin play(duration of song = 120 seconds # margin play = 20 seconds # then play song between 100 and 120 seconds)
 play_album_ = sys.argv[2] # id album(get from database)
