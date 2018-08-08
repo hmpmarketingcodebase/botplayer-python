@@ -61,8 +61,7 @@ if(opsy=="Linux"):
     os.system("git pull origin master & disown")
     #os.system("chmod -R 777 tools")
     sleep(10)
-    os.system("rm nohup.out")
-    sleep(5)
+    
 
 print("Ready!!")
 #get behaivor
@@ -86,6 +85,10 @@ except MySQLdb.Error as err:
 
 t=int(random.randrange(min_play,max_play))
 t=int(t/int(int(number_of_server) * int(number_threads)))
+elif(opsy=="Linux"):
+   cmd=('rm nohup.out & disown')
+   subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
+sleep(5)
 #run by playlist process
 by_playlist=1
 while(by_playlist <= int(behaivor_by_playlist)):
