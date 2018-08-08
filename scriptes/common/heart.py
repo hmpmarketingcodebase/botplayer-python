@@ -419,13 +419,13 @@ def sizeof_fmt(num, suffix='B'):
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 def clean_memory():
-   cmd=('sudo bash clean_ram.sh & disown')
-   subprocess.call(cmd, shell=True, cwd='../common/')
-   sleep(5)
-   cmd=('sudo bash clean_tmp.sh & disown')
-   subprocess.call(cmd, shell=True, cwd='../common/')
+  # cmd=('sudo bash clean_ram.sh & disown')
+  # subprocess.call(cmd, shell=True, cwd='../common/')
+  # sleep(5)
+  # cmd=('sudo bash clean_tmp.sh & disown')
+  # subprocess.call(cmd, shell=True, cwd='../common/')
 
-   sleep(5)
+  # sleep(5)
    mem = psutil.virtual_memory()
    mem_ = sizeof_fmt(mem.free)
    print('Free memory :'+ str(mem_))

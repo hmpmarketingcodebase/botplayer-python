@@ -88,6 +88,10 @@ t=int(t/int(int(number_of_server) * int(number_threads)))
 if(opsy=="Linux"):
    cmd=('rm nohup.out & disown')
    subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
+   sleep(3)
+   cmd=('python3 cleaner.py & disown')
+   subprocess.call(cmd, shell=True, cwd='scriptes/common/')
+   
 sleep(5)
 #run by playlist process
 by_playlist=1
