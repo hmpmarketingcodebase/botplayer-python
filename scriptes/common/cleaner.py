@@ -37,4 +37,4 @@ def clean_memory():
 while(1):
    clean_memory()
    print("# Cleaning")
-   sleep(120)
+   sleep(30)
