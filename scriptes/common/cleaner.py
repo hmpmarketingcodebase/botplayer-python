@@ -2,6 +2,7 @@ import os
 import subprocess
 import psutil
 from time import sleep
+import datetime
 
 def sizeof_fmt(num, suffix='B'):
     for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
@@ -12,10 +13,16 @@ def sizeof_fmt(num, suffix='B'):
 
 
 def clean_memory():
-    os.system('sudo bash clean_ram.sh & disown')
+    now = datetime.datetime.now()
+    if(int(now.hour) % 6 == 0 and int(now.minute) < 5):
+       os.system('sudo bash clean_tmp.sh & disown')
+       print("clear tmp file")
     sleep(5)
-    os.system('sudo bash clean_tmp.sh & disown')
-    sleep(5)
+
+    if(int(now.hour) % 2 == 0 and int(now.minute) < 5):
+       print("clear cache RAM") 
+       os.system('sudo bash clean_ram.sh & disown')
+         
     mem = psutil.virtual_memory()
     mem_ = sizeof_fmt(mem.free)
     print('Free memory :'+ str(mem_))
