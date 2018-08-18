@@ -105,7 +105,7 @@ def player_(d,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii):
                   print("yeah !!")
                   pl=1
                   #log_update(str(ii),str(iii),proxy_ip,user_account,cnx)                                    
-    except NoSuchElementException:
+    except :
            sleep(1)
     return(pl)
 
