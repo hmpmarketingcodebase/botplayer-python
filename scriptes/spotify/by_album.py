@@ -290,7 +290,7 @@ while(1):
                              x=x+1 
                              txt = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='tracklist-name']").text
                              print("find : " + txt)
-                             if(song_name==txt):
+                             if(song_name.lower() == txt.lower()):
                                nn=1
                                sleep(2)
                                # find and double click

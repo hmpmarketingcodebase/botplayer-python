@@ -14,7 +14,7 @@ def sizeof_fmt(num, suffix='B'):
 
 def clean_memory():
     now = datetime.datetime.now()
-    if(int(now.hour) % 6 == 0 and int(now.minute) < 5):
+    if(int(now.hour) % 3 == 0 and int(now.minute) < 5):
        os.system('sudo bash clean_tmp.sh & disown')
        print("clear tmp file")
     sleep(5)

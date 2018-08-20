@@ -264,15 +264,15 @@ while(1):
                              txt2 = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='second-line ellipsis-one-line']//span[3]")
                              #print("song name : " + txt.text + " = " + song_name)
                              #print("album name : " + txt2.text + " = " + song_album_name)
-                             if(song_name == txt.text and txt2.text==song_album_name):
+                             if(song_name.lower() == txt.text.lower() and txt2.text.lower()==song_album_name.lower()):
                                 # if song state = pause or play = other song > heart.replay
                                 if(heart.replay(driver)==1):
                                    heart.doubleclick(driver,x,song_album_url)
                                 # play 9 song between 60 and 80 seconds and 1 between song_duration variable and margin_play variable (song_duration and margin_play in database behivor table)
-                                if(pp%10==0):                                                
-                                    ms=(random.randrange(int(song_duration) - int(margin_play) , int(song_duration)))
-                                else:
-                                    ms=(random.randrange(40, 80))
+                                #if(pp%10==0):                                                
+                                #    ms=(random.randrange(int(song_duration) - int(margin_play) , int(song_duration)))
+                                #else:
+                                ms=(random.randrange(40, 80))
                                 print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                 pl=heart.player_(driver,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii) + pl
                                 print(">>>< + " + str(pl) +"+ <<<<<" + str(nxt))

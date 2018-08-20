@@ -355,7 +355,7 @@ while(1):
                              x=x+1
                              txt = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='tracklist-name']")
                              txt2 = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='second-line ellipsis-one-line']//span[3]")
-                             if(song_name == txt.text and txt2.text==song_album_name):
+                             if(song_name.lower() == txt.text.lower() and txt2.text.lower()==song_album_name.lower()):
                                # find song and doubleclick
                                heart.doubleclick(driver,x,song_album_url)
                                sleep(5)
@@ -363,7 +363,8 @@ while(1):
                                if(heart.replay(driver)==1):
                                   heart.doubleclick(driver,x,song_album_url)
                                if(pp%10==0):
-                                  ms=(random.randrange(int(song_duration) - int(margin_play) , int(song_duration)))
+                                  #ms=(random.randrange(int(song_duration) - int(margin_play) , int(song_duration)))
+                                  ms=(random.randrange(40, 80))
                                else:
                                   ms=(random.randrange(40, 80))                                                
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
