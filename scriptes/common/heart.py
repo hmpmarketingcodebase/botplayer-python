@@ -17,8 +17,8 @@ import random
 import subprocess
 
 def connectiondb(database):
-   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
-   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
+   cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
+   #cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
    return cnx
    
 def proxis(country,cnx):
@@ -42,8 +42,8 @@ def proxy_in_use(in_use_proxy,id_proxy,cnx):
     except MySQLdb.Error as err:
          print("Something went wrong: (Proxies update) {}".format(err))
 
-def proxy_connect(proxy,port,driver):
-    driver.get("chrome-extension://fhnlhdgbgbodgeeabjnafmaobfomfopf/options.html?host="+proxy+"&port="+port)
+def proxy_connect(proxy,port,user,password,driver):
+    driver.get("chrome-extension://fhnlhdgbgbodgeeabjnafmaobfomfopf/options.html?host="+proxy+"&port="+port+"&user="+user+"&pass="+password)
     driver.find_element_by_xpath("//input[@id='socks5']").click()
     sleep(2)
     driver.find_element_by_xpath("//input[@id='socks4']").click()

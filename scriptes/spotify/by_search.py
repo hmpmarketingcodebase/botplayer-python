@@ -83,6 +83,8 @@ while(1):
       proxy_ip = str(proxy[1])
       #proxy_ip = ":"  
       id_proxy = str(proxy[0])       
+      usr = str(proxy[5])       
+      pwd = str(proxy[6])   
       common.heart.proxy_in_use(in_use_proxy,id_proxy,cnx)
 
 #get random common.heart.songs 
@@ -111,7 +113,7 @@ while(1):
       #driver.get("https://whatismyipaddress.com/fr/mon-ip")
       #print("ip is : " + driver.find_element_by_xpath("//div[@id='section_left']//div[2]").text)
 #connect to proxy by extension, connexion browser side
-      common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),driver)
+      common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
       #view current ip
       #driver.get("http://www.mon-ip.com/info-adresse-ip.php")
       lang = country
