@@ -74,7 +74,7 @@ def account(cnx):
          #    curs.execute("select * from account where error = 2 and in_use > (select min(in_use) from account) order by in_use asc, RAND()")
          #    print("#2")
          #else:
-         #    rd = int(random.randrange(1,3))
+         #    rd = int(random.randint(1,3))
          #    if(rd <= 1):
          #        curs.execute("select * from account where error = 2  and in_use = (select min(in_use) from account) order by in_use asc, RAND()")
          #        print("#3")
@@ -102,7 +102,7 @@ def songs(id_playlist,cnx):
          curs.execute("select * from songs where playlist = '" + str(id_playlist) + "' order by RAND()")
          songs = curs.fetchall()
          s = len(songs)
-         s = int(random.randrange(1,int(s)))
+         s = int(random.randint(1,int(s)))
  
          curs2 = cnx.cursor()
          curs2.execute("select * from songs where playlist = '" + str(id_playlist) + "' order by RAND() LIMIT " + str(s))
@@ -118,7 +118,7 @@ def songs_album(id_album,cnx):
          curs.execute("select * from songs where album = '" + str(id_album) + "' order by RAND()")
          songs = curs.fetchall()
          s = len(songs)
-         s = int(random.randrange(1,int(s)))
+         s = int(random.randint(1,int(s)))
 
          curs2 = cnx.cursor()
          curs2.execute("select * from songs where album = '" + str(id_album) + "' order by RAND() LIMIT " + str(s))
@@ -240,7 +240,7 @@ def clear_cache(driver, timeout=60):
 
 def config_driver():
  PROXY = "10.128.0.2:8080" # IP:PORT
- sleep(int(random.randrange(1,60))) 
+ sleep(int(random.randint(1,60))) 
  os= platform.system() #operation system (windows or linux)
  if (os=='Linux'):
   try:

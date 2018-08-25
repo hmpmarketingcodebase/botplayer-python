@@ -50,7 +50,7 @@ while(1):
   vv=vv+1  
   if(int(part_sec)<1):
       part_sec=2
-  tt= int(random.randrange(1,int(part_sec)))
+  tt= int(random.randint(1,int(part_sec)))
   current=datetime.datetime.now()
   ttb = current + datetime.timedelta(0,tt)
   pl1=-1
@@ -365,10 +365,10 @@ while(1):
                                if(heart.replay(driver)==1):
                                   heart.doubleclick(driver,x,song_album_url)
                                if(pp%10==0):
-                                  #ms=(random.randrange(int(song_duration) - int(margin_play) , int(song_duration)))
-                                  ms=(random.randrange(40, 80))
+                                  #ms=(random.randint(int(song_duration) - int(margin_play) , int(song_duration)))
+                                  ms=(random.randint(40, 80))
                                else:
-                                  ms=(random.randrange(40, 80))                                                
+                                  ms=(random.randint(40, 80))                                                
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                pl=heart.player_(driver,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii) + pl
                                if(pl == 1 and nxt == 0):
