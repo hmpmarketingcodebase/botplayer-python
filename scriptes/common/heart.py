@@ -102,7 +102,7 @@ def songs(id_playlist,cnx):
          curs.execute("select * from songs where playlist = '" + str(id_playlist) + "' order by RAND()")
          songs = curs.fetchall()
          s = len(songs)
-         s = int(random.randint(1,int(s)))
+         s = int(random.randint(int(int(s)/2),int(s)))
  
          curs2 = cnx.cursor()
          curs2.execute("select * from songs where playlist = '" + str(id_playlist) + "' order by RAND() LIMIT " + str(s))
