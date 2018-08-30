@@ -12,6 +12,7 @@ import sys
 import MySQLdb
 import datetime
 import platform
+import heart
 sys.path.append("..")
 import common.heart
 
@@ -25,7 +26,7 @@ if(opsy=='Linux'):
 follow=0
 k=0
 while(follow<1 and k < 10):
-   try: 
+   #try: 
     try: 
       k=k+1
 #Connection
@@ -36,20 +37,21 @@ while(follow<1 and k < 10):
       #proxy_ip = str(proxy[1])
       proxy_ip = ":"  
       id_proxy = str(proxy[0])       
-
+      usr = str(proxy[5])       
+      pwd = str(proxy[6])   
 #get account
-      account_=common.heart.account(1,cnx)
+      account_=common.heart.account(cnx)
       user_account = str(account_[1]) 
       password_account = str(account_[2])
 
 #get artist      
-      artist = heart.artist(cnx)
+      artist = common.heart.follow_artist(cnx)
 
 #config webdriver
       driver = common.heart.config_driver()
       
 #connect to proxy by extension, connexion browser side
-      common.heart.common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),driver)
+      common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
  
       #view current ip
       #driver.get("http://www.mon-ip.com/info-adresse-ip.php")
@@ -103,6 +105,7 @@ while(follow<1 and k < 10):
               common.heart.random_ua(driver,'spoti')
               driver.switch_to.window("t2")
               url = artist[2]
+              print(str(url))
               driver.get(url)
               try:
                 try:
@@ -153,9 +156,9 @@ while(follow<1 and k < 10):
          sleep(1)      
     except MySQLdb.Error as err:
        print("----->Error connection")
-   except :
-      print("error")
-      try:
-         driver.close() 
-      except:    
-         sleep(1)
+   #except :
+   #   print("error")
+   #   try:
+   #      driver.close() 
+   #   except:    
+   #      sleep(1)

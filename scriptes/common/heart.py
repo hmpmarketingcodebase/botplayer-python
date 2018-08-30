@@ -17,8 +17,8 @@ import random
 import subprocess
 
 def connectiondb(database):
-   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
-   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
+   cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
+   #cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
    return cnx
    
 def proxis(country,cnx):
@@ -153,6 +153,15 @@ def artist(cnx):
          curs = cnx.cursor()
          curs.execute("select * from artist")
          artists = curs.fetchall()
+         return artists
+      except MySQLdb.Error as err:  
+         print("Something went wrong: (artists) {}".format(err))  
+
+def follow_artist(cnx):
+      try:
+         curs = cnx.cursor()
+         curs.execute("select * from artist where url is not null order by RAND()")
+         artists = curs.fetchone()
          return artists
       except MySQLdb.Error as err:  
          print("Something went wrong: (artists) {}".format(err))   
