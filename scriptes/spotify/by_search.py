@@ -211,7 +211,7 @@ while(1):
                            common.heart.clean_memory()
                         ii=ii+1
                         song_name = s[1]
-                        song_duration = int(s[3])
+                        #song_duration = int(s[3])
                         song_artist = int(s[6])
                         song_artist_name = ""
                         for a in artists:
@@ -252,8 +252,8 @@ while(1):
                         nn=0
                         #change curent device to webdriver device
                         try: 
-                           heart.change_device(driver)
-                           sleep(1)
+                           #heart.change_device(driver)
+                           #sleep(1)
                            heart.change_device(driver)
                         except:
                            sleep(2)
@@ -274,7 +274,7 @@ while(1):
                                 #if(pp%10==0):                                                
                                 #    ms=(random.randint(int(song_duration) - int(margin_play) , int(song_duration)))
                                 #else:
-                                ms=(random.randint(40, 80))
+                                ms=(random.randint(30, 50))
                                 print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                 pl=heart.player_(driver,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii) + pl
                                 print(">>>< + " + str(pl) +"+ <<<<<" + str(nxt))

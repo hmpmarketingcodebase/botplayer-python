@@ -80,9 +80,9 @@ def player_(d,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii):
            m=m+1
            print(song_name + " ^ "+ pplay)
            change_device(d)
-           sleep(1)
-           men = d.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
-           ActionChains(d).move_to_element(men).perform()                    
+           #sleep(1)
+           #men = d.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
+           #ActionChains(d).move_to_element(men).perform()                    
            sleep(1)
            men2 = d.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")               
            ActionChains(d).double_click(men2).perform()
@@ -133,9 +133,9 @@ def player_album(d,song_name,ms,x,proxy_ip,user_account,cnx,ii):
          if(pplay != song_name):
            print("> "+ pplay);
            change_device(d)
-           sleep(1)
-           men = d.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
-           ActionChains(d).move_to_element(men).perform()                    
+           #sleep(1)
+           #men = d.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
+           #ActionChains(d).move_to_element(men).perform()                    
            sleep(1)
            men2 = d.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")               
            ActionChains(d).double_click(men2).perform()
@@ -165,13 +165,12 @@ def player_album(d,song_name,ms,x,proxy_ip,user_account,cnx,ii):
 #change device
 def change_device(d):
     try:       
-
+        dev = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='connect-bar']")
         web_device=d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar']//div[@class='now-playing-bar__right']//div[@class='now-playing-bar__right__inner']//span[@class='connect-device-picker']")
         web_device.click()
         sleep(2) 
         web_device_current=d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar']//div[@class='now-playing-bar__right']//div[@class='now-playing-bar__right__inner']//span[@class='connect-device-picker']//div[@class='connect-device-list-container connect-device-list-container--is-visible']//div[@class='connect-device-list-content']//button[1]")
         web_device_current.click()
-           
     except NoSuchElementException:
         print("Device Not found")
 

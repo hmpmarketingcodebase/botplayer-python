@@ -349,8 +349,8 @@ while(1):
                                 sleep(2)   
                         #change curent device to webdriver device 
                         heart.change_device(driver) 
-                        sleep(1)
-                        heart.change_device(driver)   
+                        #sleep(1)
+                        #heart.change_device(driver)   
 
                         while((x<=50)and(nn<=0)):
                           try: 
@@ -366,9 +366,9 @@ while(1):
                                   heart.doubleclick(driver,x,song_album_url)
                                if(pp%10==0):
                                   #ms=(random.randint(int(song_duration) - int(margin_play) , int(song_duration)))
-                                  ms=(random.randint(40, 80))
+                                  ms=(random.randint(30, 50))
                                else:
-                                  ms=(random.randint(40, 80))                                                
+                                  ms=(random.randint(30, 50))                                                
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                pl=heart.player_(driver,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii) + pl
                                if(pl == 1 and nxt == 0):

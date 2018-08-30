@@ -284,8 +284,8 @@ while(1):
                          song_duration = int(s[3])
                          x=0
                          nn=0
-                         heart.change_device(driver)
-                         sleep(2)
+                         #heart.change_device(driver)
+                         #sleep(2)
                          heart.change_device(driver)
                          while((x<=50)and(nn<=0)):
                            try: 
@@ -302,9 +302,9 @@ while(1):
                                   heart.doubleclick_album(driver,x)
                                if(pp%10==0):
                                   #ms=(random.randint(int(song_duration) - int(margin_play) , int(song_duration)))
-                                  ms=(random.randint(60, 80))                                                
+                                  ms=(random.randint(30, 50))                                                
                                else:
-                                  ms=(random.randint(60, 80))                                                
+                                  ms=(random.randint(30, 50))                                                
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                pl = heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii) + pl
                                if(pl == 1 and nxt == 0):
