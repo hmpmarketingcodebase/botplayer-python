@@ -17,8 +17,8 @@ import random
 import subprocess
 
 def connectiondb(database):
-   cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
-   #cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
+   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
+   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
    return cnx
    
 def proxis(country,cnx):
