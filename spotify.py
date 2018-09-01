@@ -59,7 +59,8 @@ if(opsy=="Linux"):
     os.system("sudo git stash save --keep-index & disown")
     sleep(5)
     os.system("sudo git pull origin master & disown")
-    #os.system("chmod -R 777 tools")
+    sleep(5)
+    os.system("sudo chmod -R 777 *")
     sleep(10)
     
 
