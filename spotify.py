@@ -60,7 +60,7 @@ if(opsy=="Linux"):
     sleep(5)
     os.system("git pull origin master & disown")
     sleep(5)
-    os.system("chmod -R 777 *")
+    os.system("sudo chmod -R 777 *")
     sleep(10)
     
 
