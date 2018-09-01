@@ -40,7 +40,7 @@ try:
     cursor.execute(cmd)
     cnx.commit() 
 except MySQLdb.Error as err:
-    print("Something went wrong: {}".format(err))
+    print("Something went wrong: {} ".format(err))
 
 #reset in use account
 try:
