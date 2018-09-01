@@ -52,15 +52,15 @@ except MySQLdb.Error as err:
 
 i=0
 if(opsy=="Linux"):
-    os.system("sudo git config --global user.email 'zzakariaa10@yahoo.fr' & disown")
+    os.system("git config --global user.email 'zzakariaa10@yahoo.fr' & disown")
     sleep(5)
-    os.system("sudo git config --global user.name 'Zak'")
+    os.system("git config --global user.name 'Zak'")
     sleep(5)
-    os.system("sudo git stash save --keep-index & disown")
+    os.system("git stash save --keep-index & disown")
     sleep(5)
-    os.system("sudo git pull origin master & disown")
+    os.system("git pull origin master & disown")
     sleep(5)
-    os.system("sudo chmod -R 777 *")
+    os.system("chmod -R 777 *")
     sleep(10)
     
 
