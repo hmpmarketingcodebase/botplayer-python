@@ -207,12 +207,16 @@ while(1):
                    #fetch all songs 
                    for s in song:
                     try:      
+                        print("----------")   
                         if(opsy=='Linux'):
                            common.heart.clean_memory()
                         ii=ii+1
                         song_name = s[1]
+                        #song_name = 'Og\'s'
                         #song_duration = int(s[3])
                         song_artist = int(s[6])
+                        song_name = song_name.replace('*+*',"\'")
+                        print(">> " + song_name)
                         song_artist_name = ""
                         for a in artists:
                              if(int(a[0]) == song_artist):
@@ -221,22 +225,24 @@ while(1):
                         wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[2][@class='navBar-group']"))).click()
                         wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[1][@class='navBar-group']"))).click()
                         search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                  
+                        print(song_name + "+ ---- +" + song_artist_name)
                         search.send_keys(song_name + " " + song_artist_name)
                         try:
                            #wait until the result appears if not clean search input and put again other search X2 ## if not exit reload other
-                           wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
+                           print("//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(),\""+song_name+"\")]")
+                           wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(),\""+song_name+"\")]")))
                         except:
                            driver.get("https://open.spotify.com/search/")
                            search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                           
                            search.send_keys(song_name + " " + song_artist_name)
                            try:
-                              wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
+                              wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(),\""+song_name+"\")]")))
                            except:
                               driver.get("https://open.spotify.com/search/")
                               search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))
                               search.send_keys(song_name + " " + song_artist_name)
                               try:
-                                wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(), '"+song_name+"')]")))
+                                wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(),\""+song_name+"\")]")))
                               except :
                                 sleep(2)  
                          
