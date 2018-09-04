@@ -227,22 +227,83 @@ while(1):
                         search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                  
                         print(song_name + "+ ---- +" + song_artist_name)
                         search.send_keys(song_name + " " + song_artist_name)
+                        sleep(5)
+                        sl = driver.current_url
+                        sl1 = sl.split('/')
+                        sl = sl1[len(sl1)-1]
+                        try:
+                            a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/songs/"+str(sl)+"']")))
+                            a.click()
+                        except TimeoutException:
+                            try:
+                                print("album tab not found")
+                                driver.refresh()
+                                a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/songs/"+str(sl)+"']")))
+                                a.click()
+                            except TimeoutException:
+                                driver.refresh()
+                                a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/songs/"+str(sl)+"']")))
+                                a.click()
+                
+                        sleep(5)
+
                         try:
                            #wait until the result appears if not clean search input and put again other search X2 ## if not exit reload other
-                           print("//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(),\""+song_name+"\")]")
-                           wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(),\""+song_name+"\")]")))
+                           wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//li[1][@class='tracklist-row']//div[@class='tracklist-col name']//span[contains(text(),\""+song_name+"\")]")))
                         except:
                            driver.get("https://open.spotify.com/search/")
                            search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                           
                            search.send_keys(song_name + " " + song_artist_name)
+               
+                           sleep(5)
+                           sl = driver.current_url
+                           sl1 = sl.split('/')
+                           sl = sl1[len(sl1)-1]
                            try:
-                              wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(),\""+song_name+"\")]")))
+                               a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/songs/"+str(sl)+"']")))
+                               a.click()
+                           except TimeoutException:
+                               try:
+                                   print("album tab not found")
+                                   driver.refresh()
+                                   a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/songs/"+str(sl)+"']")))
+                                   a.click()
+                               except TimeoutException:
+                                   driver.refresh()
+                                   a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/songs/"+str(sl)+"']")))
+                                   a.click()
+                
+                           sleep(5)
+   
+						   
+                           try:
+                              wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//li[1][@class='tracklist-row']//div[@class='tracklist-col name']//span[contains(text(),\""+song_name+"\")]")))
                            except:
                               driver.get("https://open.spotify.com/search/")
                               search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))
                               search.send_keys(song_name + " " + song_artist_name)
+
+                              sleep(5)
+                              sl = driver.current_url
+                              sl1 = sl.split('/')
+                              sl = sl1[len(sl1)-1]
                               try:
-                                wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[contains(text(),\""+song_name+"\")]")))
+                                  a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/songs/"+str(sl)+"']")))
+                                  a.click()
+                              except TimeoutException:
+                                  try:
+                                      print("album tab not found")
+                                      driver.refresh()
+                                      a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/songs/"+str(sl)+"']")))
+                                      a.click()
+                                  except TimeoutException:
+                                      driver.refresh()
+                                      a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/songs/"+str(sl)+"']")))
+                                      a.click() 
+                              sleep(5)
+
+                              try:
+                                wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//li[1][@class='tracklist-row']//div[@class='tracklist-col name']//span[contains(text(),\""+song_name+"\")]")))
                               except :
                                 sleep(2)  
                          
