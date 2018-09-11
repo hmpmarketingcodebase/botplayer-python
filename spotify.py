@@ -42,14 +42,6 @@ try:
 except MySQLdb.Error as err:
     print("Something went wrong: {} ".format(err))
 
-#reset in use account
-try:
-    cmd="update account set in_use = '0'"
-    cursor.execute(cmd)
-    cnx.commit() 
-except MySQLdb.Error as err:
-    print("Something went wrong: {}".format(err))
-
 i=0
 if(opsy=="Linux"):
     os.system("git config --global user.email 'zzakariaa10@yahoo.fr' & disown")
