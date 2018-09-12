@@ -4,13 +4,13 @@ do
    sleep 5s
    git config --global user.email 'zzakariaa10@yahoo.fr' & disown
    sleep 5s
-   git config --global user.name 'Zak'
+   git config --global user.name 'Zak' & disown
    sleep 5s
    git stash save --keep-index & disown
    sleep 5s
    git pull origin master & disown
    sleep 5s
-   os.system("sudo chmod -R 777 *")
+   sudo chmod -R 777 * & disown
    sleep 10s
     
    python3 spotify.py $1 $2 $3 $4 $5 & disown 
