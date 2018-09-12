@@ -99,13 +99,13 @@ def account_in_use(in_use_account,id_account,cnx):
 def songs(id_playlist,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from songs where playlist = '" + str(id_playlist) + "' order by RAND()")
+         curs.execute("select * from songs where playlist >= " + str(id_playlist) + " order by RAND()")
          songs = curs.fetchall()
          s = len(songs)
          s = int(random.randint(int(int(s)/2),int(s)))
  
          curs2 = cnx.cursor()
-         curs2.execute("select * from songs where playlist = '" + str(id_playlist) + "' order by RAND() LIMIT " + str(s))
+         curs2.execute("select * from songs where playlist >= " + str(id_playlist) + " order by RAND() LIMIT " + str(s))
          songs = curs2.fetchall()
          return songs
       except MySQLdb.Error as err:  
@@ -133,7 +133,7 @@ def songs_album(id_album,cnx):
 def playlist_album(play_album,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from playlist_album where play = " + str(int(play_album)) + " order by RAND()")
+         curs.execute("select * from playlist_album where play >= " + str(int(play_album)) + " order by RAND()")
          songs = curs.fetchall()
          return songs
       except MySQLdb.Error as err:  
