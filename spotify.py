@@ -50,17 +50,6 @@ except MySQLdb.Error as err:
     print("Something went wrong: {} ".format(err))
 
 i=0
-if(opsy=="Linux"):
-    os.system("git config --global user.email 'zzakariaa10@yahoo.fr' & disown")
-    sleep(5)
-    os.system("git config --global user.name 'Zak'")
-    sleep(5)
-    os.system("git stash save --keep-index & disown")
-    sleep(5)
-    os.system("git pull origin master & disown")
-    sleep(5)
-    os.system("sudo chmod -R 777 *")
-    sleep(10)
     
 
 print("Ready!!")
