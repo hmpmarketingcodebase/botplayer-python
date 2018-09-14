@@ -32,7 +32,7 @@ id_playlist_album=sys.argv[4]
 id_playlist=sys.argv[5]
 #os (windows or linux)
 opsy = platform.system() #operation system (windows or linux)
-
+print("start")
 #Connection
 try:
   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.","spoti")
