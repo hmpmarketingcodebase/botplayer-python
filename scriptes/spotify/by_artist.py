@@ -36,7 +36,7 @@ if(opsy=='Linux'):
    from pyvirtualdisplay import Display
    display = Display(visible=0, size=(1366, 768))
    display.start()
-follow = 19
+follow = 199
 pid=10
 while(1):
  follow = follow + 1
@@ -196,7 +196,7 @@ while(1):
                         ii=ii+1
                         artist_url = a[2]
                         driver.get(artist_url)
-                        if(follow%20 == 0):
+                        if(follow%200 == 0):
                            if(mm<ss):
                                 
                             try:
