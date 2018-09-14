@@ -100,7 +100,7 @@ while(by_artist <= int(behaivor_by_artist)):
       if(opsy=="Windows"):          
          cmd=('start python by_artist.py ' + str(t))
       elif(opsy=="Linux"):
-         cmd=('nohup  python3 by_playlist.py ' + str(t) + ' 0</dev/null &')
+         cmd=('nohup  python3 by_artist.py ' + str(t) + ' 0</dev/null &')
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       print(cmd)
       by_artist = by_artist + 1
