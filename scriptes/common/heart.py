@@ -151,7 +151,7 @@ def albums_(cnx):
 def artist(cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from artist")
+         curs.execute("select * from artist order by RAND()")
          artists = curs.fetchall()
          return artists
       except MySQLdb.Error as err:  

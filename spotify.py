@@ -58,6 +58,7 @@ try:
    cursor.execute("select * from behaivor where id = " + behaivor)  
    behaivor = cursor.fetchone() 
    behaivor_by_playlist=behaivor[2] # % 
+   behaivor_by_artist=behaivor[3] # % 
    behaivor_by_album=behaivor[4] # %
    print("album " + str(behaivor_by_album))
    behaivor_by_search=behaivor[5] # %
@@ -92,6 +93,17 @@ while(by_playlist <= int(behaivor_by_playlist)):
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       print(cmd)
       by_playlist = by_playlist + 1
+      sleep(10)  
+
+by_artist=1
+while(by_artist <= int(behaivor_by_artist)):
+      if(opsy=="Windows"):          
+         cmd=('start python by_artist.py ' + str(t))
+      elif(opsy=="Linux"):
+         cmd=('nohup  python3 by_playlist.py ' + str(t) + ' 0</dev/null &')
+      subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
+      print(cmd)
+      by_artist = by_artist + 1
       sleep(10)  
 
 #run by search process

@@ -162,10 +162,19 @@ def player_album(d,song_name,ms,x,proxy_ip,user_account,cnx,ii):
     except NoSuchElementException:
            sleep(1)
     return pl
+	
+
 #change device
 def change_device(d):
     try:       
-        dev = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='connect-bar']")
+        #dev = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='connect-bar']")
+        dev = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='connect-bar']//span[@class='connect-bar__device-name']")
+        print(dev.text)
+        if (str(dev.text) == "Web Player (Chrome)"):
+            sleep(1)
+        else:
+            d.close()
+
         web_device=d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar']//div[@class='now-playing-bar__right']//div[@class='now-playing-bar__right__inner']//span[@class='connect-device-picker']")
         web_device.click()
         sleep(2) 
