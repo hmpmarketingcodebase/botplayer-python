@@ -2,6 +2,8 @@ while true
 do
    sudo killall python3 Xvfb chrome chromedriver
    sleep 5s
+   sudo chgrp -R daniel .
+   sleep 5s
    sudo chmod -R ug+w .;
    sleep 5s
    git config --global user.email 'zzakariaa10@yahoo.fr' & disown
