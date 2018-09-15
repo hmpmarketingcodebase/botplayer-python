@@ -2,4 +2,3 @@ scripts/*.out
 scripts/*/__pycache__/*
 tools/*.out
 *.out
-backup/*
