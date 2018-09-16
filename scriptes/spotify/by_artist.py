@@ -189,15 +189,16 @@ while(1):
                 random.shuffle(ar)
                 zz=0
                 mm=0
-                ss=(random.randint(1, 100))
+                ss=int(ar[1])*5
                 for a in artists:
                         if(opsy=='Linux'):
                            common.heart.clean_memory()
                         ii=ii+1
                         artist_url = a[2]
                         driver.get(artist_url)
-                        print("random = " +str(ss)) 
-                        if(ss%23==0 and ss>22):                            
+                        if(follow%200 == 0):
+                           if(mm<ss):
+                            mm=mm+1
                             try:
                               try:
                                     wait = WebDriverWait(driver, 30)
