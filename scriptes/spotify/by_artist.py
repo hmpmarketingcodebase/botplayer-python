@@ -202,10 +202,10 @@ while(1):
                             mm=mm+1
                             try:
                               try:
-                                    wait = WebDriverWait(driver, 30)
+                                   
                                     # click search if not fin reload page X 2 if not exist quit and reload other
-                                    a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.spoticon-heart-24")))
-                                    a.click()
+                                    a = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='header-buttons']//button[@class='btn btn-black btn--narrow']")))
+                                    a.click() 
                                     sleep(5)  
                                 
                               except TimeoutException:
@@ -218,20 +218,19 @@ while(1):
                               try:
                                 try:
                                     driver.get(artist_url)
-                                    # click search if not fin reload page X 2 if not exist quit and reload other
-                                    a = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//div[@class='header-buttons']//button[@class='btn btn-black btn--narrow']")))
+                                    a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.spoticon-heart-24")))
                                     a.click() 
                                     sleep(5)  
                                 
                                 except TimeoutException:
                                     driver.get(artist_url)
-                                    a = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//div[@class='header-buttons']//button[@class='btn btn-black btn--narrow']")))
+                                    a = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='header-buttons']//button[@class='btn btn-black btn--narrow']")))
                                     a.click()
                                     sleep(5)  
                                 
                               except TimeoutException:
                                 driver.get(artist_url)
-                                a = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//div[@class='header-buttons']//button[@class='btn btn-black btn--narrow']")))
+                                a = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='header-buttons']//button[@class='btn btn-black btn--narrow']")))
                                 a.click()
                                 sleep(5)  
                                 
@@ -253,7 +252,7 @@ while(1):
                             ActionChains(driver).double_click(men).perform()
                             song_name = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(kk)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='tracklist-name']").text
                             print("####### " + song_name)
-                            ms=(random.randint(30, 50))
+                            ms=(random.randint(30, 40))
                             pl = heart.player_album(driver,song_name,ms,kk,proxy_ip,user_account,cnx,ii) + pl
                             if(pl == 1 and nxt == 0):
                                    common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Artist",cnx)
