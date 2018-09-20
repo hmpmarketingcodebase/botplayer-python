@@ -196,7 +196,8 @@ while(1):
                         ii=ii+1
                         artist_url = a[2]
                         driver.get(artist_url)
-                        if(follow%200 == 0):
+                        #if(follow%200 == 0):
+                        if(1 == 1):
                            if(mm<ss):
                             mm=mm+1
                             try:
