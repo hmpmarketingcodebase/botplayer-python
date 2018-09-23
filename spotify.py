@@ -12,7 +12,7 @@ from requests import get
 import psutil
 import platform
 sys.path.append(".")
-import bot_player.scriptes.common.heart
+import scriptes.common.heart
 
 try:
    mypubilcip = get('https://api.ipify.org').text
