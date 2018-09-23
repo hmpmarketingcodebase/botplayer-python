@@ -53,9 +53,6 @@ except MySQLdb.Error as err:
     print("Something went wrong: {} ".format(err))
 
 i=0
-
-
-
 arr = os.listdir('./scriptes/spotify/log')
 for a in arr:
          scriptes.common.heart.read_log_update(a,cnx,'spoti','./scriptes/spotify/log/')
