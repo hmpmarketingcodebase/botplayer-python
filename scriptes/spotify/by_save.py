@@ -59,6 +59,7 @@ while(1):
   while(pl1<0): 
    try: 
     try:
+      id_insert = 0
       state="Finish"
       pp=pp+1
 #Connection
@@ -372,7 +373,7 @@ while(1):
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                pl=heart.player_(driver,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii) + pl
                                if(pl == 1 and nxt == 0):
-                                   common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Save",cnx)
+                                   id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Save",cnx)
                                    nxt=1
                                elif pl > 1:
                                    #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')

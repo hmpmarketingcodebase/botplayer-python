@@ -63,6 +63,7 @@ while(1):
   while(pl1<0): 
    try: 
     try:
+      id_insert = 0
       state="finish"
       pp=pp+1
 #Connection
@@ -255,7 +256,7 @@ while(1):
                             ms=(random.randint(30, 40))
                             pl = heart.player_album(driver,song_name,ms,kk,proxy_ip,user_account,cnx,ii) + pl
                             if(pl == 1 and nxt == 0):
-                                   common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Artist",cnx)
+                                   id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Artist",cnx)
                                    nxt=1
                             elif pl > 1:
                                    #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
