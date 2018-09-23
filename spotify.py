@@ -11,7 +11,7 @@ import random
 from requests import get
 import psutil
 import platform
-sys.path.append("..")
+sys.path.append(".")
 import bot_player.scriptes.common.heart
 
 try:
