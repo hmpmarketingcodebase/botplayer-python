@@ -11,6 +11,9 @@ import random
 from requests import get
 import psutil
 import platform
+sys.path.append("..")
+import bot_player.scriptes.common.heart
+
 try:
    mypubilcip = get('https://api.ipify.org').text
 except:
@@ -50,8 +53,18 @@ except MySQLdb.Error as err:
     print("Something went wrong: {} ".format(err))
 
 i=0
-    
 
+
+
+arr = os.listdir('./scriptes/spotify/log')
+for a in arr:
+         bot_player.scriptes.common.heart.read_log_update(a,cnx,'spoti','./scriptes/spotify/log/')
+         sleep(1)
+         cmd=('sudo rm '+str(a))
+         subprocess.call(cmd, shell=True, cwd='scriptes/spotify/log/')
+         print(a)
+
+   
 print("Ready!!")
 #get behaivor
 try:

@@ -15,6 +15,7 @@ from urllib.parse import quote
 import psutil
 import random
 import subprocess
+import shutil
 
 def connectiondb(database):
    #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
@@ -124,6 +125,22 @@ def songs_album(id_album,cnx):
          curs2.execute("select * from songs where album = '" + str(id_album) + "' order by RAND() LIMIT " + str(s))
          songs = curs2.fetchall()
          
+         return songs
+      except MySQLdb.Error as err:  
+         print("Something went wrong: (song) {}".format(err)) 
+
+
+def songs_artist(id_artist,cnx):
+      try:
+         curs = cnx.cursor()
+         curs.execute("select * from songs where artist = '" + str(id_artist) + "' order by RAND()")
+         songs = curs.fetchall()
+         s = len(songs)
+         s = int(random.randint(1,int(s)))
+
+         curs2 = cnx.cursor()
+         curs2.execute("select * from songs where artist = '" + str(id_artist) + "' order by RAND() LIMIT " + str(s))
+         songs = curs2.fetchall()
          
          return songs
       except MySQLdb.Error as err:  
@@ -151,7 +168,7 @@ def albums_(cnx):
 def artist(cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from artist order by RAND()")
+         curs.execute("select * from artist where url<>'' order by RAND()")
          artists = curs.fetchall()
          return artists
       except MySQLdb.Error as err:  
@@ -160,7 +177,7 @@ def artist(cnx):
 def follow_artist(cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from artist where url is not null order by RAND()")
+         curs.execute("select * from artist where url<>'' order by RAND()")
          artists = curs.fetchone()
          return artists
       except MySQLdb.Error as err:  
@@ -179,11 +196,12 @@ def log_insert(proxy_ip,user_account,next_start,mypulicip,type_,cnx):
       print("# log insert")
       try:
          curs = cnx.cursor()
-         curs.execute("INSERT INTO `log`(`proxy`, `account`, `next_start`, `number_play`, `ip`, `seconds`, `type`) VALUES ('"+proxy_ip+"','"+user_account+"','"+next_start+"',0,'"+ mypulicip +"',0,'"+type_+"')")
+         curs.execute("INSERT INTO `log`(`proxy`, `account`, `next_start`, `number_play`, `ip`, `seconds`, `type`) VALUES ('"+proxy_ip+"','"+user_account+"','"+next_start+"',1,'"+ mypulicip +"',0,'"+type_+"')")
          cnx.commit() 
       except MySQLdb.Error as err:  
          print("Something went wrong: (by search) {}".format(err))  
-
+      return (str(curs.lastrowid))
+  
 def log_update(rep,proxy_ip,user_account,cnx,database):
       try:          
           print("#Log Update")
@@ -464,3 +482,31 @@ def kill_process(parent_pid):
    os.system("pkill -TERM -P " + str(parent_pid))
    print("# " + str(parent_pid) + " Killed")
 
+
+def read_log_update(id,cnx,database,pat):
+   print("#####ssss#######")
+   try:
+     # file = open("../spotify/log/"+str(id), "r")
+      file = open(pat+str(id), "r")
+
+      tot = file.read()
+      print("#####Tot#######")
+      try:
+        print("##Log Update##")
+        cnx = connectiondb(database)
+        cursor = cnx.cursor()
+        
+        cursor.execute("UPDATE `log` SET `number_play`="+str(tot)+" WHERE id = "+str(id))
+        cnx.commit()
+        ff= str(id)
+
+        cmd=('sudo rm '+str(ff))
+        if(database == "spoti"):
+           subprocess.call(cmd, shell=True, cwd='../spotify/log/')
+        elif(database == "deezer"):
+           subprocess.call(cmd, shell=True, cwd='../deezer/log/')
+
+      except MySQLdb.Error as err:
+          print("Something went wrong: (search) {}".format(err))
+   except:
+      err = 1

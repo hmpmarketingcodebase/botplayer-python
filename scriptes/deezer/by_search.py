@@ -160,13 +160,13 @@ while(1):
                         nn=0
                         while((xx<50)and(nn<=0)):
                                try:
-                                  song_name_ = driver.find_element_by_xpath("//div[@class='datagrid']//div["+str(xx)+"][@itemprop='track']//div[@class='datagrid-cell cell-title']").text
-                                  artist_name_ = driver.find_element_by_xpath("//div[@class='datagrid']//div["+str(xx)+"][@itemprop='track']//div[@class='datagrid-cell cell-artist']").text
-                                  album_name_ =  driver.find_element_by_xpath("//div[@class='datagrid']//div["+str(xx)+"][@itemprop='track']//div[@class='datagrid-cell cell-album']").text
+                                  song_name_ = str(driver.find_element_by_xpath("//div[@class='datagrid']//div["+str(xx)+"][@itemprop='track']//div[@class='datagrid-cell cell-title']").text.lower()
+                                  artist_name_ = str(driver.find_element_by_xpath("//div[@class='datagrid']//div["+str(xx)+"][@itemprop='track']//div[@class='datagrid-cell cell-artist']").text).lower()
+                                  album_name_ =  str(driver.find_element_by_xpath("//div[@class='datagrid']//div["+str(xx)+"][@itemprop='track']//div[@class='datagrid-cell cell-album']").text).lower()
                                   print("song name ^ " + song_name_ + " = " + song_name + " | " )
                                   print("artist name ^ " + artist_name_ + " = " + song_artist_name + " | " )
                                   print("album name ^ " + album_name_ + " = " + song_album_name + " | " )
-                                  if ((song_name_ == song_name) and (song_artist_name in artist_name_) and (song_album_name == album_name_)):
+                                  if ((song_name_.lower() == song_name.lower()) and (song_artist_name.lower() in artist_name_.lower()) and (song_album_name.lower() == album_name_.lower())):
                                        print("+ " + song_name_ + "+ " + artist_name_ + " + " + album_name_)
                                        row =  driver.find_element_by_xpath("//div[@class='datagrid']//div["+str(xx)+"][@itemprop='track']")
                                        ActionChains(driver).double_click(row).perform()
@@ -178,7 +178,7 @@ while(1):
                         if(pp%10==0):
                                  ms=(random.randrange(int(song_duration) - int(margin_play) , int(song_duration)))
                         else:
-                                 ms=(random.randrange(40, 80))
+                                 ms=(random.randrange(30, 50))
                         print(" > Playing : " + song_name + " in " + str(ms) + " seconds")
                         i=0
                         o = ms / 5
@@ -224,7 +224,7 @@ while(1):
       if(connect_proxy != 1):        
          common.heart.error_proxy(in_use_proxy,id_proxy,cnx)
       print(state)
-      common.heart.finish(proxy_ip,user_account,cnx,state)     
+      #common.heart.finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)
     except MySQLdb.Error as err:
        print("----->Error connection")

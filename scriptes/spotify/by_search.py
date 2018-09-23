@@ -272,10 +272,7 @@ while(1):
                                    driver.refresh()
                                    a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/songs/"+str(sl)+"']")))
                                    a.click()
-                
                            sleep(5)
-   
-						   
                            try:
                               wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//li[1][@class='tracklist-row']//div[@class='tracklist-col name']//span[contains(text(),\""+song_name+"\")]")))
                            except:
@@ -349,7 +346,10 @@ while(1):
                                    common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Search",cnx)
                                    nxt=1
                                 elif pl>1:
-                                   common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
+                                   #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
+                                   file = open("log/"+str(id_insert),"w") 
+                                   file.write(str(pl))
+                                   file.close()
                                    if(pl>=3):
                                      pl1=1
                                 
@@ -367,6 +367,7 @@ while(1):
          if(opsy=='Linux'):
             common.heart.kill_process(pid) 
          driver.close()
+         common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
       except:
           err=1
       
@@ -384,7 +385,7 @@ while(1):
       print(user_account + " > " + state)
     except MySQLdb.Error as err:
        print("----->Error connection")
-       #common.heart.finish(proxy_ip,user_account,cnx,"max request limit")
+       common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
    except:   
       try:
           e = sys.exc_info()[0]
@@ -392,5 +393,7 @@ while(1):
           if(opsy=='Linux'):
              common.heart.kill_process(pid) 
           driver.close()
+          common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
       except:
           err=1
+          common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')

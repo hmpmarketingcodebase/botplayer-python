@@ -61,92 +61,64 @@ def login(driver,user_account,password_account):
           print (user_account + " > Proxy is ready!")
           connect_proxy=1
 
-def left_search(driver,song_name,song_artist_name):
+def top_search(driver,song_name,song_artist_name):
     srch = song_name + " " + song_artist_name
     try:
-      try:
          wait = WebDriverWait(driver, 30)
          disonnect(driver)
-         a =  wait.until(EC.element_to_be_clickable((By.ID,  "menu_search")))
-         a.click()
-      except :
+         search = wait.until(EC.element_to_be_clickable((By.ID, "topbar-search")))
+         search.clear()
+         sleep(2)
+         search.clear()
+         sleep(2)
+         search.send_keys(srch)
+         sleep(3)
+         try: 
+            ss = wait.until(EC.element_to_be_clickable((By.XPATH, "//form[@class='topbar-search-form topbar-search-active']//button[@class='topbar-search-submit']")))
+         except:
+            ss = wait.until(EC.element_to_be_clickable((By.XPATH, "//form[@class='topbar-search-form topbar-search-active is-active']//button[@class='topbar-search-submit']")))
+         ss.click()
+    except :
+      try:
          driver.refresh()
          disonnect(driver)
-         a =  wait.until(EC.element_to_be_clickable((By.ID, "menu_search")))
-         a.click()
-    except :
-      driver.refresh()
-      disonnect(driver)
-      a =  wait.until(EC.element_to_be_clickable((By.ID, "menu_search")))
-      a.click()
-    disonnect(driver)
-    search = wait.until(EC.element_to_be_clickable((By.ID, "menu_search")))
-    search.clear()
-    sleep(3)
-    search.clear()
-    search.send_keys(srch)
-    sleep(5)
-    try:
-           sleep(5)
-           disonnect(driver)
-           wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='panel-search-suggest']"))).click()
-           wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='datagrid']")))
-    except:
-           try:
-               disonnect(driver)
-               search = wait.until(EC.element_to_be_clickable((By.ID, "menu_search")))
-               search.clear()
-               sleep(3)
-               disonnect(driver)
-               search.clear()
-               search.send_keys(srch)
-               sleep(5)
-               disonnect(driver)
-               wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='panel-search-suggest']"))).click()
-               wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='datagrid']")))
-           except:
-               try:
-                  driver.refresh()
-                  disonnect(driver)
-                  search =  wait.until(EC.element_to_be_clickable((By.ID, "menu_search")))
-                  search.click()
-                  sleep(5)
-                  disonnect(driver)
-                  search.send_keys(srch)
-                  sleep(5)
-                  wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='panel-search-suggest']"))).click()
-                  wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='datagrid']")))
-               except:
-                  try:
-                   driver.refresh()
-                   disonnect(driver)
-                   search =  wait.until(EC.element_to_be_clickable((By.ID, "menu_search")))
-                   search.click()
-                   sleep(5)
-                   disonnect(driver)
-                   search.send_keys(srch)
-                   sleep(5)
-                   disonnect(driver)
-                   wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='panel-search-suggest']"))).click()
-                   wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='datagrid']")))
-                  except :
-                   srch = quote(srch)
-                   driver.get('https://www.deezer.com/search/'+srch)
-                   try:
-                      disonnect(driver)
-                      a = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='datagrid']//div[2][@itemprop='track']")))
-                   except:
-                      try:
-                          disonnect(driver)
-                          driver.get('https://www.deezer.com/search/'+srch)
-                          a = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='datagrid']//div[2][@itemprop='track']")))
-                      except:
-                          disonnect(driver)
-                          driver.get('https://www.deezer.com/search/'+srch)
-                          a = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='datagrid']//div[2][@itemprop='track']")))
+         search = wait.until(EC.element_to_be_clickable((By.ID, "topbar-search")))
+         search.clear()
+         sleep(2)
+         search.clear()
+         sleep(2)
+         search.send_keys(srch)
+         sleep(3)
+         try: 
+            ss = wait.until(EC.element_to_be_clickable((By.XPATH, "//form[@class='topbar-search-form topbar-search-active']//button[@class='topbar-search-submit']")))
+         except:
+            ss = wait.until(EC.element_to_be_clickable((By.XPATH, "//form[@class='topbar-search-form topbar-search-active is-active']//button[@class='topbar-search-submit']")))
+         ss.click()
+      except :
+       try:
+         driver.refresh()
+         disonnect(driver)
+         search = wait.until(EC.element_to_be_clickable((By.ID, "topbar-search")))
+         search.clear()
+         sleep(2)
+         search.clear()
+         sleep(2)
+         search.send_keys(srch)
+         sleep(3)
+         try: 
+            ss = wait.until(EC.element_to_be_clickable((By.XPATH, "//form[@class='topbar-search-form topbar-search-active']//button[@class='topbar-search-submit']")))
+         except:
+            ss = wait.until(EC.element_to_be_clickable((By.XPATH, "//form[@class='topbar-search-form topbar-search-active is-active']//button[@class='topbar-search-submit']")))
+         ss.click()
+       except :
+         srch = quote(srch)
+         driver.get('https://www.deezer.com/search/'+srch)
+    driver.execute_script("window.scrollBy(0, 1000);")
+    sleep(1)
+    driver.execute_script("window.scrollBy(0, 1000);")
     sleep(5)
 
-def right_search_and_play(driver,song_,artists,albums,type,pp,proxy_ip,user_account,next_start,mypubilcip,cnx):
+def right_search_and_play(driver,song_,artists,albums,type,proxy_ip,user_account,next_start,mypubilcip,cnx):
  play=0 
  insert=0
  ii=0
@@ -206,26 +178,18 @@ def right_search_and_play(driver,song_,artists,albums,type,pp,proxy_ip,user_acco
            except:
               err=1
            xx=xx+1
-    if(pp%10==0):
-            ms=(random.randrange(int(song_duration) - int(margin_play) , int(song_duration)))
-    else:
-            ms=(random.randrange(40, 80))
+    ms=(random.randrange(30, 50))
     print(" > Playing : " + song_name + " in " + str(ms) + " seconds")
     i=0
     o = ms / 5
     while(i<o):
        sleep(5)
        try:
-            driver.find_element_by_xpath("//div[@id='modal_limitation']//button[@class='btn btn-primary']").click()
-            print("disconnect all other devices")
+            a = driver.find_element_by_xpath("//div[@class='player-bottom']//div[@class='marquee-content']//a[@class='track-link']")
+            print("hhhhhhhhhhhhhh " >> str(a.text))
+            i=i+1
        except:
-            try:
-                driver.find_element_by_xpath("//div[@id='page_sidebar']//button[@class='control control-play']//span[@class='icon icon-play']")
-                driver.find_element_by_xpath("//div[@id='page_sidebar']//button[@class='control control-play']").click()
-                i=i+1
-                print("palying >")
-            except:
-                print("playing >>")
+            
                 i=i+1
     print("yeaaah!!")
     play=play+1
