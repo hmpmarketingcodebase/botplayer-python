@@ -36,10 +36,10 @@ if(opsy=='Linux'):
    from pyvirtualdisplay import Display
    display = Display(visible=0, size=(1366, 768))
    display.start()
-follow = 199
+#follow = 0
 pid=10
 while(1):
- follow = follow + 1
+ #follow = follow + 1
  try:
    if(opsy=='Linux'):
       common.heart.kill_process(pid) 
@@ -192,13 +192,14 @@ while(1):
                 mm=0
                 ss=int(ar[1])*5
                 for a in artists:
+                        follow=(random.randint(22, 1000))
                         if(opsy=='Linux'):
                            common.heart.clean_memory()
                         ii=ii+1
                         artist_url = a[2]
                         driver.get(artist_url)
-                        #if(follow%200 == 0):
-                        if(1 == 1):
+                        if(follow%9 == 0):
+                        #if(1 == 1):
                            if(mm<ss):
                             mm=mm+1
                             try:
