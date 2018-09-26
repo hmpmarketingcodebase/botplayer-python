@@ -83,7 +83,7 @@ while(1):
       proxy = common.heart.proxis(country,cnx)
       in_use_proxy = str(proxy[3]) 
       proxy_ip = str(proxy[1])
-      #proxy_ip = ":"   
+      # proxy_ip = ":"   
       id_proxy = str(proxy[0])       
       usr = str(proxy[5])       
       pwd = str(proxy[6])   
@@ -199,9 +199,9 @@ while(1):
                         ii=ii+1
                         artist_url = a[2]
                         driver.get(artist_url)
-                        if(follow%9 == 0):
+                        if(follow%9 == 0 or artist_url=='https://open.spotify.com/artist/41VzeplVL0oJJ27LM4ONTi'):
                         #if(1 == 1):
-                           if(mm<ss or artist_url=='https://open.spotify.com/artist/41VzeplVL0oJJ27LM4ONTi'):
+                           if(mm<ss ):
                             mm=mm+1
                             try:
                               try:
