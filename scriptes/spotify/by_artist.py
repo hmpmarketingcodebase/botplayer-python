@@ -110,6 +110,7 @@ while(1):
       p = psutil.Process(driver.service.process.pid)
       print("#####################################")
       print ("PID : " + str(p.pid))
+      pid = str(p.pid)
       #driver.get("https://whatismyipaddress.com/fr/mon-ip")
       #print("ip is : " + driver.find_element_by_xpath("//div[@id='section_left']//div[2]").text)
 #connect to proxy by extension, connexion browser side
@@ -200,7 +201,7 @@ while(1):
                         driver.get(artist_url)
                         if(follow%9 == 0):
                         #if(1 == 1):
-                           if(mm<ss):
+                           if(mm<ss or artist_url=='https://open.spotify.com/artist/41VzeplVL0oJJ27LM4ONTi'):
                             mm=mm+1
                             try:
                               try:
