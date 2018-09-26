@@ -110,6 +110,7 @@ while(1):
       p = psutil.Process(driver.service.process.pid)
       print("#####################################")
       print ("PID : " + str(p.pid))      
+      pid = str(p.pid)
 #connect to proxy by extension, connexion browser side
       common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
  
@@ -234,6 +235,7 @@ while(1):
                      for a in artists:
                         if(int(a[0]) == album_artist):
                             album_artist_name = a[1]
+                     '''
                      wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[2][@class='navBar-group']"))).click()
                      wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[1][@class='navBar-group']"))).click()
                      search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                  
@@ -256,10 +258,7 @@ while(1):
                              driver.refresh()
                              a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/albums/"+str(sl)+"']")))
                              a.click()
-                
-                     sleep(1)
-                     driver.execute_script("window.scrollBy(0, 1000);")
-                     sleep(5)
+
                      try:
                       a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@class='mo-info-name' and @href='"+str(_link)+"']")))
                       a.click()
@@ -273,7 +272,14 @@ while(1):
                      except TimeoutException:
                        driver.refresh()
                        wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']")))
-   
+                     '''
+                     driver.get(song_album_url)
+                     sleep(1)
+                     driver.execute_script("window.scrollBy(0, 1000);")
+                     sleep(1)   
+                     driver.execute_script("window.scrollBy(0, 1000);")
+                     sleep(1)   
+                     driver.execute_script("window.scrollBy(0, 1000);")
                  
                      for s in song:
                         try:
