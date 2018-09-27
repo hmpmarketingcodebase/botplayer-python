@@ -83,13 +83,17 @@ while(1):
       proxy = common.heart.proxis(country,cnx)
       in_use_proxy = str(proxy[3]) 
       proxy_ip = str(proxy[1])
-      # proxy_ip = ":"   
+      #proxy_ip = ":"   
       id_proxy = str(proxy[0])       
       usr = str(proxy[5])       
       pwd = str(proxy[6])   
       common.heart.proxy_in_use(in_use_proxy,id_proxy,cnx)
-  
-  
+
+#get random common.heart.songs 
+      x=[] 
+      song = common.heart.songs(1,cnx)
+      for s in song:
+          x.append(s[1])  
 #get albums
       albums = common.heart.albums_(cnx)
       
@@ -252,15 +256,16 @@ while(1):
                                 men = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(kk)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
                             heart.change_device(driver)
                             sleep(2)
-                            ActionChains(driver).double_click(men).perform()
                             song_name = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(kk)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='tracklist-name']").text
-                            print("####### " + song_name)
-                            ms=(random.randint(30, 40))
-                            pl = heart.player_album(driver,song_name,ms,kk,proxy_ip,user_account,cnx,ii) + pl
-                            if(pl == 1 and nxt == 0):
+                            if song_name in x:
+                                ActionChains(driver).double_click(men).perform()
+                                print("####### " + song_name)
+                                ms=(random.randint(30, 40))
+                                pl = heart.player_album(driver,song_name,ms,kk,proxy_ip,user_account,cnx,ii) + pl
+                                if(pl == 1 and nxt == 0):
                                    id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Artist",cnx)
                                    nxt=1
-                            elif pl > 1:
+                                elif pl > 1:
                                    #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
                                    file = open("log/"+str(id_insert),"w") 
                                    file.write(str(pl))
