@@ -18,8 +18,14 @@ import subprocess
 import shutil
 
 def connectiondb(database):
-   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
-   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
+   
+   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)   
+   #if(database == "spoti"):
+   #   host = "10.128.0.2"
+      #host = "52.17.67.92"
+   #elif(database == "deezer"):
+   #   host = "52.17.67.92"   
+   #cnx = MySQLdb.connect(host,"user",",Dc7aUb)3t>H@1.",database)    
    return cnx
    
 def proxis(country,cnx):
@@ -159,8 +165,15 @@ def playlist_album(play_album,cnx):
 def albums_(cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from album")
+         curs.execute("select * from album order by RAND()")
          albums = curs.fetchall()
+         s = len(songs)
+         s = int(random.randint(1,int(s)))
+
+         curs2 = cnx.cursor()
+         curs2.execute("select * from album order by RAND() LIMIT " + str(s))
+         albums = curs2.fetchall()
+
          return albums
       except MySQLdb.Error as err:  
          print("Something went wrong: (album) {}".format(err)) 
@@ -277,7 +290,7 @@ def config_driver():
     chrome_options = Options()
     chrome_options.add_argument('--ignore-certificate-errors')
     chrome_options.add_argument('--ignore-ssl-errors')
-    #chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("disable-popup-blocking")
     #chrome_options.add_argument("--disable-setuid-sandbox")
 
     #chrome_options.add_argument('--proxy-server=%s' % PROXY)
@@ -303,6 +316,7 @@ def config_driver():
     chrome_options.add_argument("--disable-setuid-sandbox")
     chrome_options.add_argument("--enzzdzable-extensions")
     #chrome_options.add_argument('--proxy-server=%s' % PROXY)
+    chrome_options.add_argument("disable-popup-blocking")
     chrome_options.add_extension('../../tools/Chrome-proxy-helper-master.crx')
     chrome_options.add_extension('../../tools/extension_2_0_0_0.crx')
     chrome_options.add_extension('../../tools/Quick-Language-Switcher_v0.0.0.4.crx')
@@ -496,15 +510,15 @@ def read_log_update(id,cnx,database,pat):
         cnx = connectiondb(database)
         cursor = cnx.cursor()
         
-        cursor.execute("UPDATE `log` SET `number_play`="+str(tot)+" WHERE id = "+str(id))
+        cursor.execute("UPDATE `log` SET `number_play`='"+str(tot)+"' WHERE id = '"+str(id)+"'")
         cnx.commit()
         ff= str(id)
-
+         
         cmd=('sudo rm '+str(ff))
         if(database == "spoti"):
-           subprocess.call(cmd, shell=True, cwd='../spotify/log/')
+           subprocess.call(cmd, shell=True, cwd='../spotify/log/play/')
         elif(database == "deezer"):
-           subprocess.call(cmd, shell=True, cwd='../deezer/log/')
+           subprocess.call(cmd, shell=True, cwd='../deezer/log/play/')
 
       except MySQLdb.Error as err:
           print("Something went wrong: (search) {}".format(err))
