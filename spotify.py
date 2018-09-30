@@ -38,30 +38,36 @@ opsy = platform.system() #operation system (windows or linux)
 print("start")
 #Connection
 try:
-  #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.","spoti")
-  cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf","spoti") 
-  cursor = cnx.cursor()
-except MySQLdb.Error as err:
-  print("Error connection")
+    #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.","spoti")    
+    cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf","spoti") 
+    cursor = cnx.cursor()
 
-#insert robot datas 
-try:
     cmd="INSERT INTO `robot`(`name`, `start_date`, `behaivor`,`id_playlist`,`id_playlist_album`, `number_threads`, `running`, `country`) VALUES ('"+str(mypubilcip) + "', '"+str(start_date)+"', "+str(behaivor)+", "+str(id_playlist)+", "+str(id_playlist_album)+", "+str(number_threads)+", "+str(running)+", '-3')"
+    print(cmd)
     cursor.execute(cmd)
     cnx.commit() 
 except MySQLdb.Error as err:
     print("Something went wrong: {} ".format(err))
 
+
+try:
+    curs = cnx.cursor()
+    curs.execute("select * from songs")
+    songs = curs.fetchall()
+    for s in songs:
+        file = open("./scriptes/spotify/log/songs/"+str(s[0]),"w")        
+except MySQLdb.Error as err:  
+    print("Something went wrong: (song) {}".format(err)) 
+
 i=0
-arr = os.listdir('./scriptes/spotify/log')
+arr = os.listdir('./scriptes/spotify/log/play')
 for a in arr:
-         scriptes.common.heart.read_log_update(a,cnx,'spoti','./scriptes/spotify/log/')
+         scriptes.common.heart.read_log_update(a,cnx,'spoti','./scriptes/spotify/log/play/')
          sleep(1)
          cmd=('sudo rm '+str(a))
-         subprocess.call(cmd, shell=True, cwd='scriptes/spotify/log/')
+         subprocess.call(cmd, shell=True, cwd='scriptes/spotify/log/play')
          print(a)
 
-   
 print("Ready!!")
 #get behaivor
 try:
