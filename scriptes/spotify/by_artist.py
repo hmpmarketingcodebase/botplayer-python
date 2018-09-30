@@ -78,7 +78,7 @@ while(1):
 #country of account will be the same for proxy and user language
       country = str(account_[3])
       common.heart.account_in_use(in_use_account,id_account,cnx) 
-      
+  
 #get proxy
       proxy = common.heart.proxis(country,cnx)
       in_use_proxy = str(proxy[3]) 
@@ -88,7 +88,7 @@ while(1):
       usr = str(proxy[5])       
       pwd = str(proxy[6])   
       common.heart.proxy_in_use(in_use_proxy,id_proxy,cnx)
-      
+
 #get random common.heart.songs 
       x=[] 
       song = common.heart.songs(1,cnx)
@@ -99,7 +99,7 @@ while(1):
       
 #get artist      
       artists = common.heart.artist(cnx)
-      
+
 #log insert (by search type)
       current=datetime.datetime.now()
       next_start = current
@@ -120,7 +120,11 @@ while(1):
 #connect to proxy by extension, connexion browser side
       common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
       #view current ip
-      #driver.get("http://www.mon-ip.com/info-adresse-ip.php")
+      try:
+         driver.get("http://www.mon-ip.com/info-adresse-ip.php")
+         myip = driver.find_element_by_xpath("//span[@id='ip']").text        
+      except:
+         myip = "----"
       lang = country
       if(country =='us' or country =='gb' or country =='ca' ):
           lang='en'
@@ -263,11 +267,12 @@ while(1):
                                 ms=(random.randint(30, 40))
                                 pl = heart.player_album(driver,song_name,ms,kk,proxy_ip,user_account,cnx,ii) + pl
                                 if(pl == 1 and nxt == 0):
-                                   id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Artist",cnx)
+                                   #id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Artist",cnx)
+                                   id_insert = common.heart.log_insert(myip,user_account,str(next_start),mypubilcip,"Artist",cnx)
                                    nxt=1
                                 elif pl > 1:
                                    #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
-                                   file = open("log/play/"+str(id_insert),"w") 
+                                   file = open("log/"+str(id_insert),"w") 
                                    file.write(str(pl))
                                    file.close()
                                    if(pl>=3):
@@ -280,10 +285,10 @@ while(1):
          if(opsy=='Linux'):
             common.heart.kill_process(pid) 
          driver.close()
-         common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/play/')
+         common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
       except:
           err=1
-          common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/play/')
+          common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
       
       try:
          cnx = common.heart.connectiondb('spoti')
@@ -299,7 +304,7 @@ while(1):
       print(user_account + " > " + state)
     except MySQLdb.Error as err:
        print("----->Error connection")
-       common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/play/')
+       common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
    except:   
       try:
           e = sys.exc_info()[0]
@@ -307,7 +312,7 @@ while(1):
           if(opsy=='Linux'):
              common.heart.kill_process(pid) 
           driver.close()
-          common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/play/')
+          common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
       except:
           err=1
-          common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/play/')
+          common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')

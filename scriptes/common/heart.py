@@ -19,13 +19,14 @@ import shutil
 
 def connectiondb(database):
    
-   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf","spoti")   
-   #if(database == "spoti"):
-   #   host = "10.128.0.2"
+   #cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)   
+   if(database == "spoti"):
+      host = "10.128.0.2"
       #host = "52.17.67.92"
-   #elif(database == "deezer"):
-   #   host = "52.17.67.92"   
+   elif(database == "deezer"):
+      host = "52.17.67.92"   
    #cnx = MySQLdb.connect(host,"user",",Dc7aUb)3t>H@1.",database)    
+   cnx = MySQLdb.connect(host,"spoti","o85BIgDEfChf",database)    
    return cnx
    
 def proxis(country,cnx):
@@ -158,6 +159,13 @@ def playlist_album(play_album,cnx):
          curs = cnx.cursor()
          curs.execute("select * from playlist_album where play >= " + str(int(play_album)) + " order by RAND()")
          songs = curs.fetchall()
+         s = len(songs)
+         s = int(random.randint(int(int(s)/2),int(s)))
+ 
+         curs2 = cnx.cursor()
+         curs2.execute("select * from playlist_album where play >= " + str(int(play_album)) + " order by RAND() LIMIT " + str(s))
+         songs = curs2.fetchall()
+
          return songs
       except MySQLdb.Error as err:  
          print("Something went wrong: (song) {}".format(err)) 
@@ -165,15 +173,8 @@ def playlist_album(play_album,cnx):
 def albums_(cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from album order by RAND()")
+         curs.execute("select * from album")
          albums = curs.fetchall()
-         s = len(albums)
-         s = int(random.randint(1,int(s)))
-
-         curs2 = cnx.cursor()
-         curs2.execute("select * from album order by RAND() LIMIT " + str(s))
-         albums = curs2.fetchall()
-
          return albums
       except MySQLdb.Error as err:  
          print("Something went wrong: (album) {}".format(err)) 
@@ -510,15 +511,15 @@ def read_log_update(id,cnx,database,pat):
         cnx = connectiondb(database)
         cursor = cnx.cursor()
         
-        cursor.execute("UPDATE `log` SET `number_play`='"+str(tot)+"' WHERE id = '"+str(id)+"'")
+        cursor.execute("UPDATE `log` SET `number_play`="+str(tot)+" WHERE id = "+str(id))
         cnx.commit()
         ff= str(id)
-         
+
         cmd=('sudo rm '+str(ff))
         if(database == "spoti"):
-           subprocess.call(cmd, shell=True, cwd='../spotify/log/play/')
+           subprocess.call(cmd, shell=True, cwd='../spotify/log/')
         elif(database == "deezer"):
-           subprocess.call(cmd, shell=True, cwd='../deezer/log/play/')
+           subprocess.call(cmd, shell=True, cwd='../deezer/log/')
 
       except MySQLdb.Error as err:
           print("Something went wrong: (search) {}".format(err))

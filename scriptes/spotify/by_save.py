@@ -105,6 +105,7 @@ while(1):
       p = psutil.Process(driver.service.process.pid)
       print("#####################################")
       print ("PID : " + str(p.pid))
+      pid = str(p.pid)
       
 #connect to proxy by extension, connexion browser side
       common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
