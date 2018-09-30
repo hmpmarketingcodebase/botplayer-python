@@ -19,7 +19,7 @@ import shutil
 
 def connectiondb(database):
    
-   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)   
+   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf","spoti")   
    #if(database == "spoti"):
    #   host = "10.128.0.2"
       #host = "52.17.67.92"
@@ -167,7 +167,7 @@ def albums_(cnx):
          curs = cnx.cursor()
          curs.execute("select * from album order by RAND()")
          albums = curs.fetchall()
-         s = len(songs)
+         s = len(albums)
          s = int(random.randint(1,int(s)))
 
          curs2 = cnx.cursor()
