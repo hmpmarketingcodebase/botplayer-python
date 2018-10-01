@@ -83,7 +83,7 @@ while(1):
       proxy = common.heart.proxis(country,cnx)
       in_use_proxy = str(proxy[3]) 
       proxy_ip = str(proxy[1])
-      #proxy_ip = ":"   
+      #proxy_ip = ":"    
       id_proxy = str(proxy[0])       
       usr = str(proxy[5])       
       pwd = str(proxy[6])   
@@ -120,11 +120,7 @@ while(1):
 #connect to proxy by extension, connexion browser side
       common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
       #view current ip
-      try:
-         driver.get("http://www.mon-ip.com/info-adresse-ip.php")
-         myip = driver.find_element_by_xpath("//span[@id='ip']").text        
-      except:
-         myip = "----"
+      #driver.get("http://www.mon-ip.com/info-adresse-ip.php")
       lang = country
       if(country =='us' or country =='gb' or country =='ca' ):
           lang='en'
@@ -267,8 +263,7 @@ while(1):
                                 ms=(random.randint(30, 40))
                                 pl = heart.player_album(driver,song_name,ms,kk,proxy_ip,user_account,cnx,ii) + pl
                                 if(pl == 1 and nxt == 0):
-                                   #id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Artist",cnx)
-                                   id_insert = common.heart.log_insert(myip,user_account,str(next_start),mypubilcip,"Artist",cnx)
+                                   id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Artist",cnx)
                                    nxt=1
                                 elif pl > 1:
                                    #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
@@ -314,8 +309,5 @@ while(1):
           driver.close()
           common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
       except:
-          try:
-              common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
-          except:
-              err=1
-  
+          err=1
+          

@@ -83,8 +83,8 @@ while(1):
       proxy = common.heart.proxis(country,cnx)
       in_use_proxy = str(proxy[3]) 
       proxy_ip = str(proxy[1])
-      #proxy_ip = ":"  
-      id_proxy = str(proxy[0])         
+      #proxy_ip = ":" 
+      id_proxy = str(proxy[0])       
       usr = str(proxy[5])       
       pwd = str(proxy[6])       
       common.heart.proxy_in_use(in_use_proxy,id_proxy,cnx)
@@ -120,11 +120,8 @@ while(1):
       if(country =='us' or country =='gb' or country =='ca' or country =='au' ):
           lang='en'
       print("language is " + lang)
-      try:
-         driver.get("http://www.mon-ip.com/info-adresse-ip.php")
-         myip = driver.find_element_by_xpath("//span[@id='ip']").text        
-      except:
-         myip = "----"
+      #driver.get("http://www.mon-ip.com/info-adresse-ip.php")
+          
       common.heart.language_browser(lang,driver)
 #Mobile user agent click extensions
       common.heart.mobile_ua(driver)
@@ -317,8 +314,7 @@ while(1):
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                pl = heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii) + pl
                                if(pl == 1 and nxt == 0):
-                                   #id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Album",cnx)
-                                   id_insert = common.heart.log_insert(myip,user_account,str(next_start),mypubilcip,"Album",cnx)
+                                   id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Album",cnx)
                                    print("# id = " + str(id_insert))
                                    file = open("log/"+str(id_insert),"w") 
                                    nxt=1
@@ -372,8 +368,4 @@ while(1):
           common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
       except:
           err=1
-          try:
-              common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
-          except:
-              err=1
   
