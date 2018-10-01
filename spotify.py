@@ -150,4 +150,4 @@ while(by_album <= int(behaivor_by_album)):
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       print(cmd)
       by_album = by_album + 1
-      sleep(10)
+      sleep(10) 
