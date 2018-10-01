@@ -120,7 +120,12 @@ while(1):
       if(country =='us' or country =='gb' or country =='ca' or country =='au' ):
           lang='en'
       print("language is " + lang)
-      #driver.get("http://www.mon-ip.com/info-adresse-ip.php")
+      myip="-"
+      try:
+          driver.get("http://www.mon-ip.com/info-adresse-ip.php")
+          myip = driver.find_element_by_xpath("//span[@id='ip']").text
+      except:
+          myip='--'           
           
       common.heart.language_browser(lang,driver)
 #Mobile user agent click extensions
@@ -314,7 +319,8 @@ while(1):
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                pl = heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii) + pl
                                if(pl == 1 and nxt == 0):
-                                   id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Album",cnx)
+                                   #id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Album",cnx)
+                                   id_insert = common.heart.log_insert(myip,user_account,str(next_start),mypubilcip,"Album",cnx)
                                    print("# id = " + str(id_insert))
                                    file = open("log/"+str(id_insert),"w") 
                                    nxt=1
