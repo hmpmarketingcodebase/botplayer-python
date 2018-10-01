@@ -18,8 +18,16 @@ import subprocess
 import shutil
 
 def connectiondb(database):
-   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
-   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
+   
+   #cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)   
+   if(database == "spoti"):
+      host = "10.142.15.232"
+      #host = "10.128.0.2"
+      #host = "52.17.67.92"
+   elif(database == "deezer"):
+      host = "52.17.67.92"   
+   #cnx = MySQLdb.connect(host,"user",",Dc7aUb)3t>H@1.",database)    
+   cnx = MySQLdb.connect(host,"spoti","o85BIgDEfChf",database)    
    return cnx
    
 def proxis(country,cnx):
@@ -152,6 +160,13 @@ def playlist_album(play_album,cnx):
          curs = cnx.cursor()
          curs.execute("select * from playlist_album where play >= " + str(int(play_album)) + " order by RAND()")
          songs = curs.fetchall()
+         s = len(songs)
+         s = int(random.randint(int(int(s)/2),int(s)))
+ 
+         curs2 = cnx.cursor()
+         curs2.execute("select * from playlist_album where play >= " + str(int(play_album)) + " order by RAND() LIMIT " + str(s))
+         songs = curs2.fetchall()
+
          return songs
       except MySQLdb.Error as err:  
          print("Something went wrong: (song) {}".format(err)) 
@@ -277,7 +292,7 @@ def config_driver():
     chrome_options = Options()
     chrome_options.add_argument('--ignore-certificate-errors')
     chrome_options.add_argument('--ignore-ssl-errors')
-    #chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("disable-popup-blocking")
     #chrome_options.add_argument("--disable-setuid-sandbox")
 
     #chrome_options.add_argument('--proxy-server=%s' % PROXY)
@@ -303,6 +318,7 @@ def config_driver():
     chrome_options.add_argument("--disable-setuid-sandbox")
     chrome_options.add_argument("--enzzdzable-extensions")
     #chrome_options.add_argument('--proxy-server=%s' % PROXY)
+    chrome_options.add_argument("disable-popup-blocking")
     chrome_options.add_extension('../../tools/Chrome-proxy-helper-master.crx')
     chrome_options.add_extension('../../tools/extension_2_0_0_0.crx')
     chrome_options.add_extension('../../tools/Quick-Language-Switcher_v0.0.0.4.crx')

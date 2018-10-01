@@ -81,8 +81,8 @@ while(1):
 #get proxy
       proxy = common.heart.proxis(country,cnx)
       in_use_proxy = str(proxy[3]) 
-      proxy_ip = str(proxy[1])
-      #proxy_ip = ":"   
+      #proxy_ip = str(proxy[1])
+      proxy_ip = ":"   
       id_proxy = str(proxy[0])       
       usr = str(proxy[5])       
       pwd = str(proxy[6])   
@@ -111,6 +111,7 @@ while(1):
       p = psutil.Process(driver.service.process.pid)
       print("#####################################")
       print ("PID : " + str(p.pid))
+      pid = str(p.pid)
       #driver.get("https://whatismyipaddress.com/fr/mon-ip")
       #print("ip is : " + driver.find_element_by_xpath("//div[@id='section_left']//div[2]").text)
 #connect to proxy by extension, connexion browser side
@@ -396,5 +397,8 @@ while(1):
           driver.close()
           common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
       except:
-          err=1
-          common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
+          try:
+              common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
+          except:
+              err=1
+  
