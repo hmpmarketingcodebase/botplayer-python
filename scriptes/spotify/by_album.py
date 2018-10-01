@@ -84,7 +84,7 @@ while(1):
       in_use_proxy = str(proxy[3]) 
       proxy_ip = str(proxy[1])
       #proxy_ip = ":"  
-      id_proxy = str(proxy[0])       
+      id_proxy = str(proxy[0])        
       usr = str(proxy[5])       
       pwd = str(proxy[6])       
       common.heart.proxy_in_use(in_use_proxy,id_proxy,cnx)
