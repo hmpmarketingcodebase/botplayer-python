@@ -21,7 +21,8 @@ def connectiondb(database):
    
    #cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)   
    if(database == "spoti"):
-      host = "10.128.0.2"
+      host = "10.142.15.232"
+      #host = "10.128.0.2"
       #host = "52.17.67.92"
    elif(database == "deezer"):
       host = "52.17.67.92"   

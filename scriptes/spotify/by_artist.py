@@ -314,5 +314,8 @@ while(1):
           driver.close()
           common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
       except:
-          err=1
-          common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
+          try:
+              common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
+          except:
+              err=1
+  
