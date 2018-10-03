@@ -57,11 +57,9 @@ while(1):
   tt= int(random.randint(1,int(part_sec)))
   current=datetime.datetime.now()
   ttb = current + datetime.timedelta(0,tt)
-  pl1=-1
   print("will be playing at :" + str(ttb) )
   sleep(tt)
-  while(pl1<0): 
-   try: 
+  try: 
     try:
       id_insert = 0
       state="Finish"
@@ -327,8 +325,6 @@ while(1):
                                    file = open("log/"+str(id_insert),"w") 
                                    file.write(str(pl))
                                    file.close()
-                                   if(pl>=3):
-                                     pl1=1
                                print("------> " + str(pl))
                            except NoSuchElementException:
                                print("-")
@@ -362,7 +358,7 @@ while(1):
     except MySQLdb.Error as err:
        print("----->Error connection")
        common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
-   except :
+  except :
       try:
           e = sys.exc_info()[0]
           print(str(e))
