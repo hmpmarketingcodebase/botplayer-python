@@ -120,13 +120,14 @@ while(1):
       if(country =='us' or country =='gb' or country =='ca' or country =='au' ):
           lang='en'
       print("language is " + lang)
+      '''
       myip="-"
       try:
           driver.get("http://www.mon-ip.com/info-adresse-ip.php")
           myip = driver.find_element_by_xpath("//span[@id='ip']").text
       except:
           myip='--'           
-          
+      ''' 
       common.heart.language_browser(lang,driver)
 #Mobile user agent click extensions
       common.heart.mobile_ua(driver)
@@ -196,7 +197,7 @@ while(1):
               except TimeoutException:
                 driver.get("https://open.spotify.com/browse/featured")
                 a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
-                a.click()
+                
 
               ii=0
               pl=0
@@ -220,18 +221,15 @@ while(1):
                           wait = WebDriverWait(driver, 30)
                           # click search if not fin reload page X 2 if not exist quit and reload other
                           a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
-                          a.click()
+                         
                       except TimeoutException:
                           driver.get("https://open.spotify.com/browse/featured")
                           a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
-                          a.click()
+                         
                      except TimeoutException:
                       driver.get("https://open.spotify.com/browse/featured")
                       a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
-                      a.click()
-
-                     #get search input element
-                     search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))
+            
                      # search album
                      album_link = song_album_url
                      album_link =album_link[24:]
@@ -319,8 +317,8 @@ while(1):
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                pl = heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii) + pl
                                if(pl == 1 and nxt == 0):
-                                   #id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Album",cnx)
-                                   id_insert = common.heart.log_insert(myip,user_account,str(next_start),mypubilcip,"Album",cnx)
+                                   id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Album",cnx)
+                                   #id_insert = common.heart.log_insert(myip,user_account,str(next_start),mypubilcip,"Album",cnx)
                                    print("# id = " + str(id_insert))
                                    file = open("log/"+str(id_insert),"w") 
                                    nxt=1
