@@ -118,14 +118,14 @@ while(1):
 #connect to proxy by extension, connexion browser side
       common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
       #view current ip
-      '''
+      
       myip="-"
       try:
           driver.get("http://www.mon-ip.com/info-adresse-ip.php")
           myip = driver.find_element_by_xpath("//span[@id='ip']").text
       except:
           myip='--'           
-      ''' 
+       
       lang = country
       if(country =='us' or country =='gb' or country =='ca' ):
           lang='en'
@@ -268,8 +268,8 @@ while(1):
                                 ms=(random.randint(30, 40))
                                 pl = heart.player_album(driver,song_name,ms,kk,proxy_ip,user_account,cnx,ii) + pl
                                 if(pl == 1 and nxt == 0):
-                                   id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Artist",cnx)
-                                   #id_insert = common.heart.log_insert(myip,user_account,str(next_start),mypubilcip,"Artist",cnx)
+                                   # id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Artist",cnx)
+                                   id_insert = common.heart.log_insert(myip,user_account,str(next_start),mypubilcip,"Artist",cnx)
                                    nxt=1
                                 elif pl > 1:
                                    #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
