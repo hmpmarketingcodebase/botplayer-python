@@ -123,6 +123,7 @@ while(1):
       try:
           driver.get("http://www.mon-ip.com/info-adresse-ip.php")
           myip = driver.find_element_by_xpath("//span[@id='ip']").text
+          print(str(myip))
       except:
           myip='--'           
        
