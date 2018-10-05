@@ -37,7 +37,6 @@ id_playlist=sys.argv[5]
 opsy = platform.system() #operation system (windows or linux)
 print("start")
 #Connection
-error
 try:
   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.","spoti")
   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf","spoti") 
@@ -47,7 +46,7 @@ except MySQLdb.Error as err:
 
 #insert robot datas 
 try:
-    cmd="INSERT INTO `robot`(`name`, `start_date`, `behaivor`,`id_playlist`,`id_playlist_album`, `number_threads`, `running`, `country`) VALUES ('"+str(mypubilcip) + "', '"+str(start_date)+"', "+str(behaivor)+", "+str(id_playlist)+", "+str(id_playlist_album)+", "+str(number_threads)+", "+str(running)+", '-7')"
+    cmd="INSERT INTO `robot`(`name`, `start_date`, `behaivor`,`id_playlist`,`id_playlist_album`, `number_threads`, `running`, `country`) VALUES ('"+str(mypubilcip) + "', '"+str(start_date)+"', "+str(behaivor)+", "+str(id_playlist)+", "+str(id_playlist_album)+", "+str(number_threads)+", "+str(running)+", '-6')"
     cursor.execute(cmd)
     cnx.commit() 
 except MySQLdb.Error as err:
