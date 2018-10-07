@@ -69,23 +69,21 @@ while(1):
 
 #get account
       account_=common.heart.account(cnx)
-      in_use_account = str(account_[4])
       user_account = str(account_[1]) 
       password_account = str(account_[2])
       id_account = str(account_[0])
 #lang of account will be the same for proxy and user language
       country = str(account_[3])
-      common.heart.account_in_use(in_use_account,id_account,cnx) 
+      common.heart.account_in_use(id_account,cnx) 
   
 #get proxy
-      proxy = common.heart.proxis(country,cnx)
-      in_use_proxy = str(proxy[3]) 
+      proxy = common.heart.proxis(country,cnx) 
       proxy_ip = str(proxy[1])
       #proxy_ip = ":" 
       id_proxy = str(proxy[0])       
       usr = str(proxy[5])       
       pwd = str(proxy[6])       
-      common.heart.proxy_in_use(in_use_proxy,id_proxy,cnx)
+      common.heart.proxy_in_use(id_proxy,cnx)
 
 #get albums
       albums = common.heart.albums_(cnx)
@@ -110,22 +108,15 @@ while(1):
       print ("PID : " + str(p.pid))      
       pid = str(p.pid)
 #connect to proxy by extension, connexion browser side
-      common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
+      myip = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
+      print("###### "  + str(myip) + " ######")
  
       #view current ip
       
       lang = country
       if(country =='us' or country =='gb' or country =='ca' or country =='au' ):
           lang='en'
-      print("language is " + lang)
-      
-      myip="-"
-      try:
-          driver.get("http://www.mon-ip.com/info-adresse-ip.php")
-          myip = driver.find_element_by_xpath("//span[@id='ip']").text
-          print(str(myip))
-      except:
-          myip='--'           
+      print("language is " + lang)     
        
       common.heart.language_browser(lang,driver)
 #Mobile user agent click extensions
