@@ -232,7 +232,7 @@ def log_insert(proxy_ip,user_account,next_start,mypulicip,type_,cnx):
       print("# log insert")
       try:
          curs = cnx.cursor()
-         curs.execute("INSERT INTO `log`(`proxy`, `account`, `next_start`, `number_play`, `ip`, `seconds`, `type`) VALUES ('"+proxy_ip+"','"+user_account+"','"+next_start+"',1,'"+ mypulicip +"',0,'"+type_+"')")
+         curs.execute("INSERT INTO `log`(`proxy`, `account`, `next_start`, `number_play`, `ip`, `seconds`, `type`, `realip`) VALUES ('"+proxy_ip+"','"+user_account+"','"+next_start+"',1,'"+ mypulicip +"',0,'"+type_+"','"+proxy_ip+"')")
          cnx.commit() 
       except MySQLdb.Error as err:  
          print("Something went wrong: (by search) {}".format(err))  
