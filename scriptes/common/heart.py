@@ -34,16 +34,33 @@ def proxis(country,cnx):
       except MySQLdb.Error as err:  
          print("Something went wrong: (proxies select) {}".format(err))     
 
-def proxy_in_use(in_use_proxy,id_proxy,cnx):
+def proxy_in_use(id_proxy,cnx):
     try:
          curs = cnx.cursor()
-         in_use = int(in_use_proxy) + 1
-         curs.execute("UPDATE proxies SET in_use = " + str(in_use) + " WHERE id = "+ str(id_proxy) )
+         curs.execute("UPDATE proxies SET in_use = in_use + 1 WHERE id = "+ str(id_proxy) )
          cnx.commit() 
     except MySQLdb.Error as err:
          print("Something went wrong: (Proxies update) {}".format(err))
 
-def proxy_connect(proxy,port,user,password,driver):
+
+def proxy_used(proxy,cnx,driver):
+      try:
+          
+         curs = cnx.cursor()
+         now = datetime.datetime.now()
+         curs.execute("select * from log where proxy='" + str(proxy) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!'")  
+         proxy = curs.fetchone()
+         
+         if(proxy is None ):   
+           return proxy
+         else:
+           driver.close()
+   
+      except MySQLdb.Error as err:  
+         print("Something went wrong: (proxies select) {}".format(err))
+
+
+def proxy_connect(cnx,proxy,port,user,password,driver):
     driver.get("chrome-extension://fhnlhdgbgbodgeeabjnafmaobfomfopf/options.html?host="+proxy+"&port="+port+"&user="+user+"&pass="+password)
     driver.find_element_by_xpath("//input[@id='socks5']").click()
     sleep(2)
@@ -56,12 +73,27 @@ def proxy_connect(proxy,port,user,password,driver):
     driver.find_element_by_xpath("//input[@id='socks5']").click()
     sleep(3)
     driver.get("chrome-extension://fhnlhdgbgbodgeeabjnafmaobfomfopf/popup.html?host="+proxy+"&port="+port)
-    sleep(3)
+    sleep(3)    
     try:
         driver.find_element_by_xpath("//span[@id='http']").click()
     except NoSuchElementException:
         print("X 1")
     sleep(3)
+
+    myip="--"
+    try:
+        driver.get("http://www.mon-ip.com/info-adresse-ip.php")
+        myip = driver.find_element_by_xpath("//span[@id='ip']").text
+    except:
+        try:
+           driver.get("https://www.myip.com")
+           myip = driver.find_element_by_xpath("//span[@id='ip']").text
+        except:
+           myip = "--"
+     
+    myip = proxy_used(myip,cnx,driver)
+
+    return myip 
 
 def account(cnx):
       try:
@@ -88,11 +120,10 @@ def account(cnx):
          print("Something went wrong: (Accounts) {}".format(err))   
 
 
-def account_in_use(in_use_account,id_account,cnx):
+def account_in_use(id_account,cnx):
       try:
          curs = cnx.cursor()
-         in_use = int(in_use_account) + 1
-         curs.execute("UPDATE account SET in_use = " + str(in_use) + " WHERE id = "+ str(id_account) )
+         curs.execute("UPDATE account SET in_use = in_use+1 WHERE id = "+ str(id_account) )
          cnx.commit() 
       except MySQLdb.Error as err:
          print("Something went wrong: {}".format(err))
@@ -445,7 +476,7 @@ def error_proxy(in_use_proxy,id_proxy,cnx):
     try:
          curs = cnx.cursor()
          in_use = int(in_use_proxy) + 5
-         curs.execute("UPDATE proxies SET in_use = " + str(in_use) + " WHERE id = "+ str(id_proxy) )
+         curs.execute("UPDATE proxies SET in_use = in_use + 5 WHERE id = "+ str(id_proxy) )
          cnx.commit() 
     except MySQLdb.Error as err:
          print("Something went wrong: (Proxies update) {}".format(err))
