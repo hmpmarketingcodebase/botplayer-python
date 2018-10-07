@@ -54,12 +54,10 @@ while(1):
   tt= int(random.randint(1,int(part_sec)))
   current=datetime.datetime.now()
   ttb = current + datetime.timedelta(0,tt)
-  pl1=-1
   print("will be playing at :" + str(ttb) )
   sleep(tt)
-  while(pl1<0): 
-   try: 
-    try:
+  try: 
+  #  try:
       id_insert = 0
       state="finish"
       pp=pp+1
@@ -68,23 +66,21 @@ while(1):
 
 #get account
       account_=common.heart.account(cnx)
-      in_use_account = str(account_[4])
       user_account = str(account_[1]) 
       password_account = str(account_[2])
       id_account = str(account_[0])
 #country of account will be the same for proxy and user language
       country = str(account_[3])
-      common.heart.account_in_use(in_use_account,id_account,cnx) 
+      common.heart.account_in_use(id_account,cnx) 
   
 #get proxy
       proxy = common.heart.proxis(country,cnx)
-      in_use_proxy = str(proxy[3]) 
       #proxy_ip = str(proxy[1])
       proxy_ip = ":"   
       id_proxy = str(proxy[0])       
       usr = str(proxy[5])       
       pwd = str(proxy[6])   
-      common.heart.proxy_in_use(in_use_proxy,id_proxy,cnx)
+      common.heart.proxy_in_use(id_proxy,cnx)
 
 #get random common.heart.songs 
       song = common.heart.songs(id_playlist,cnx)   
@@ -113,10 +109,10 @@ while(1):
       #driver.get("https://whatismyipaddress.com/fr/mon-ip")
       #print("ip is : " + driver.find_element_by_xpath("//div[@id='section_left']//div[2]").text)
 #connect to proxy by extension, connexion browser side
-      common.heart.proxy_connect(str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
-      #view current ip
-      #driver.get("http://www.mon-ip.com/info-adresse-ip.php")
+      myip = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
+      print("###### "  + str(myip) + " ######")
       lang = country
+
       if(country =='us' or country =='gb' or country =='ca' ):
           lang='en'
       common.heart.language_browser(lang,driver) 
@@ -260,9 +256,7 @@ while(1):
                                 file = open("log/"+str(id_insert),"w") 
                                 file.write(str(pl))
                                 file.close()
-                                if(pl>=3):
-                                   pl1=1
-                                print("3")
+
                     except:
                         sleep(1)
                         print("4")
@@ -288,18 +282,7 @@ while(1):
          id_insert = common.heart.log_insert(proxy_ip,user_account,"Error proxy",mypubilcip,"Search",cnx)
       common.heart.finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)
-    except MySQLdb.Error as err:
+  except MySQLdb.Error as err:
        print("----->Error connection")
        common.heart.read_log_update(id_insert,cnx,'deezer','../deezer/log/')
-   except :
-      try:
-          e = sys.exc_info()[0]
-          print(str(e))
-          if(opsy=='Linux'):
-             common.heart.kill_process(pid) 
-          driver.close()
-          common.heart.read_log_update(id_insert,cnx,'deezer','../deezer/log/')
-      except:
-          err=1
-          common.heart.read_log_update(id_insert,cnx,'deezer','../deezer/log/')
   

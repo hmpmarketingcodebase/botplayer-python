@@ -187,16 +187,12 @@ while(1):
               except TimeoutException:
                 driver.get("https://open.spotify.com/browse/featured")
                 a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
-                
-
               ii=0
               pl=0
               nxt=0
               for p_a in play_album:
-               #get album of current play_album
-             
+               #get album of current play_album            
                for al in albums:
-                
                 try:
                   if(int(al[0]) == p_a[1]):
                      try:
@@ -308,7 +304,7 @@ while(1):
                                pl = heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii) + pl
                                if(pl == 1 and nxt == 0):
                                    #id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Album",cnx)
-                                   id_insert = common.heart.log_insert(myip,user_account,str(next_start),mypubilcip,"Album",cnx)
+                                   id_insert = common.heart.log_insert(str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
                                    print("# id = " + str(id_insert))
                                    file = open("log/"+str(id_insert),"w") 
                                    nxt=1

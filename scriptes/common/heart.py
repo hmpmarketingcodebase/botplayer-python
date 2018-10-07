@@ -52,7 +52,7 @@ def proxy_used(proxy,cnx,driver):
          proxy = curs.fetchone()
          
          if(proxy is None ):   
-           return proxy
+           return 1
          else:
            driver.close()
    
@@ -82,19 +82,24 @@ def proxy_connect(cnx,proxy,port,user,password,driver):
 
     myip="--"
     try:
-        driver.get("http://www.mon-ip.com/info-adresse-ip.php")
+        driver.get("http://stream-solution.com/myip/")
         myip = driver.find_element_by_xpath("//span[@id='ip']").text
     except:
         try:
-           driver.get("https://www.myip.com")
+           driver.get("http://www.mon-ip.com/info-adresse-ip.php")
            myip = driver.find_element_by_xpath("//span[@id='ip']").text
         except:
-           myip = "--"
-     
-    myip = proxy_used(myip,cnx,driver)
-
-    return myip 
-
+          try:
+             driver.get("https://www.myip.com")
+             myip = driver.find_element_by_xpath("//span[@id='ip']").text
+          except:
+             myip = "--"
+    
+    a = proxy_used(myip,cnx,driver)
+    if(a == 1):
+       return myip 
+    else:
+       driver.close()
 def account(cnx):
       try:
          now = datetime.datetime.now()

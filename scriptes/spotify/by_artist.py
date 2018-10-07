@@ -260,7 +260,7 @@ while(1):
                                 pl = heart.player_album(driver,song_name,ms,kk,proxy_ip,user_account,cnx,ii) + pl
                                 if(pl == 1 and nxt == 0):
                                    # id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Artist",cnx)
-                                   id_insert = common.heart.log_insert(myip,user_account,str(next_start),mypubilcip,"Artist",cnx)
+                                   id_insert = common.heart.log_insert(str(myip),user_account,str(next_start),mypubilcip,"Artist",cnx)
                                    nxt=1
                                 elif pl > 1:
                                    #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
