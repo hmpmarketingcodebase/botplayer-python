@@ -16,12 +16,14 @@ import psutil
 import random
 import subprocess
 import shutil
+import json
+import csv
 
 def connectiondb(database):
    #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
    cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
    return cnx
-   
+'''   
 def proxis(country,cnx):
       try:
          curs = cnx.cursor()
@@ -33,7 +35,17 @@ def proxis(country,cnx):
          return proxy
       except MySQLdb.Error as err:  
          print("Something went wrong: (proxies select) {}".format(err))     
+'''
 
+def proxis(cnx):
+      try:
+         curs = cnx.cursor()
+         curs.execute("select * from proxies order by in_use asc, RAND()")  
+         proxy = curs.fetchone()
+         return proxy
+      except MySQLdb.Error as err:  
+         print("Something went wrong: (proxies select) {}".format(err))     
+ 
 def proxy_in_use(id_proxy,cnx):
     try:
          curs = cnx.cursor()
@@ -45,10 +57,9 @@ def proxy_in_use(id_proxy,cnx):
 
 def proxy_used(proxy,cnx,driver):
       try:
-          
          curs = cnx.cursor()
          now = datetime.datetime.now()
-         curs.execute("select * from log where proxy='" + str(proxy) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!'")  
+         curs.execute("select * from log where realip='" + str(proxy) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!'")  
          proxy = curs.fetchone()
          
          if(proxy is None ):   
@@ -59,6 +70,21 @@ def proxy_used(proxy,cnx,driver):
       except MySQLdb.Error as err:  
          print("Something went wrong: (proxies select) {}".format(err))
 
+		 
+def proxy_used_id(proxy,cnx,driver,id):
+      try:
+         curs = cnx.cursor()
+         now = datetime.datetime.now()
+         curs.execute("select * from log where realip='" + str(proxy) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!' and id<>'"+str(id)+"'")  
+         proxy = curs.fetchone()
+         
+         if(proxy is None ):   
+           return 1
+         else:
+           driver.close()
+   
+      except MySQLdb.Error as err:  
+         print("Something went wrong: (proxies select) {}".format(err))
 
 def proxy_connect(cnx,proxy,port,user,password,driver):
     driver.get("chrome-extension://fhnlhdgbgbodgeeabjnafmaobfomfopf/options.html?host="+proxy+"&port="+port+"&user="+user+"&pass="+password)
@@ -81,45 +107,50 @@ def proxy_connect(cnx,proxy,port,user,password,driver):
     sleep(3)
 
     myip="--"
+    mycountry="--"
+    
     try:
-        driver.get("http://stream-solution.com/myip/")
-        myip = driver.find_element_by_xpath("//span[@id='ip']").text
+        driver.get("http://www.geoplugin.net/json.gp")
+        sleep(5)
+        json_out = driver.find_element_by_xpath("//pre").text
+        d = json.loads(json_out)
+        mycountry = (d['geoplugin_countryCode'])
+        myip = (d['geoplugin_request'])        
     except:
         try:
-           driver.get("http://www.mon-ip.com/info-adresse-ip.php")
-           myip = driver.find_element_by_xpath("//span[@id='ip']").text
+           driver.get("https://iplocation.com/")
+           sleep(5)
+           myip = driver.find_element_by_xpath("//table//td//b[@class='ip']").text
+           mycountry = driver.find_element_by_xpath("//table//td//span[@class='country_name']").text
+           dic = {}
+           with open("../common/wikipedia-iso-country-codes.csv") as f: 
+               reader = csv.DictReader(f, delimiter = ',')
+               for row in reader:
+                  if(row['name'] == mycountry):
+                     mycountry = row['Alpha-2'].lower()
+
         except:
-          try:
-             driver.get("https://www.myip.com")
-             myip = driver.find_element_by_xpath("//span[@id='ip']").text
-          except:
-             myip = "--"
-    
+           myip = "--"
+           mycountry="--"
+    print(mycountry)
+    print(myip)
     a = proxy_used(myip,cnx,driver)
+    print(a)
     if(a == 1):
-       return myip 
+       return myip + ";" + mycountry
     else:
        driver.close()
-def account(cnx):
+def account(cnx,country):
       try:
          now = datetime.datetime.now()
          curs = cnx.cursor()
-         curs.execute("select * from account where error = 2 order by in_use asc, RAND()")
-         #if((int(now.hour)<8)):
-         #    curs.execute("select * from account where error = 2 and in_use = (select min(in_use) from account) order by in_use asc, RAND()")
-         #    print("#1")
-         #elif((int(now.hour)>20)):          
-         #    curs.execute("select * from account where error = 2 and in_use > (select min(in_use) from account) order by in_use asc, RAND()")
-         #    print("#2")
-         #else:
-         #    rd = int(random.randint(1,3))
-         #    if(rd <= 1):
-         #        curs.execute("select * from account where error = 2  and in_use = (select min(in_use) from account) order by in_use asc, RAND()")
-         #        print("#3")
-         #    else :
-         #        curs.execute("select * from account where error = 2 and in_use > (select min(in_use) from account) order by in_use asc, RAND()")                 
-         #        print("#4")
+         curs.execute("select * from account where country = '" + country + "' and in_use =(select min(in_use) from account  where error = 2) order by  RAND()")
          account = curs.fetchone() 
+         if(account is None ):   
+           curs .execute("select * from account where in_use =(select min(in_use) from account  where error = 2) order by  RAND()")  
+           account = curs.fetchone()
+         print("/////////////////")
+         print(account)
          return account
       except MySQLdb.Error as err:  
          print("Something went wrong: (Accounts) {}".format(err))   
@@ -228,11 +259,11 @@ def artist_id(cnx,id):
       except MySQLdb.Error as err:  
          print("Something went wrong: (artists) {}".format(err))   
 
-def log_insert(proxy_ip,user_account,next_start,mypulicip,type_,cnx):
+def log_insert(proxy_ip,myip,user_account,next_start,mypulicip,type_,cnx):
       print("# log insert")
       try:
          curs = cnx.cursor()
-         curs.execute("INSERT INTO `log`(`proxy`, `account`, `next_start`, `number_play`, `ip`, `seconds`, `type`, `realip`) VALUES ('"+proxy_ip+"','"+user_account+"','"+next_start+"',1,'"+ mypulicip +"',0,'"+type_+"','"+proxy_ip+"')")
+         curs.execute("INSERT INTO `log`(`proxy`, `account`, `next_start`, `number_play`, `ip`, `seconds`, `type`, `realip`) VALUES ('"+proxy_ip+"','"+user_account+"','"+next_start+"',0,'"+ mypulicip +"',0,'"+type_+"','"+myip+"')")
          cnx.commit() 
       except MySQLdb.Error as err:  
          print("Something went wrong: (by search) {}".format(err))  
@@ -287,7 +318,6 @@ def next_run(next_start,proxy_ip,user_account,database):
          except MySQLdb.Error as err:  
             print("Something went wrong: (search) {}".format(err))   
 
-			
 
 def get_clear_browsing_button(driver):
     return driver.find_element_by_css_selector('* /deep/ #clearBrowsingDataConfirm')
