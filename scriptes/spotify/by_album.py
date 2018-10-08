@@ -31,7 +31,7 @@ except:
 margin_play = sys.argv[1] # margin play(duration of song = 120 seconds # margin play = 20 seconds # then play song between 100 and 120 seconds)
 play_album_ = sys.argv[2] # id album(get from database)
 part = sys.argv[3] # 
-part_sec = 86400 / int(part) # how many seconds in 1 part per day
+part_sec = 86400 / int(part) # how many seconds in 1 part per- day
 
 opsy = platform.system() #operation system (windows or linux)
 
@@ -67,17 +67,8 @@ while(1):
 #Connection
       cnx = common.heart.connectiondb('spoti')
 
-#get account
-      account_=common.heart.account(cnx)
-      user_account = str(account_[1]) 
-      password_account = str(account_[2])
-      id_account = str(account_[0])
-#lang of account will be the same for proxy and user language
-      country = str(account_[3])
-      common.heart.account_in_use(id_account,cnx) 
-  
 #get proxy
-      proxy = common.heart.proxis(country,cnx) 
+      proxy = common.heart.proxis(cnx) 
       proxy_ip = str(proxy[1])
       #proxy_ip = ":" 
       id_proxy = str(proxy[0])       
@@ -97,7 +88,6 @@ while(1):
 #log insert      
       current=datetime.datetime.now()
       next_start = current
-      print(user_account + " > Let's Goo!" )
       #common.heart.log_insert(proxy_ip,user_account,str(next_start),"By Album",cnx)
 
 #config webdriver
@@ -108,13 +98,27 @@ while(1):
       print ("PID : " + str(p.pid))      
       pid = str(p.pid)
 #connect to proxy by extension, connexion browser side
-      myip = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
+      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
+      print(my)
+      myip = str(my).split(";")[0]
+      mycountry = str(my).split(";")[1]
+      print(myip + " ++ " + mycountry)
+#get account
+      account_=common.heart.account(cnx,mycountry)
+      user_account = str(account_[1]) 
+      password_account = str(account_[2])
+      id_account = str(account_[0])
+#lang of account will be the same for proxy and user language
+      #country = str(account_[3])
+      common.heart.account_in_use(id_account,cnx) 
+      print(user_account + " > Let's Goo!" )
       print("###### "  + str(myip) + " ######")
  
       #view current ip
       
-      lang = country
-      if(country =='us' or country =='gb' or country =='ca' or country =='au' ):
+      country = mycountry.lower()
+      lang = mycountry.lower()
+      if(country.lower() =='us' or country.lower() =='gb' or country.lower() =='ca' or country.lower() =='au' ):
           lang='en'
       print("language is " + lang)     
        
@@ -143,10 +147,10 @@ while(1):
       connect=1
       #check proxy connection
       if(connect_proxy==1):
-            #login
-             common.heart.login(driver,user_account,password_account)
-             sleep(5)
-             try:
+        #login
+        common.heart.login(driver,user_account,password_account)
+        sleep(5)
+        try:
                  #if it's an invalid spotify account then connect = 0
                  driver.find_element_by_xpath("//p[@class='alert alert-warning']")
                  connect=0
@@ -158,12 +162,18 @@ while(1):
                  except:
                     connect=0
                  print(user_account +' > ' + state)
-             except NoSuchElementException:
+        except NoSuchElementException:
                  connect=1
                 
-             #if connected
-             if(connect==1):
-              
+        #if connected
+        if(connect==1):
+           if(common.heart.proxy_used_id(myip,cnx,driver,id_insert)) == 1:
+              ii=0
+              pl=0
+              id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
+              file = open("log/"+str(id_insert),"w") 
+              file.write(str(pl))
+              file.close()
               print("connect : account " + user_account)
               #come back to default ua 
               common.heart.random_ua(driver,'spoti')
@@ -187,9 +197,7 @@ while(1):
               except TimeoutException:
                 driver.get("https://open.spotify.com/browse/featured")
                 a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
-              ii=0
-              pl=0
-              nxt=0
+
               for p_a in play_album:
                #get album of current play_album            
                for al in albums:
@@ -302,13 +310,7 @@ while(1):
                                   ms=(random.randint(30, 50))                                                
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                pl = heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii) + pl
-                               if(pl == 1 and nxt == 0):
-                                   #id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Album",cnx)
-                                   id_insert = common.heart.log_insert(str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
-                                   print("# id = " + str(id_insert))
-                                   file = open("log/"+str(id_insert),"w") 
-                                   nxt=1
-                               elif pl > 1:
+                               if pl >= 1:
                                    #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
                                    file = open("log/"+str(id_insert),"w") 
                                    file.write(str(pl))
@@ -327,10 +329,10 @@ while(1):
           if(opsy=='Linux'):
              common.heart.kill_process(pid) 
           driver.close()
-          common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
+          common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
       except:
           err=1
-          common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
+          common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
       
       try:
          cnx = common.heart.connectiondb('spoti')
@@ -340,12 +342,12 @@ while(1):
          common.heart.error_account(user_account,password_account,cnx)
       if(connect_proxy != 1):        
          common.heart.error_proxy(in_use_proxy,id_proxy,cnx)
-         id_insert = common.heart.log_insert(proxy_ip,user_account,"Error proxy",mypubilcip,"Album",cnx)
+         id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,"Error proxy",mypubilcip,"Album",cnx)
       common.heart.finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)
     except MySQLdb.Error as err:
        print("----->Error connection")
-       common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
+       common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
   except :
       try:
           e = sys.exc_info()[0]
@@ -353,7 +355,7 @@ while(1):
           if(opsy=='Linux'):
              common.heart.kill_process(pid) 
           driver.close()
-          common.heart.read_log_update(id_insert,cnx,'spoti','../spotify/log/')
+          common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
       except:
           err=1
   
