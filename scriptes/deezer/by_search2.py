@@ -57,26 +57,17 @@ while(1):
   print("will be playing at :" + str(ttb) )
   sleep(tt)
   try: 
-  #  try:
+    try:
       id_insert = 0
       state="finish"
       pp=pp+1
 #Connection
       cnx = common.heart.connectiondb('deezer')
-
-#get account
-      account_=common.heart.account(cnx)
-      user_account = str(account_[1]) 
-      password_account = str(account_[2])
-      id_account = str(account_[0])
-#country of account will be the same for proxy and user language
-      country = str(account_[3])
-      common.heart.account_in_use(id_account,cnx) 
   
 #get proxy
-      proxy = common.heart.proxis(country,cnx)
-      #proxy_ip = str(proxy[1])
-      proxy_ip = ":"   
+      proxy = common.heart.proxis(cnx)
+      proxy_ip = str(proxy[1])
+      #proxy_ip = ":"   
       id_proxy = str(proxy[0])       
       usr = str(proxy[5])       
       pwd = str(proxy[6])   
@@ -94,7 +85,7 @@ while(1):
 #log insert (by search type)
       current=datetime.datetime.now()
       next_start = current
-      print(user_account + " > Let's Gooo!" )
+
 
 #common.heart.next_run(next_start,proxy_ip,user_account)
       #common.heart.log_insert(proxy_ip,user_account,str(next_start),"By Search",cnx)
@@ -109,14 +100,28 @@ while(1):
       #driver.get("https://whatismyipaddress.com/fr/mon-ip")
       #print("ip is : " + driver.find_element_by_xpath("//div[@id='section_left']//div[2]").text)
 #connect to proxy by extension, connexion browser side
-      myip = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver)
-      print("###### "  + str(myip) + " ######")
-      lang = country
+      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip)
+      print(my)
+      myip = str(my).split(";")[0]
+      mycountry = str(my).split(";")[1]
+      print(myip + " ++ " + mycountry)
 
-      if(country =='us' or country =='gb' or country =='ca' ):
+#get account
+      account_=common.heart.account(cnx,mycountry)
+      user_account = str(account_[1]) 
+      password_account = str(account_[2])
+      id_account = str(account_[0])
+#country of account will be the same for proxy and user language
+      country = str(account_[3])
+      common.heart.account_in_use(id_account,cnx) 
+      print(user_account + " > Let's Gooo!" )
+      country = mycountry.lower()
+      lang = mycountry.lower()
+      if(country.lower() =='us' or country.lower() =='gb' or country.lower() =='ca' or country.lower() =='au' ):
           lang='en'
-      common.heart.language_browser(lang,driver) 
-#Mobile user agent
+      print("language is " + lang)     
+       
+      #Mobile user agent
       #common.heart.mobile_ua(driver)
       
       driver.get("https://www.deezer.com/login")
@@ -142,6 +147,10 @@ while(1):
         
             #if connected
             if(connect==1):
+              if(common.heart.proxy_used_id(myip,cnx,driver,id_insert)) == 1:
+                ii=0
+                pl=0
+                id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Search",cnx)
                 print("connect : account " + user_account)
                 url = "https://www.deezer.com/"
                 
@@ -152,10 +161,8 @@ while(1):
                     print('New Version')
                 except:
                     print("--")
-                ii=0
-                pl=0
-                insert=0
-                #fetch all songs   
+       
+               #fetch all songs   
                 for s in song:
                     try:      
                         print("----------")   
@@ -169,6 +176,7 @@ while(1):
                         song_artist_name = ""
                         for a in artists:
                              if(int(a[0]) == song_artist):
+                                 print("yyyyy " + a[1])
                                  song_artist_name = a[1]
                         song_album = int(s[4])
                         song_album_url = ""
@@ -179,6 +187,7 @@ while(1):
                         print("------****---")
 
                         heart.top_search(driver,song_name,song_artist_name)
+                        sleep(5)
                         xx=0
                         nn=0
                         while((xx<50)and(nn<=0)):
@@ -193,6 +202,8 @@ while(1):
                                   print("artist name ^ " + artist_name_ + " = " + song_artist_name + " | " )
                                   print("album name ^ " + album_name_ + " = " + song_album_name + " | " )
                                   if ((song_name_.lower() == song_name.lower()) and (song_artist_name.lower() in artist_name_.lower()) and (song_album_name.lower() == album_name_.lower())):
+                                  #if ((song_name_.lower() == song_name.lower()) and (song_album_name.lower() == album_name_.lower())):
+                                       nn=1
                                        print("--------------------------------------------------------------------------" )
                                        print("song name ^ " + song_name_ + " = " + song_name + " | " )
                                        print("artist name ^ " + artist_name_ + " = " + song_artist_name + " | " )
@@ -201,6 +212,7 @@ while(1):
                                        ActionChains(driver).move_to_element(row).perform()
                                        sleep(1)
                                        row.click()
+                                       '''
                                        sleep(5)
                                        if(heart.check_00(driver) == "00:00"):
                                            driver.refresh()
@@ -208,13 +220,13 @@ while(1):
                                            ActionChains(driver).move_to_element(row).perform()
                                            sleep(1)
                                            row.click()
-                                       nn=1
+                                       
                                        print("--------------------------------------------------------------------------" )
+                                       '''
                                except:
                                   err=1
                                xx=xx+1
-
-                        ms=(random.randrange(30, 40))
+                        ms=(random.randrange(40, 50))
                         i=0
                         o = ms / 5
                         jj=0
@@ -243,20 +255,13 @@ while(1):
   
                         if(i >= 6):
                           pl=pl+1
-                          if(insert==0):
-                                id_insert = common.heart.log_insert(proxy_ip,user_account,str(next_start),mypubilcip,"Search",cnx)
-                                print("# id = " + str(id_insert))
-                                file = open("log/"+str(id_insert),"w") 
-                                nxt=1
-                                print("1")
-                                insert=1
-                          else:
-                                print("2")
-                                #common.heart.log_update(pl,proxy_ip,user_account,cnx,'deezer')
+                          if(pl >= 1):
+                               #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
                                 file = open("log/"+str(id_insert),"w") 
                                 file.write(str(pl))
                                 file.close()
-
+                                
+                          print("------> " + str(pl))
                     except:
                         sleep(1)
                         print("4")
@@ -266,10 +271,10 @@ while(1):
              common.heart.kill_process(pid) 
           driver.close()
           print("5")
-          common.heart.read_log_update(id_insert,cnx,'deezer','../deezer/log/')
+          common.heart.read_log_update(id_insert,'deezer','../deezer/log/')
       except:
           err=1
-          common.heart.read_log_update(id_insert,cnx,'deezer','../deezer/log/')
+          common.heart.read_log_update(id_insert,'deezer','../deezer/log/')
       
       try:
          cnx = common.heart.connectiondb('deezer')
@@ -277,12 +282,22 @@ while(1):
          print("Error connection")
       if(connect == -1):  
          common.heart.error_account(user_account,password_account,cnx)
-      if(connect_proxy != 1):        
+      if(connect_proxy != 1):
          common.heart.error_proxy(in_use_proxy,id_proxy,cnx)
-         id_insert = common.heart.log_insert(proxy_ip,user_account,"Error proxy",mypubilcip,"Search",cnx)
-      common.heart.finish(proxy_ip,user_account,cnx,state)     
+         #id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,"Error proxy",mypubilcip,"Search",cnx)
+      #common.heart.finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)
-  except MySQLdb.Error as err:
+    except MySQLdb.Error as err:
        print("----->Error connection")
-       common.heart.read_log_update(id_insert,cnx,'deezer','../deezer/log/')
+       common.heart.read_log_update(id_insert,'deezer','../deezer/log/')
+  except:
+      try:
+          e = sys.exc_info()[0]
+          print(str(e))
+          if(opsy=='Linux'):
+             common.heart.kill_process(pid) 
+          driver.close()
+          common.heart.read_log_update(id_insert,'deezer','../deezer/log/')
+      except:
+          err=1
   

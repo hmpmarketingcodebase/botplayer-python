@@ -208,8 +208,11 @@ while(1):
                            common.heart.clean_memory()
                         ii=ii+1
                         artist_url = a[2]
+                        fol = a[3]
                         driver.get(artist_url)
-                        if(follow%9 == 0 or artist_url=='https://open.spotify.com/artist/41VzeplVL0oJJ27LM4ONTi'):
+                        f = follow%fol
+                        print("follow = " +  str(f))
+                        if(f == 0):
                         #if(1 == 1):
                            if(mm<ss ):
                             mm=mm+1
@@ -295,7 +298,7 @@ while(1):
          common.heart.error_account(user_account,password_account,cnx)
       if(connect_proxy != 1):        
          common.heart.error_proxy(in_use_proxy,id_proxy,cnx)
-         common.heart.log_insert(proxy_ip,user_account,"Error proxy",mypubilcip,"Artist",cnx)
+         #common.heart.log_insert(proxy_ip,user_account,"Error proxy",mypubilcip,"Artist",cnx)
       print(state)
       common.heart.finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)

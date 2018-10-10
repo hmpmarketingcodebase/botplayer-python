@@ -86,7 +86,7 @@ def proxy_used_id(proxy,cnx,driver,id):
       except MySQLdb.Error as err:  
          print("Something went wrong: (proxies select) {}".format(err))
 
-def proxy_connect(cnx,proxy,port,user,password,driver):
+def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip):
     driver.get("chrome-extension://fhnlhdgbgbodgeeabjnafmaobfomfopf/options.html?host="+proxy+"&port="+port+"&user="+user+"&pass="+password)
     driver.find_element_by_xpath("//input[@id='socks5']").click()
     sleep(2)
@@ -133,13 +133,20 @@ def proxy_connect(cnx,proxy,port,user,password,driver):
            myip = "--"
            mycountry="--"
     print(mycountry)
-    print(myip)
+    #print(myip)
     a = proxy_used(myip,cnx,driver)
-    print(a)
-    if(a == 1):
+    print(myip  + " vs " + mypublicip) 
+    if((a == 1) and (myip != mypublicip) and (myip != '--')):
        return myip + ";" + mycountry
-    else:
+    else: 
+       if(myip == '--'):
+          print("Error Proxy!!")
+       proxy_ip = proxy + ":" + port
+       current=datetime.datetime.now()
+       log_insert(str(proxy_ip),str(myip),"Error proxy",str(current),mypublicip,"Error proxy",cnx)
+       
        driver.close()
+
 def account(cnx,country):
       try:
          now = datetime.datetime.now()
@@ -235,7 +242,7 @@ def albums_(cnx):
 def artist(cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from artist where url<>'' order by RAND()")
+         curs.execute("select * from artist where url<>'' and follow<>'0' order by RAND()")
          artists = curs.fetchall()
          return artists
       except MySQLdb.Error as err:  
@@ -549,7 +556,7 @@ def kill_process(parent_pid):
    print("# " + str(parent_pid) + " Killed")
 
 
-def read_log_update(id,cnx,database,pat):
+def read_log_update(id,database,pat):
    print("#####ssss#######")
    try:
      # file = open("../spotify/log/"+str(id), "r")
