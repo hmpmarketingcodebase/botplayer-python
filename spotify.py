@@ -56,7 +56,7 @@ except MySQLdb.Error as err:
 i=0
 arr = os.listdir('./scriptes/spotify/log')
 for a in arr:
-         scriptes.common.heart.read_log_update(a,cnx,'spoti','./scriptes/spotify/log/')
+         scriptes.common.heart.read_log_update(a,'spoti','./scriptes/spotify/log/')
          sleep(1)
          cmd=('sudo rm '+str(a))
          subprocess.call(cmd, shell=True, cwd='scriptes/spotify/log/')
