@@ -302,10 +302,10 @@ while(1):
       print(state)
       common.heart.finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)
-    except NoSuchElementException :
+    except MySQLdb.Error as err:
        print("----->Error connection")
        common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
-  except NoSuchElementException:   
+  except:   
       try:
           e = sys.exc_info()[0]
           print(str(e))
