@@ -141,9 +141,9 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip):
     else: 
        if(myip == '--'):
           print("Error Proxy!!")
-       proxy_ip = proxy + ":" + port
-       current=datetime.datetime.now()
-       log_insert(str(proxy_ip),str(myip),"Error proxy",str(current),mypublicip,"Error proxy",cnx)
+          proxy_ip = proxy + ":" + port
+          current=datetime.datetime.now()
+          log_insert(str(proxy_ip),str(myip),"Error proxy",str(current),mypublicip,"Error proxy",cnx)
        
        driver.close()
 
