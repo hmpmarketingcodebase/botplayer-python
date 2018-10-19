@@ -405,7 +405,7 @@ def config_driver(device):
     driver = webdriver.Chrome(executable_path=executable_path, chrome_options=chrome_options)
     driver.delete_all_cookies()
     clear_cache(driver)
-    driver.maximize_window()
+    #driver.maximize_window()
     return driver  
   except ConnectionResetError:
     sleep(1)
