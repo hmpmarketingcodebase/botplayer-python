@@ -20,8 +20,8 @@ import json
 import csv
 
 def connectiondb(database):
-   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
-   cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
+   cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
+   #cnx = MySQLdb.connect("10.128.0.2","spoti","o85BIgDEfChf",database)    
    return cnx
 '''   
 def proxis(country,cnx):
@@ -144,9 +144,48 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip):
           proxy_ip = proxy + ":" + port
           current=datetime.datetime.now()
           log_insert(str(proxy_ip),str(myip),"Error proxy",str(current),mypublicip,"Error proxy",cnx)
-       
        driver.close()
+       
 
+def check_ip(ip,driver):
+    myip = '--'
+    try:
+        #driver.get("http://www.geoplugin.net/json.gp")
+        driver.execute_script("window.open('http://stream-solution.com/myip/', 't3')")
+        sleep(2)
+        driver.switch_to.window("t3")
+        sleep(2)
+        myip = driver.find_element_by_xpath("//span[@id='ip']").text           
+        driver.close()
+        driver.switch_to.window("t2")
+    except :
+        #driver.get("http://www.geoplugin.net/json.gp")
+        driver.execute_script("window.open('http://www.geoplugin.net/json.gp', 't3')")
+        sleep(2)
+        driver.switch_to.window("t3")
+        sleep(2)
+        json_out = driver.find_element_by_xpath("//pre").text
+        d = json.loads(json_out)
+        myip = (d['geoplugin_request'])           
+        driver.switch_to.window("t2")
+        try:
+           #driver.get("https://iplocation.com/")
+           driver.execute_script("window.open('https://iplocation.com/', 't3')")
+           sleep(2)
+           driver.switch_to.window("t3")
+           sleep(2)
+           myip = driver.find_element_by_xpath("//table//td//b[@class='ip']").text
+           driver.switch_to.window("t2")
+        except :
+           err=1
+           driver.switch_to.window("t2")
+
+    print(ip + " --- " + myip)
+    if((ip != myip)and(myip != '--')):
+        driver.close()              
+    
+
+  
 def account(cnx,country):
       try:
          now = datetime.datetime.now()
@@ -338,7 +377,7 @@ def clear_cache(driver, timeout=60):
     wait.until_not(get_clear_browsing_button)
     sleep(5)
 
-def config_driver():
+def config_driver(device):
  PROXY = "10.128.0.2:8080" # IP:PORT
  sleep(int(random.randint(1,60))) 
  os= platform.system() #operation system (windows or linux)
@@ -357,10 +396,16 @@ def config_driver():
     chrome_options.add_extension(direct+'/Chrome-proxy-helper-master.crx')
     chrome_options.add_extension(direct+ '/extension_2_0_0_0.crx')
     chrome_options.add_extension(direct+'/Quick-Language-Switcher_v0.0.0.4.crx')
+    chrome_options.add_extension(direct+'/ua.crx')
+    if(device=='mobile'):
+       devices = ['Nexus 5','Blackberry PlayBook','Pixel 2','Nexus 6P','iPhone 8 Plus','iPhone 7 Plus','Nokia N9','Nokia Lumia 520','Galaxy S5','iPhone 7','LG Optimus L70','iPhone 5','iPhone 4','Nexus 10','iPhone 8','iPhone 6','Galaxy S III','iPhone 7','iPhone SE','Microsoft Lumia 550','iPad Mini','iPhone 5/SE','iPad Pro','Nexus 5X','iPhone 6 Plus','iPhone 7 Plus','iPhone 8 Plus','Galaxy Note II','iPhone X','Microsoft Lumia 950','Pixel 2 XL','Galaxy Note 3','Kindle Fire HDX','iPad','BlackBerry Z30','Nexus 6','Nexus 7','Nexus 4']
+       random.shuffle(devices)
+       mobile_emulation = { "deviceName": devices[1] }
+       chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
     driver = webdriver.Chrome(executable_path=executable_path, chrome_options=chrome_options)
-    #driver.maximize_window()
     driver.delete_all_cookies()
     clear_cache(driver)
+    driver.maximize_window()
     return driver  
   except ConnectionResetError:
     sleep(1)
@@ -378,11 +423,18 @@ def config_driver():
     #chrome_options.add_argument('--proxy-server=%s' % PROXY)
     chrome_options.add_extension('../../tools/Chrome-proxy-helper-master.crx')
     chrome_options.add_extension('../../tools/extension_2_0_0_0.crx')
+    chrome_options.add_extension('../../tools/ua.crx')
     chrome_options.add_extension('../../tools/Quick-Language-Switcher_v0.0.0.4.crx')
+
+    if(device=='mobile'):
+       devices = ['Nexus 5','Blackberry PlayBook','Pixel 2','Nexus 6P','iPhone 8 Plus','iPhone 7 Plus','Nokia N9','Nokia Lumia 520','Galaxy S5','iPhone 7','LG Optimus L70','iPhone 5','iPhone 4','Nexus 10','iPhone 8','iPhone 6','Galaxy S III','iPhone 7','iPhone SE','Microsoft Lumia 550','iPad Mini','iPhone 5/SE','iPad Pro','Nexus 5X','iPhone 6 Plus','iPhone 7 Plus','iPhone 8 Plus','Galaxy Note II','iPhone X','Microsoft Lumia 950','Pixel 2 XL','Galaxy Note 3','Kindle Fire HDX','iPad','BlackBerry Z30','Nexus 6','Nexus 7','Nexus 4']
+       random.shuffle(devices)
+       mobile_emulation = { "deviceName": devices[1] }
+       chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
     driver = webdriver.Chrome(executable_path=executable_path, chrome_options=chrome_options)
-    driver.maximize_window()
     driver.delete_all_cookies()
     clear_cache(driver)
+    driver.maximize_window()
     return driver  
   except ConnectionResetError:
     sleep(1)
@@ -494,26 +546,56 @@ def killed_account(user_account,database):
     except MySQLdb.Error as err:
         print("Something went wrong: (connection) {}".format(err))
 
-def random_ua(driver,database):
+def random_ua(driver,database,device):
      try:  
         cnx = connectiondb(database)
         curs = cnx.cursor()
-        curs.execute("select * from user_agent order by RAND()")
+        curs.execute("select * from user_agent where device = '"+device+"' order by RAND()")
         ua = curs.fetchone() 
         cnx.commit() 
      except MySQLdb.Error as err:
         print("Something went wrong: (connection) {}".format(err))
      #Mobile user agent click extension
      sleep(5)
-     driver.get("chrome-extension://lkmofgnohbedopheiphabfhfjgkhfcgf/popup.html")
+     driver.get("chrome-extension://djflhoibgkdhkhhcedjiklpkjnoahfmg/options.html")
+     add_ua_name = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'add_ua_name'))) 
+     add_ua_user_agent = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'add_ua_user_agent'))) 
+     add_ua_group = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'add_ua_group'))) 
+     add_ua_indicator = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'add_ua_indicator'))) 
+     add_ua_button = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'add_ua_button'))) 
+     add_ua_name.send_keys("xx")
+     add_ua_user_agent.send_keys(ua[1])
+     sleep(1)
+     add_ua_group.clear()
+     sleep(2)
+     add_ua_group.send_keys("xx")
+     add_ua_indicator.send_keys("xx")
+     sleep(2)
+     add_ua_button.click()
+     sleep(1)
+     driver.get("chrome-extension://djflhoibgkdhkhhcedjiklpkjnoahfmg/popup.html")
+     xx = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'ua_row_5'))) 
+     xx.click() 
+     sleep(2) 
+     xx = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'ua_row_c_15'))) 
+     xx.click() 
+     sleep(5)    
+     driver.execute_script("window.open('about:blank', 't2');")
+     driver.close()
+
+
+'''
      inpu_ua = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'ua'))) 
      inpu_ua.send_keys(ua[1])
      driver.execute_script("window.open('about:blank', 't2');")
      sleep(2)
      customButton = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'customButton'))) 
-     customButton.click()
+     #customButton.click()
      sleep(2)
-            
+     #driver.close()      
+'''
+
+
 def error_proxy(in_use_proxy,id_proxy,cnx):
     try:
          curs = cnx.cursor()

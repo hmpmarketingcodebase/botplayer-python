@@ -91,7 +91,7 @@ while(1):
       #common.heart.log_insert(proxy_ip,user_account,str(next_start),"By Album",cnx)
 
 #config webdriver
-      driver = common.heart.config_driver()
+      driver = common.heart.config_driver('desktop')
       driver.service.process # is a Popen instance for the chromedriver process
       p = psutil.Process(driver.service.process.pid)
       print("#####################################")
@@ -176,7 +176,7 @@ while(1):
               file.close()
               print("connect : account " + user_account)
               #come back to default ua 
-              common.heart.random_ua(driver,'spoti')
+              common.heart.random_ua(driver,'spoti','desktop')
               driver.switch_to.window("t2")
               #driver.get('http://www.whatsmyua.info/')
               #sleep(5)
@@ -293,7 +293,7 @@ while(1):
                          while((x<=50)and(nn<=0)):
                            try: 
                              x=x+1 
-                             txt = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='tracklist-name']").text
+                             txt = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//div[@class='tracklist-name ellipsis-one-line']").text
                              print("find : " + txt)
                              if(song_name.lower() == txt.lower()):
                                nn=1
@@ -316,10 +316,12 @@ while(1):
                                    file.write(str(pl))
                                    file.close()
                                print("------> " + str(pl))
+                               
                            except NoSuchElementException:
                                print("-")
                         except: 
                             driver.refresh()
+                        common.heart.check_ip(myip,driver)
                 except: 
                     driver.refresh() 
                     

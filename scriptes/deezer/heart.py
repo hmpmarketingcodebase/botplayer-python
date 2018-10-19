@@ -37,7 +37,7 @@ def check_proxy(driver):
             connect_proxy=1
          except TimeoutException:
             driver.get("https://www.deezer.com/login")
-            print (user_account + " > Loading took too much time! (proxy)")
+            print ("Loading took too much time! (proxy)")
             connect_proxy=0 
             try:
                 driver.close() 
@@ -61,12 +61,16 @@ def login(driver,user_account,password_account):
           print (user_account + " > Proxy is ready!")
           connect_proxy=1
 
-def top_search(driver,song_name,song_artist_name):
-    srch = song_name + " " + song_artist_name
+		  
+'''
     try:
          wait = WebDriverWait(driver, 30)
          disonnect(driver)
+         print("hhhhhhhhhhhhhh")
          search = wait.until(EC.element_to_be_clickable((By.ID, "topbar-search")))
+         search.click()
+         sleep(2)
+         print("iuiuiu")
          search.clear()
          sleep(2)
          search.clear()
@@ -113,6 +117,16 @@ def top_search(driver,song_name,song_artist_name):
        except :
          srch = quote(srch)
          driver.get('https://www.deezer.com/search/'+srch)
+'''
+def top_search(driver,song_name,song_artist_name):
+    srch = song_name + " " + song_artist_name
+    try:
+         srch = quote(srch)
+         driver.get('https://www.deezer.com/search/'+srch)
+    except:
+         srch = quote(srch)
+         driver.get('https://www.deezer.com/search/'+srch)
+
     driver.execute_script("window.scrollBy(0, 1000);")
     sleep(1)
     driver.execute_script("window.scrollBy(0, 1000);")

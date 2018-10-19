@@ -105,7 +105,8 @@ while(1):
       myip = str(my).split(";")[0]
       mycountry = str(my).split(";")[1]
       print(myip + " ++ " + mycountry)
-
+      common.heart.random_ua(driver,'deezer')
+      driver.switch_to.window("t2")
 #get account
       account_=common.heart.account(cnx,mycountry)
       user_account = str(account_[1]) 
@@ -147,6 +148,7 @@ while(1):
         
             #if connected
             if(connect==1):
+                     
               if(common.heart.proxy_used_id(myip,cnx,driver,id_insert)) == 1:
                 ii=0
                 pl=0
@@ -161,11 +163,12 @@ while(1):
                     print('New Version')
                 except:
                     print("--")
-       
+                print("ttttttttttttttttttttttttttttt")
                #fetch all songs   
+                nnn = 0   
                 for s in song:
                     try:      
-                        print("----------")   
+                        nnn = nnn + 1   
                         if(opsy=='Linux'):
                            common.heart.clean_memory()
                     #try:      
@@ -251,6 +254,7 @@ while(1):
                                      jj=1
                            except :
                                 jj=1
+                          common.heart.check_ip(myip,driver)
                           row.click()
   
                         if(i >= 6):
@@ -290,7 +294,7 @@ while(1):
     except MySQLdb.Error as err:
        print("----->Error connection")
        common.heart.read_log_update(id_insert,'deezer','../deezer/log/')
-  except:
+  except NoSuchElementException:
       try:
           e = sys.exc_info()[0]
           print(str(e))

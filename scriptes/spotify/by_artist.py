@@ -96,7 +96,7 @@ while(1):
       
 
 #config webdriver
-      driver = common.heart.config_driver()
+      driver = common.heart.config_driver('desktop')
       driver.service.process # is a Popen instance for the chromedriver process
       p = psutil.Process(driver.service.process.pid)
       print("#####################################")
@@ -132,7 +132,7 @@ while(1):
       
       driver.get("https://accounts.spotify.com/en/login")
       connect_proxy=0
-
+      wait = WebDriverWait(driver, 30)
 #if authentication successfully then connect_proxy = 1 and continue ## if not reload by other proxy
       try:
           WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'login-username')))
@@ -193,7 +193,7 @@ while(1):
                 file.close()
                 print("connect : account " + user_account)
                 #come back to default ua
-                common.heart.random_ua(driver,'spoti')
+                common.heart.random_ua(driver,'spoti','desktop')
                 driver.switch_to.window("t2")
                 driver.get("https://open.spotify.com/browse/featured")
                 #fetch all songs 
@@ -305,7 +305,7 @@ while(1):
     except MySQLdb.Error as err:
        print("----->Error connection")
        common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
-  except:   
+  except MySQLdb.Error as err:   
       try:
           e = sys.exc_info()[0]
           print(str(e))

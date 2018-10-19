@@ -174,7 +174,6 @@ def change_device(d):
             sleep(1)
         else:
             d.close()
-
         web_device=d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar']//div[@class='now-playing-bar__right']//div[@class='now-playing-bar__right__inner']//span[@class='connect-device-picker']")
         web_device.click()
         sleep(2) 
