@@ -13,7 +13,7 @@ import psutil
 import platform
 sys.path.append(".")
 import scriptes.common.heart
---stop
+
 try:
    mypubilcip = get('https://api.ipify.org').text
 except:
