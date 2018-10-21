@@ -277,7 +277,7 @@ while(1):
                      driver.execute_script("window.scrollBy(0, 1000);")
                      sleep(1)   
                      driver.execute_script("window.scrollBy(0, 1000);")
-                 
+                     common.heart.check_ip(myip,driver)
                      for s in song:
                         try:
                          if(opsy=='Linux'):

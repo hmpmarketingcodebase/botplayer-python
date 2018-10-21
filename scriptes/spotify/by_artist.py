@@ -202,6 +202,7 @@ while(1):
                 zz=0
                 mm=0
                 ss=int(ar[1])*5
+                common.heart.check_ip(myip,driver)
                 for a in artists:
                         follow=(random.randint(22, 1000))
                         if(opsy=='Linux'):
@@ -265,7 +266,7 @@ while(1):
                                 men = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(kk)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
                             heart.change_device(driver)
                             sleep(2)
-                            song_name = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(kk)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='tracklist-name']").text
+                            song_name = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(kk)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//div[@class='tracklist-name ellipsis-one-line']").text
                             if song_name in x:
                                 ActionChains(driver).double_click(men).perform()
                                 print("####### " + song_name)
@@ -279,7 +280,7 @@ while(1):
                                 
                           except:
                             sleep(1)
-                    
+                        common.heart.check_ip(myip,driver)
       ##### exceptions 
       try:
          if(opsy=='Linux'):
@@ -305,7 +306,7 @@ while(1):
     except MySQLdb.Error as err:
        print("----->Error connection")
        common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
-  except MySQLdb.Error as err:   
+  except :   
       try:
           e = sys.exc_info()[0]
           print(str(e))
