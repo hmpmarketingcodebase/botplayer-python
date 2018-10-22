@@ -512,6 +512,8 @@ def default_ua(driver):
        sleep(5)
     except NoSuchElementException:
        print("X 3")
+    driver.execute_script("window.open('about:blank', 't2');")
+    driver.close()
 
 
 def finish(proxy_ip,user_account,cnx,msg):
