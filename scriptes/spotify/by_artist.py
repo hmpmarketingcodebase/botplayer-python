@@ -96,7 +96,7 @@ while(1):
       
 
 #config webdriver
-      driver = common.heart.config_driver('desktop')
+      driver = common.heart.config_driver('spoti','desktop')
       driver.service.process # is a Popen instance for the chromedriver process
       p = psutil.Process(driver.service.process.pid)
       print("#####################################")
