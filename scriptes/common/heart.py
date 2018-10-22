@@ -111,10 +111,12 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip):
     mycountry="--"
     
     try:
-        driver.get("https://www.whoishostingthis.com/tools/user-agent/")
+        driver.get("http://www.geoplugin.net/json.gp")
         sleep(5)
-        l1 = driver.find_element_by_xpath("//div[@id='user-agent']").text
-        print(l1)
+        json_out = driver.find_element_by_xpath("//pre").text
+        d = json.loads(json_out)
+        mycountry = (d['geoplugin_countryCode'])
+        myip = (d['geoplugin_request'])        
     except:
         try:
            driver.get("https://iplocation.com/")
@@ -581,7 +583,6 @@ def random_ua(driver,database,device):
      sleep(5)    
      driver.execute_script("window.open('about:blank', 't2');")
      driver.close()
-
 
 '''
      inpu_ua = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'ua'))) 
