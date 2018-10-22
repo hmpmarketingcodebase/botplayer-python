@@ -398,6 +398,7 @@ def config_driver(device):
     chrome_options.add_extension(direct+ '/extension_2_0_0_0.crx')
     chrome_options.add_extension(direct+'/Quick-Language-Switcher_v0.0.0.4.crx')
     chrome_options.add_extension(direct+'/ua.crx')
+    chrome_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:62.0) Gecko/20100101 Firefox/62.0")
     if(device=='mobile'):
        devices = ['Nexus 5','Blackberry PlayBook','Pixel 2','Nexus 6P','iPhone 8 Plus','iPhone 7 Plus','Nokia N9','Nokia Lumia 520','Galaxy S5','iPhone 7','LG Optimus L70','iPhone 5','iPhone 4','Nexus 10','iPhone 8','iPhone 6','Galaxy S III','iPhone 7','iPhone SE','Microsoft Lumia 550','iPad Mini','iPhone 5/SE','iPad Pro','Nexus 5X','iPhone 6 Plus','iPhone 7 Plus','iPhone 8 Plus','Galaxy Note II','iPhone X','Microsoft Lumia 950','Pixel 2 XL','Galaxy Note 3','Kindle Fire HDX','iPad','BlackBerry Z30','Nexus 6','Nexus 7','Nexus 4']
        random.shuffle(devices)
@@ -426,7 +427,8 @@ def config_driver(device):
     chrome_options.add_extension('../../tools/extension_2_0_0_0.crx')
     chrome_options.add_extension('../../tools/ua.crx')
     chrome_options.add_extension('../../tools/Quick-Language-Switcher_v0.0.0.4.crx')
-
+    chrome_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:62.0) Gecko/20100101 Firefox/62.0")
+     
     if(device=='mobile'):
        devices = ['Nexus 5','Blackberry PlayBook','Pixel 2','Nexus 6P','iPhone 8 Plus','iPhone 7 Plus','Nokia N9','Nokia Lumia 520','Galaxy S5','iPhone 7','LG Optimus L70','iPhone 5','iPhone 4','Nexus 10','iPhone 8','iPhone 6','Galaxy S III','iPhone 7','iPhone SE','Microsoft Lumia 550','iPad Mini','iPhone 5/SE','iPad Pro','Nexus 5X','iPhone 6 Plus','iPhone 7 Plus','iPhone 8 Plus','Galaxy Note II','iPhone X','Microsoft Lumia 950','Pixel 2 XL','Galaxy Note 3','Kindle Fire HDX','iPad','BlackBerry Z30','Nexus 6','Nexus 7','Nexus 4']
        random.shuffle(devices)
