@@ -297,8 +297,8 @@ while(1):
          print("Error connection")
       if(connect == -1):  
          common.heart.error_account(user_account,password_account,cnx)
-      if(connect_proxy != 1):        
-         common.heart.error_proxy(in_use_proxy,id_proxy,cnx)
+      #if(connect_proxy != 1):        
+         #common.heart.error_proxy(in_use_proxy,id_proxy,cnx)
          #common.heart.log_insert(proxy_ip,user_account,"Error proxy",mypubilcip,"Artist",cnx)
       print(state)
       common.heart.finish(proxy_ip,user_account,cnx,state)     
