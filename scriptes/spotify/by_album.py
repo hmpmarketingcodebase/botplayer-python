@@ -183,6 +183,15 @@ while(1):
               #driver.get('https://www.spotify.com/us/account/overview/?utm_source=play&utm_campaign=wwwredirect')
               #driver.execute_script("window.scrollBy(0, 500);")
               #sleep(10) 
+
+              try:
+                  driver.get("https://www.whoishostingthis.com/tools/user-agent/")
+                  sleep(5)
+                  l1 = driver.find_element_by_xpath("//div[@id='user-agent']").text
+                  print(l1)
+                  sleep(60)
+              except:
+                          err =1
               url = "https://open.spotify.com/browse/featured"
               driver.get(url)
               try:
