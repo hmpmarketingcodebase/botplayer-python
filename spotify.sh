@@ -2,7 +2,7 @@ while true
 do
    sudo killall python3 Xvfb chrome chromedriver
    sleep 5s
-   sudo chgrp -R daniel .
+   sudo chgrp -R coramelevivgame .
    sleep 5s
    sudo chmod -R ug+w .;
    sleep 5s
