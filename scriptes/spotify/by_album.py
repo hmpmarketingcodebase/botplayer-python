@@ -176,8 +176,9 @@ while(1):
               file.close()
               print("connect : account " + user_account)
               #come back to default ua 
-              common.heart.random_ua(driver,'spoti','desktop')
-              driver.switch_to.window("t2")
+              #common.heart.random_ua(driver,'spoti','desktop')
+              common.heart.default_ua(driver)
+              #driver.switch_to.window("t2")
               #driver.get('http://www.whatsmyua.info/')
               #sleep(5)
               #driver.get('https://www.spotify.com/us/account/overview/?utm_source=play&utm_campaign=wwwredirect')
@@ -359,7 +360,7 @@ while(1):
     except MySQLdb.Error as err:
        print("----->Error connection")
        common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
-  except :
+  except MySQLdb.Error as err:
       try:
           e = sys.exc_info()[0]
           print(str(e))
