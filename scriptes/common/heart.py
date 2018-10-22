@@ -111,12 +111,10 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip):
     mycountry="--"
     
     try:
-        driver.get("http://www.geoplugin.net/json.gp")
+        driver.get("https://www.whoishostingthis.com/tools/user-agent/")
         sleep(5)
-        json_out = driver.find_element_by_xpath("//pre").text
-        d = json.loads(json_out)
-        mycountry = (d['geoplugin_countryCode'])
-        myip = (d['geoplugin_request'])        
+        l1 = driver.find_element_by_xpath("//div[@id='user-agent']").text
+        print(l1)
     except:
         try:
            driver.get("https://iplocation.com/")
