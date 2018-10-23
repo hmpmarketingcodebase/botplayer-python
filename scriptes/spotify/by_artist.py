@@ -193,7 +193,7 @@ while(1):
                 file.close()
                 print("connect : account " + user_account)
                 #come back to default ua
-                common.heart.random_ua(driver,'spoti','desktop')
+                common.heart.default_ua(driver)
                 driver.switch_to.window("t2")
                 driver.get("https://open.spotify.com/browse/featured")
                 #fetch all songs 
@@ -306,7 +306,7 @@ while(1):
     except MySQLdb.Error as err:
        print("----->Error connection")
        common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
-  except :   
+  except :  
       try:
           e = sys.exc_info()[0]
           print(str(e))
