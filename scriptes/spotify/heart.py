@@ -84,7 +84,7 @@ def player_(d,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii):
            #men = d.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
            #ActionChains(d).move_to_element(men).perform()                    
            sleep(1)
-           men2 = d.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")               
+           men2 = d.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
            ActionChains(d).double_click(men2).perform()
            print("replay")
            if(m==3):
