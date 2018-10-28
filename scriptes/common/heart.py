@@ -138,11 +138,7 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip):
     a = proxy_used(myip,cnx,driver)
     print(myip  + " vs " + mypublicip) 
     if((a == 1) and (myip != mypublicip) and (myip != '--')):
-      if mycountry.lower() in ['jp','il','hk','id','my','ph','sg','tw','th','vn','ad','at','be','bg','cy','cz','dk','ee','fi','fr','de','gr','hu','is','ie','it','lv','li','lt','lu','mt','mc','nl','no','pl','pl','ro','sk','es','se','ch','tr','gb','ar','bo','br','cl','co','cr','do','ec','sv','gt','hn','mx','ni','pa','py','pe','uy','ca','us','za','au','nz']:
        return myip + ";" + mycountry
-      else:
-       print('country not supported')
-       driver.close()
     else: 
        if(myip == '--'):
           print("Error Proxy!!")
@@ -235,15 +231,15 @@ def songs(id_playlist,cnx):
 
 def songs_album(id_album,cnx):
       try:
-         #curs = cnx.cursor()
-         #curs.execute("select * from songs where album = '" + str(id_album) + "' order by RAND()")
-         #songs = curs.fetchall()
+         curs = cnx.cursor()
+         curs.execute("select * from songs where album = '" + str(id_album) + "' order by RAND()")
+         songs = curs.fetchall()
          #s = len(songs)
          #s = int(random.randint(1,int(s)))
 
-         curs2 = cnx.cursor()
-         curs2.execute("select * from songs where album = '" + str(id_album) + "' order by RAND() LIMIT " + str(s))
-         songs = curs2.fetchall()
+         #curs2 = cnx.cursor()
+         #curs2.execute("select * from songs where album = '" + str(id_album) + "' order by RAND() LIMIT " + str(s))
+         #songs = curs2.fetchall()
          
          return songs
       except MySQLdb.Error as err:  
