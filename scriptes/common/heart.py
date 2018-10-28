@@ -142,6 +142,7 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip):
        return myip + ";" + mycountry
       else:
        print('country not supported')
+       driver.close()
     else: 
        if(myip == '--'):
           print("Error Proxy!!")
