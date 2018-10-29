@@ -301,7 +301,7 @@ while(1):
          #common.heart.error_proxy(in_use_proxy,id_proxy,cnx)
          #common.heart.log_insert(proxy_ip,user_account,"Error proxy",mypubilcip,"Artist",cnx)
       print(state)
-      common.heart.finish(proxy_ip,user_account,cnx,state)     
+      #common.heart.finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)
     except MySQLdb.Error as err:
        print("----->Error connection")
