@@ -60,7 +60,7 @@ def proxy_used(proxy,cnx,driver):
       try:
          curs = cnx.cursor()
          now = datetime.datetime.now()
-         curs.execute("select * from log where realip='" + str(proxy) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!'")  
+         curs.execute("select * from log where realip='" + str(proxy) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!' and next_start<>'finish' ")  
          proxy = curs.fetchone()
          
          if(proxy is None ):   
@@ -218,12 +218,12 @@ def songs(id_playlist,cnx):
          curs = cnx.cursor()
          curs.execute("select * from songs where playlist >= " + str(id_playlist) + " order by RAND()")
          songs = curs.fetchall()
-         s = len(songs)
-         s = int(random.randint(int(int(s)/2),int(s)))
+         #s = len(songs)
+         #s = int(random.randint(int(int(s)/2),int(s)))
  
-         curs2 = cnx.cursor()
-         curs2.execute("select * from songs where playlist >= " + str(id_playlist) + " order by RAND() LIMIT " + str(s))
-         songs = curs2.fetchall()
+         #curs2 = cnx.cursor()
+         #curs2.execute("select * from songs where playlist >= " + str(id_playlist) + " order by RAND() LIMIT " + str(s))
+         #songs = curs2.fetchall()
          return songs
       except MySQLdb.Error as err:  
          print("Something went wrong: (song) {}".format(err)) 
