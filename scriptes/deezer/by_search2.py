@@ -91,7 +91,7 @@ while(1):
       #common.heart.log_insert(proxy_ip,user_account,str(next_start),"By Search",cnx)
       
 #config webdriver
-      driver = common.heart.config_driver()
+      driver = common.heart.config_driver('deezer','desktop')
       driver.service.process # is a Popen instance for the chromedriver process
       p = psutil.Process(driver.service.process.pid)
       print("#####################################")
@@ -105,7 +105,7 @@ while(1):
       myip = str(my).split(";")[0]
       mycountry = str(my).split(";")[1]
       print(myip + " ++ " + mycountry)
-      common.heart.random_ua(driver,'deezer')
+      common.heart.default_ua(driver)
       driver.switch_to.window("t2")
 #get account
       account_=common.heart.account(cnx,mycountry)
@@ -137,6 +137,7 @@ while(1):
             #heart.login
             heart.login(driver,user_account,password_account)
             connect=-1
+            print("hhhghghgh")
             try:
                  #if it's an invalid account then connect = 0
                  driver.find_element_by_xpath("//div[@id='login_error']")
