@@ -14,14 +14,14 @@ def sizeof_fmt(num, suffix='B'):
 
 def clean_memory():
     now = datetime.datetime.now()
-    #if(int(now.hour) % 1 == 0 and int(now.minute) < 5):
-    os.system('sudo bash clean_tmp.sh & disown')
-    print("clear tmp file")
+    if(int(now.hour) % 1 == 0 and int(now.minute) < 5):
+       os.system('sudo bash clean_tmp.sh & disown')
+       print("clear tmp file")
     sleep(5)
 
-    #if(int(now.hour) % 1 == 0 and int(now.minute) < 5):
-    print("clear cache RAM") 
-    os.system('sudo bash clean_ram.sh & disown')
+    if(int(now.hour) % 1 == 0 and int(now.minute) < 5):
+       print("clear cache RAM") 
+       os.system('sudo bash clean_ram.sh & disown')
          
     mem = psutil.virtual_memory()
     mem_ = sizeof_fmt(mem.free)
@@ -37,4 +37,4 @@ def clean_memory():
 while(1):
    clean_memory()
    print("# Cleaning")
-   sleep(60)
+   sleep(30)
