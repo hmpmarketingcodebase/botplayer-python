@@ -382,6 +382,7 @@ def clear_cache(driver, timeout=60):
 
 def config_driver(database,device):
  PROXY = "10.128.0.2:8080" # IP:PORT
+ sleep(int(random.randint(1,120))) 
  try:  
         cnx = connectiondb(database)
         curs = cnx.cursor()
