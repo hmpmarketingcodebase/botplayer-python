@@ -120,6 +120,8 @@ while(1):
       lang = mycountry.lower()
       if(country.lower() =='us' or country.lower() =='gb' or country.lower() =='ca' or country.lower() =='au' ):
           lang='en'
+      if(country.lower() =='ar'):
+          lang='es'
       print("language is " + lang)     
        
       common.heart.language_browser(lang,driver)
