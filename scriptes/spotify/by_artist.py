@@ -96,14 +96,14 @@ while(1):
       
 
 #config webdriver
-      driver = common.heart.config_driver('spoti','desktop')
+      driver = common.heart.config_driver('spoti','desktop','x')
       driver.service.process # is a Popen instance for the chromedriver process
       p = psutil.Process(driver.service.process.pid)
       print("#####################################")
       print ("PID : " + str(p.pid))      
       pid = str(p.pid)
 #connect to proxy by extension, connexion browser side
-      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip)
+      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,1)
       myip = str(my).split(";")[0]
       mycountry = str(my).split(";")[1]
 #get account
@@ -121,6 +121,12 @@ while(1):
       #view current ip
       
       country = mycountry.lower()
+      print("code country is : " + country)
+      if(mycountry.lower() not in ['jp','il','hk','id','my','ph','sg','tw','th','vn','ad','at','be','bg','cy','cz','dk','ee','fi','fr','de','gr','hu','is','ie','it','lv','li','lt','lu','mt','mc','nl','no','pl','pt','ro','sk','es','se','ch','tr','gb','ar','bo','br','cl','co','cr','do','ec','sv','gt','hn','mx','ni','pa','py','pe','uy','ca','us','za','au','nz','dz','bh','eg','jo','kw','lb','ma','om','ps','qa','sa','tn','ae']):
+          print("not in")
+          driver.close()
+      else:
+          print("in")
       lang = mycountry.lower()
       if(country.lower() =='us' or country.lower() =='gb' or country.lower() =='ca' or country.lower() =='au' ):
           lang='en'

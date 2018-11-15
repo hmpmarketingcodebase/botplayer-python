@@ -1,4 +1,5 @@
 import os
+import sys
 from os import path 
 import MySQLdb
 from time import sleep
@@ -46,11 +47,31 @@ def proxis(cnx):
          return proxy
       except MySQLdb.Error as err:  
          print("Something went wrong: (proxies select) {}".format(err))     
- 
+		 
+		 
+
+def proxis2(cnx):
+      try:
+         curs = cnx.cursor()
+         curs.execute("select * from proxies2 where error =0 and in_use<=4 order by in_use asc, RAND()")  
+         proxy = curs.fetchone()
+         return proxy
+      except MySQLdb.Error as err:  
+         print("Something went wrong: (proxies select) {}".format(err))     
+
 def proxy_in_use(id_proxy,cnx):
     try:
          curs = cnx.cursor()
          curs.execute("UPDATE proxies SET in_use = in_use + 1 WHERE id = "+ str(id_proxy) )
+         cnx.commit() 
+    except MySQLdb.Error as err:
+         print("Something went wrong: (Proxies update) {}".format(err))
+
+
+def proxy_in_use2(id_proxy,cnx):
+    try:
+         curs = cnx.cursor()
+         curs.execute("UPDATE proxies2 SET in_use = in_use + 1 WHERE id = "+ str(id_proxy) )
          cnx.commit() 
     except MySQLdb.Error as err:
          print("Something went wrong: (Proxies update) {}".format(err))
@@ -87,25 +108,28 @@ def proxy_used_id(proxy,cnx,driver,id):
       except MySQLdb.Error as err:  
          print("Something went wrong: (proxies select) {}".format(err))
 
-def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip):
-    driver.get("chrome-extension://fhnlhdgbgbodgeeabjnafmaobfomfopf/options.html?host="+proxy+"&port="+port+"&user="+user+"&pass="+password)
-    driver.find_element_by_xpath("//input[@id='socks5']").click()
-    sleep(2)
-    driver.find_element_by_xpath("//input[@id='socks4']").click()
-    sleep(2)
-    driver.find_element_by_xpath("//input[@id='socks5']").click()
-    sleep(2)
-    driver.find_element_by_xpath("//input[@id='socks4']").click()
-    sleep(2)
-    driver.find_element_by_xpath("//input[@id='socks5']").click()
-    sleep(3)
-    driver.get("chrome-extension://fhnlhdgbgbodgeeabjnafmaobfomfopf/popup.html?host="+proxy+"&port="+port)
-    sleep(3)    
-    try:
-        driver.find_element_by_xpath("//span[@id='http']").click()
-    except NoSuchElementException:
+def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
+    if(type==1):
+       try:
+          print("eeeeeeeeeeeeee")
+          driver.get("chrome-extension://fhnlhdgbgbodgeeabjnafmaobfomfopf/options.html?host="+proxy+"&port="+port+"&user="+user+"&pass="+password)
+          driver.find_element_by_xpath("//input[@id='socks5']").click()
+          sleep(2)
+          driver.find_element_by_xpath("//input[@id='socks4']").click()
+          sleep(2)
+          driver.find_element_by_xpath("//input[@id='socks5']").click()
+          sleep(2)
+          driver.find_element_by_xpath("//input[@id='socks4']").click()
+          sleep(2)
+          driver.find_element_by_xpath("//input[@id='socks5']").click()
+          sleep(3)
+          driver.get("chrome-extension://fhnlhdgbgbodgeeabjnafmaobfomfopf/popup.html?host="+proxy+"&port="+port)
+          sleep(3)    
+       
+          driver.find_element_by_xpath("//span[@id='http']").click()
+       except NoSuchElementException:
         print("X 1")
-    sleep(3)
+       sleep(3)
 
     myip="--"
     mycountry="--"
@@ -380,8 +404,10 @@ def clear_cache(driver, timeout=60):
     wait.until_not(get_clear_browsing_button)
     sleep(5)
 
-def config_driver(database,device):
- PROXY = "10.128.0.2:8080" # IP:PORT
+def config_driver(database,device,prox):
+ #PROXY = "107.178.4.215:35892" # IP:PORT
+ #PROXY = "107.178.4.215:35892" # IP:PORT
+ PROXY = prox # IP:PORT
  sleep(int(random.randint(1,120))) 
  try:  
         cnx = connectiondb(database)
@@ -415,6 +441,9 @@ def config_driver(database,device):
        random.shuffle(devices)
        mobile_emulation = { "deviceName": devices[1] }
        chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
+    #chrome_options = webdriver.ChromeOptions()
+    if(prox!="x"):
+       chrome_options.add_argument('--proxy-server=%s' % PROXY)
     driver = webdriver.Chrome(executable_path=executable_path, chrome_options=chrome_options)
     driver.delete_all_cookies()
     clear_cache(driver)
@@ -445,6 +474,9 @@ def config_driver(database,device):
        random.shuffle(devices)
        mobile_emulation = { "deviceName": devices[1] }
        chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
+    if(prox!="x"):
+       #chrome_options = webdriver.ChromeOptions()
+       chrome_options.add_argument('--proxy-server=%s' % PROXY)
     driver = webdriver.Chrome(executable_path=executable_path, chrome_options=chrome_options)
     driver.delete_all_cookies()
     clear_cache(driver)
@@ -611,11 +643,13 @@ def random_ua(driver,database,device):
 '''
 
 
-def error_proxy(in_use_proxy,id_proxy,cnx):
+def error_proxy(id_proxy,cnx):
     try:
          curs = cnx.cursor()
-         in_use = int(in_use_proxy) + 5
-         curs.execute("UPDATE proxies SET in_use = in_use + 5 WHERE id = "+ str(id_proxy) )
+         print('1')
+         print("UPDATE proxies2 SET error = 1 WHERE id = "+ str(id_proxy) )
+         print("2")
+         curs.execute("UPDATE proxies2 SET error = 1 WHERE id = "+ str(id_proxy) )
          cnx.commit() 
     except MySQLdb.Error as err:
          print("Something went wrong: (Proxies update) {}".format(err))

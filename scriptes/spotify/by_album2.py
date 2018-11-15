@@ -68,13 +68,13 @@ while(1):
       cnx = common.heart.connectiondb('spoti')
 
 #get proxy
-      proxy = common.heart.proxis(cnx) 
+      proxy = common.heart.proxis2(cnx) 
       proxy_ip = str(proxy[1])
       #proxy_ip = ":" 
       id_proxy = str(proxy[0])       
       usr = str(proxy[5])       
       pwd = str(proxy[6])       
-      common.heart.proxy_in_use(id_proxy,cnx)
+      common.heart.proxy_in_use2(id_proxy,cnx)
 
 #get albums
       albums = common.heart.albums_(cnx)
@@ -91,23 +91,25 @@ while(1):
       #common.heart.log_insert(proxy_ip,user_account,str(next_start),"By Album",cnx)
 
 #config webdriver
-      driver = common.heart.config_driver('spoti','desktop','x')
+      driver = common.heart.config_driver('spoti','desktop',proxy_ip)
       driver.service.process # is a Popen instance for the chromedriver process
       p = psutil.Process(driver.service.process.pid)
       print("#####################################")
       print ("PID : " + str(p.pid))      
       pid = str(p.pid)
 #connect to proxy by extension, connexion browser side
-      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,1)
+      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,2)
       print(my)
       myip = str(my).split(";")[0]
       mycountry = str(my).split(";")[1]
       print("code country is : " + mycountry)
+      #if(mycountry.lower() not in ['jp','il','hk','id','my','ph','sg','tw','th','vn','ad','at','be','bg','cy','cz','dk','ee','fi','fr','de','gr','hu','is','ie','it','lv','li','lt','lu','mt','mc','nl','no','pl','pt','ro','sk','es','se','ch','tr','gb','ar','bo','br','cl','co','cr','do','ec','sv','gt','hn','mx','ni','pa','py','pe','uy','ca','us','za','au','nz','dz','bh','eg','jo','kw','lb','ma','om','ps','qa','sa','tn','ae']):
       if(mycountry.lower() not in ['jp','il','hk','id','my','ph','sg','tw','th','vn','ad','at','be','bg','cy','cz','dk','ee','fi','fr','de','gr','hu','is','ie','it','lv','li','lt','lu','mt','mc','nl','no','pl','pt','ro','sk','es','se','ch','tr','gb','ar','bo','br','cl','co','cr','do','ec','sv','gt','hn','mx','ni','pa','py','pe','uy','ca','us','za','au','nz','dz','bh','eg','jo','kw','lb','ma','om','ps','qa','sa','tn','ae']):
+          print("not in")
           driver.close()
       else:
-          print("not in")
-
+          print("in")
+		  
       print(myip + " ++ " + mycountry)
 #get account
       account_=common.heart.account(cnx,mycountry)
@@ -242,44 +244,6 @@ while(1):
                      for a in artists:
                         if(int(a[0]) == album_artist):
                             album_artist_name = a[1]
-                     '''
-                     wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[2][@class='navBar-group']"))).click()
-                     wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[1][@class='navBar-group']"))).click()
-                     search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                  
-                     search.send_keys(song_album_name + " " + album_artist_name)
-                     sleep(5)
-                     # click album tab
-                     sl = driver.current_url
-                     sl1 = sl.split('/')
-                     sl = sl1[len(sl1)-1]
-                     try:
-                         a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/albums/"+str(sl)+"']")))
-                         a.click()
-                     except TimeoutException:
-                         try:
-                             print("album tab not found")
-                             driver.refresh()
-                             a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/albums/"+str(sl)+"']")))
-                             a.click()
-                         except TimeoutException:
-                             driver.refresh()
-                             a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/albums/"+str(sl)+"']")))
-                             a.click()
-
-                     try:
-                      a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@class='mo-info-name' and @href='"+str(_link)+"']")))
-                      a.click()
-                     except TimeoutException:
-                      driver.refresh()
-                      a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@class='mo-info-name' and @href='"+str(_link)+"']")))
-                      a.click()
-                     # wait result list
-                     try:
-                       wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']")))
-                     except TimeoutException:
-                       driver.refresh()
-                       wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']")))
-                     '''
                      driver.get(song_album_url)
                      sleep(1)
                      driver.execute_script("window.scrollBy(0, 1000);")
@@ -287,7 +251,7 @@ while(1):
                      driver.execute_script("window.scrollBy(0, 1000);")
                      sleep(1)   
                      driver.execute_script("window.scrollBy(0, 1000);")
-                     common.heart.check_ip(myip,driver)
+                     #common.heart.check_ip(myip,driver)
                      for s in song:
                         try:
                          if(opsy=='Linux'):
@@ -326,12 +290,14 @@ while(1):
                                    file.write(str(pl))
                                    file.close()
                                print("------> " + str(pl))
-                               
+                               if(pl == 1):
+                                    common.heart.error_proxy(id_proxy,cnx)
                            except NoSuchElementException:
                                print("-")
+                         
                         except: 
                             driver.refresh()
-                        common.heart.check_ip(myip,driver)
+                        #common.heart.check_ip(myip,driver)
                 except: 
                     driver.refresh() 
                     
@@ -360,7 +326,7 @@ while(1):
     except MySQLdb.Error as err:
        print("----->Error connection")
        common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
-  except MySQLdb.Error as err:
+  except :
       try:
           e = sys.exc_info()[0]
           print(str(e))

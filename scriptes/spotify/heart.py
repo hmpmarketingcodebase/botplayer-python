@@ -167,8 +167,9 @@ def player_album(d,song_name,ms,x,proxy_ip,user_account,cnx,ii):
 #change device
 def change_device(d):
     try:       
+        sleep(10)
         #dev = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='connect-bar']")
-        dev = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='connect-bar']//span[@class='connect-bar__device-name']")
+        dev = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='ConnectBar']//span[@class='ConnectBar__device-name']")
         print(dev.text)
         if (str(dev.text) == "Web Player (Chrome)"):
             sleep(1)
