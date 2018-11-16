@@ -160,10 +160,11 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
     #print(myip)
     a = proxy_used(myip,cnx,driver)
     print(myip  + " vs " + mypublicip) 
-    if(type==1):
-     if((a == 1) and (myip != mypublicip) and (myip != '--')):
+    
+    if((a == 1) and (myip != mypublicip) and (myip != '--')):
        return myip + ";" + mycountry
-     else: 
+    else:
+      if(type==1):        
        if(myip == '--'):
           print("Error Proxy!!")
           proxy_ip = proxy + ":" + port
@@ -173,7 +174,7 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
           print("Ip already exist")
        driver.close()
        
- 
+
 def check_ip(ip,driver):
     myip = '--'
     try:
