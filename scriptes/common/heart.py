@@ -111,7 +111,6 @@ def proxy_used_id(proxy,cnx,driver,id):
 def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
     if(type==1):
        try:
-          print("eeeeeeeeeeeeee")
           driver.get("chrome-extension://fhnlhdgbgbodgeeabjnafmaobfomfopf/options.html?host="+proxy+"&port="+port+"&user="+user+"&pass="+password)
           driver.find_element_by_xpath("//input[@id='socks5']").click()
           sleep(2)
@@ -161,9 +160,10 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
     #print(myip)
     a = proxy_used(myip,cnx,driver)
     print(myip  + " vs " + mypublicip) 
-    if((a == 1) and (myip != mypublicip) and (myip != '--')):
+    if(type==1):
+     if((a == 1) and (myip != mypublicip) and (myip != '--')):
        return myip + ";" + mycountry
-    else: 
+     else: 
        if(myip == '--'):
           print("Error Proxy!!")
           proxy_ip = proxy + ":" + port
@@ -173,7 +173,7 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
           print("Ip already exist")
        driver.close()
        
-
+ 
 def check_ip(ip,driver):
     myip = '--'
     try:
