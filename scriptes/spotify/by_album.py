@@ -178,10 +178,6 @@ while(1):
            if(common.heart.proxy_used_id(myip,cnx,driver,id_insert)) == 1:
               ii=0
               pl=0
-              id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
-              file = open("log/"+str(id_insert),"w") 
-              file.write(str(pl))
-              file.close()
               print("connect : account " + user_account)
               #come back to default ua 
               #common.heart.random_ua(driver,'spoti','desktop')
@@ -320,11 +316,17 @@ while(1):
                                   ms=(random.randint(30, 50))                                                
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                pl = heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii) + pl
-                               if pl >= 1:
+                               if pl > 1:
                                    #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
                                    file = open("log/"+str(id_insert),"w") 
                                    file.write(str(pl))
                                    file.close()
+                               if(pl == 1):
+                                    common.heart.error_proxy(id_proxy,cnx)
+                                    id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
+                                    file = open("log/"+str(id_insert),"w") 
+                                    file.write(str(pl))
+                                    file.close()
                                print("------> " + str(pl))
                                
                            except NoSuchElementException:

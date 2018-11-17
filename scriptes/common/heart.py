@@ -160,11 +160,9 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
     #print(myip)
     a = proxy_used(myip,cnx,driver)
     print(myip  + " vs " + mypublicip) 
-    
     if((a == 1) and (myip != mypublicip) and (myip != '--')):
        return myip + ";" + mycountry
-    else:
-      if(type==1):        
+    else: 
        if(myip == '--'):
           print("Error Proxy!!")
           proxy_ip = proxy + ":" + port

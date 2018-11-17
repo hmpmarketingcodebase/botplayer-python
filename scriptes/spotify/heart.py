@@ -21,11 +21,8 @@ def replay(driver):
 
 def doubleclick(driver,x,song_album_url):
     try:  
-       try:
-          txt = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='second-line ellipsis-one-line']")
-          print("find : " + txt.text)
-       except:
-          driver.refresh()
+       txt = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//span[@class='second-line ellipsis-one-line']")
+       print("find : " + txt.text)
        men = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
        ActionChains(driver).move_to_element(men).perform()                    
        sleep(2)

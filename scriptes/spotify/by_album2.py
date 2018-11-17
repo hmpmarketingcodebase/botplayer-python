@@ -281,18 +281,18 @@ while(1):
                                   ms=(random.randint(30, 50))                                                
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                pl = heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii) + pl
-                               #if pl > 1:
+                               if pl >= 1:
                                    #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
-                                   #file = open("log/"+str(id_insert),"w") 
-                                   #file.write(str(pl))
-                                   #file.close()
+                                   file = open("log/"+str(id_insert),"w") 
+                                   file.write(str(pl))
+                                   file.close()
                                print("------> " + str(pl))
                                if(pl == 1):
                                     common.heart.error_proxy(id_proxy,cnx)
-                                    #id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
-                                    #file = open("log/"+str(id_insert),"w") 
-                                    #file.write(str(pl))
-                                    #file.close()
+                                    id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
+                                    file = open("log/"+str(id_insert),"w") 
+                                    file.write(str(pl))
+                                    file.close()
                            except NoSuchElementException:
                                print("-")
                          
@@ -308,10 +308,10 @@ while(1):
           if(opsy=='Linux'):
              common.heart.kill_process(pid) 
           driver.close()
-          #common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
+          common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
       except:
           err=1
-          #common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
+          common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
       
       try:
          cnx = common.heart.connectiondb('spoti')
@@ -326,7 +326,7 @@ while(1):
       print(user_account + " > " + state)
     except MySQLdb.Error as err:
        print("----->Error connection")
-       #common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
+       common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
   except :
       try:
           e = sys.exc_info()[0]
@@ -334,7 +334,7 @@ while(1):
           if(opsy=='Linux'):
              common.heart.kill_process(pid) 
           driver.close()
-          #common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
+          common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
       except:
           err=1
   
