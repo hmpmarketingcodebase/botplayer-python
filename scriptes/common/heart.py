@@ -492,6 +492,7 @@ def mobile_ua(driver):
      try:
          driver.find_element_by_xpath("//a[@id='iPad']").click()
      except NoSuchElementException:
+         driver.refresh()
          print("NoSuchElementException : User agent Mobile") 
     #end Mobile user agent click extension
      sleep(5)
