@@ -68,3 +68,4 @@ while(1):
       cmd=('nohup python3 by_album2.py 20 20 200000 0</dev/null &')
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       sleep(3)
+   sleep(120)
