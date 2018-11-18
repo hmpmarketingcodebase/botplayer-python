@@ -29,15 +29,16 @@ while(1):
    sleep(3)
 
    if(i==1):
-      cmd=('nohup python3 checker_proxies.py 0</dev/null &')
+      print("1")
+      cmd=('python3 checker_proxies.py & disown')
       subprocess.call(cmd, shell=True, cwd='scriptes/common/')
       sleep(3)
-  
-      cmd=('nohup python3 load_proxies.py 0</dev/null &')
+      print("2")
+      cmd=('python3 load_proxies.py & disown')
       subprocess.call(cmd, shell=True, cwd='scriptes/common/')
       sleep(3)
-
-      cmd=('nohup python3 by_album2.py 20 20 200000 0</dev/null &')
+      print("3")
+      cmd=('python3 by_album2.py 20 20 200000 & disown')
       subprocess.call(cmd, shell=True, cwd='scriptes/spotify/')
       sleep(3)
 
