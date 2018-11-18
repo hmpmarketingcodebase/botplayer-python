@@ -30,6 +30,7 @@ def doubleclick(driver,x,song_album_url):
        ActionChains(driver).double_click(men2).perform() 
     except NoSuchElementException:
        print("-")
+	   
 
 def doubleclick_album(driver,x):
     try:
@@ -197,7 +198,7 @@ def login(driver,user_account,password_account):
 
 def killed_account(user_account,cnx):
     try:  
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         cmd="UPDATE `account` SET `error`=4 WHERE `user`='"+user_account+"' "
         print(cmd)
         cursor.execute(cmd)

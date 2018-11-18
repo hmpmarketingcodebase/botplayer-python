@@ -2,14 +2,15 @@
 import MySQLdb
 import requests
 from time import sleep
-i=0
-cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",'spoti') 
-curs = cnx.cursor()
-curs.execute("select * from proxies2 where error = 0")
-prox = curs.fetchall()
-file1 = open("t.txt","w")
-ii=0
 while 1:
+ i=0
+ cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",'spoti') 
+ curs = cnx.cursor()
+ curs.execute("select * from proxies2 where error = 0")
+ prox = curs.fetchall()
+ file1 = open("t.txt","w")
+ ii=0
+
  for ipss in prox:
     try: 
       ii+=1
@@ -54,5 +55,5 @@ while 1:
       err=0
 	  
  print("wait()")
- sleep(3600)
+ sleep(60)
   
