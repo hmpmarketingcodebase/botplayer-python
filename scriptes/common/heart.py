@@ -19,7 +19,7 @@ import subprocess
 import shutil
 import json
 import csv
- 
+
 def connectiondb(database):
    cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
    #cnx = MySQLdb.connect("localhost","user",",Dc7aUb)3t>H@1.",database)    
@@ -492,7 +492,6 @@ def mobile_ua(driver):
      try:
          driver.find_element_by_xpath("//a[@id='iPad']").click()
      except NoSuchElementException:
-         driver.refresh()
          print("NoSuchElementException : User agent Mobile") 
     #end Mobile user agent click extension
      sleep(5)

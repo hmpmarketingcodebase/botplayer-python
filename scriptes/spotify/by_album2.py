@@ -23,21 +23,7 @@ import os
 
 #get public ip
 try:
-    url = 'https://api.ipify.org' 
-    http_proxy  = "http://10.10.1.10:3128"
-    https_proxy = "https://10.10.1.11:1080"
-    ftp_proxy   = "ftp://10.10.1.10:3128"
-
-    proxyDict = { 
-              "http"  : http_proxy, 
-              "https" : https_proxy, 
-              "ftp"   : ftp_proxy
-            }
-
-    r = get(url, headers=headers, proxies=proxyDict)
-    print(r)
-    sleep(100)
-    mypubilcip = get('https://api.ipify.org').text
+   mypubilcip = get('https://api.ipify.org').text
 except:
    mypubilcip = "-"
 
