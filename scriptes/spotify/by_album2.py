@@ -66,7 +66,7 @@ while(1):
       pp=pp+1
 #Connection
       cnx = common.heart.connectiondb('spoti')
-      print("hahahahahaha " + str(sys.argv[4])
+     
 #get proxy
       proxy = common.heart.proxis2(cnx) 
       proxy_ip = str(proxy[1])
