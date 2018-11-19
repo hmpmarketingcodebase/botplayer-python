@@ -66,7 +66,7 @@ while(1):
       pp=pp+1
 #Connection
       cnx = common.heart.connectiondb('spoti')
-
+      print("hahahahahaha " + str(sys.argv[4])
 #get proxy
       proxy = common.heart.proxis2(cnx) 
       proxy_ip = str(proxy[1])
@@ -84,7 +84,7 @@ while(1):
 
 #get artist      
       artists = common.heart.artist(cnx)
-
+      print("hahahahahaha " + str(sys.argv[4])
 #log insert      
       current=datetime.datetime.now()
       next_start = current
@@ -109,7 +109,7 @@ while(1):
           driver.close()
       else:
           print("in")
-		  
+      print("hahahahahaha " + str(sys.argv[4])
       print(myip + " ++ " + mycountry)
 #get account
       account_=common.heart.account(cnx,mycountry)
@@ -135,7 +135,7 @@ while(1):
       common.heart.language_browser(lang,driver)
 #Mobile user agent click extensions
       common.heart.mobile_ua(driver)
-      
+      print("hahahahahaha " + str(sys.argv[4])
       driver.get("https://accounts.spotify.com/en/login")
       connect_proxy=0
 
@@ -155,6 +155,7 @@ while(1):
               connect_proxy=0
               state="Error Proxy!" 
       connect=1
+      print("hahahahahaha " + str(sys.argv[4])
       #check proxy connection
       if(connect_proxy==1):
         #login
@@ -174,7 +175,7 @@ while(1):
                  print(user_account +' > ' + state)
         except NoSuchElementException:
                  connect=1
-                
+        print("hahahahahaha " + str(sys.argv[4])
         #if connected
         if(connect==1):
            if(common.heart.proxy_used_id(myip,cnx,driver,id_insert)) == 1:
@@ -186,6 +187,7 @@ while(1):
               #common.heart.random_ua(driver,'spoti','desktop')
               common.heart.default_ua(driver)
               driver.switch_to.window("t2")
+              print("hahahahahaha " + str(sys.argv[4])
               #driver.get('http://www.whatsmyua.info/')
               #sleep(5)
               #driver.get('https://www.spotify.com/us/account/overview/?utm_source=play&utm_campaign=wwwredirect')
@@ -206,7 +208,7 @@ while(1):
               except TimeoutException:
                 driver.get("https://open.spotify.com/browse/featured")
                 a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
-
+              print("hahahahahaha " + str(sys.argv[4])
               for p_a in play_album:
                #get album of current play_album            
                for al in albums:
@@ -251,6 +253,7 @@ while(1):
                      #common.heart.check_ip(myip,driver)
                      for s in song:
                         try:
+                         print("hahahahahaha " + str(sys.argv[4])
                          if(opsy=='Linux'):
                             common.heart.clean_memory()
                          ii=ii+1
@@ -294,14 +297,14 @@ while(1):
                                     file.write(str(pl))
                                     file.close()
                            except NoSuchElementException:
-                               print("-")
-                         
+                               print("-*-")
+                               print("hahahahahaha " + str(sys.argv[4])
                         except: 
                             driver.refresh()
                         #common.heart.check_ip(myip,driver)
                 except: 
                     driver.refresh() 
-                    
+                    print("hahahahahaha " + str(sys.argv[4])
       ##### exceptions 
       
       try:
