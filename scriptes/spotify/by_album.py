@@ -362,7 +362,7 @@ while(1):
     except MySQLdb.Error as err:
        print("----->Error connection")
        common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
-  except MySQLdb.Error as err:
+  except :
       try:
           e = sys.exc_info()[0]
           print(str(e))

@@ -297,8 +297,7 @@ while(1):
                                     file.write(str(pl))
                                     file.close()
                            except NoSuchElementException:
-                               print("-88+")
-                         
+                               driver.refresh()
                         except: 
                             driver.refresh()
                         #common.heart.check_ip(myip,driver)
