@@ -106,7 +106,7 @@ while(1):
       if(mycountry.lower() not in ['jp','il','hk','id','my','ph','sg','tw','th','vn','ad','at','be','bg','cy','cz','dk','ee','fi','fr','de','gr','hu','is','ie','it','lv','li','lt','lu','mt','mc','nl','no','pl','pt','ro','sk','es','se','ch','tr','gb','ar','bo','br','cl','co','cr','do','ec','sv','gt','hn','mx','ni','pa','py','pe','uy','ca','us','za','au','nz','dz','bh','eg','jo','kw','lb','ma','om','ps','qa','sa','tn','ae']):
           driver.close()
       else:
-          print("not in")
+          print("in")
 
       print(myip + " ++ " + mycountry)
 #get account
@@ -175,7 +175,7 @@ while(1):
                 
         #if connected
         if(connect==1):
-           if(common.heart.proxy_used_id(myip,cnx,driver,id_insert)) == 1:
+           if(common.heart.proxy_used(myip,cnx,driver)) == 1:
               ii=0
               pl=0
               print("connect : account " + user_account)
@@ -324,6 +324,7 @@ while(1):
                                if(pl == 1):
                                     common.heart.error_proxy(id_proxy,cnx)
                                     id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
+                                    common.heart.proxy_used_id(myip,cnx,driver,id_insert)
                                     file = open("log/"+str(id_insert),"w") 
                                     file.write(str(pl))
                                     file.close()

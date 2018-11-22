@@ -178,7 +178,7 @@ while(1):
        
         #if connected
         if(connect==1):
-           if(common.heart.proxy_used_id(myip,cnx,driver,id_insert)) == 1:
+           if(common.heart.proxy_used(myip,cnx,driver)) == 1:
               ii=0
               pl=0
 
@@ -251,6 +251,7 @@ while(1):
                      sleep(1)   
                      driver.execute_script("window.scrollBy(0, 1000);")
                      #common.heart.check_ip(myip,driver)
+                     
                      for s in song:
                         try:
                          if(opsy=='Linux'):
@@ -284,7 +285,7 @@ while(1):
                                   ms=(random.randint(30, 50))                                                
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                pl = heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii) + pl
-                               if pl >= 1:
+                               if pl > 1:
                                    #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
                                    file = open("log/"+str(id_insert),"w") 
                                    file.write(str(pl))
@@ -293,11 +294,13 @@ while(1):
                                if(pl == 1):
                                     common.heart.error_proxy(id_proxy,cnx)
                                     id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
+                                    common.heart.proxy_used_id(myip,cnx,driver,id_insert)
                                     file = open("log/"+str(id_insert),"w") 
                                     file.write(str(pl))
                                     file.close()
                            except NoSuchElementException:
                                driver.refresh()
+                         
                         except: 
                             driver.refresh()
                         #common.heart.check_ip(myip,driver)
@@ -337,6 +340,10 @@ while(1):
              common.heart.kill_process(pid) 
           driver.close()
           common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
+         
       except:
+          if("TypeError" in str(e)):
+              tt= int(random.randint(1,600))
+              sleep(tt)
           err=1
   

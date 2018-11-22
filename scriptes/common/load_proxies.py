@@ -2,9 +2,6 @@ from requests import get
 from time import sleep
 import MySQLdb
 
-
-
-
 i = 0
 while 1:
 #get public ip
@@ -13,6 +10,16 @@ while 1:
  except:
    mypubilcip = "-"
  proxies = mypubilcip.split('\n')
+ min = 0
+ try:
+    cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",'spoti')
+    curs = cnx.cursor()
+    curs.execute("select min(in_use) as min from proxies2 where error =0")  
+    min = curs.fetchone()[0]
+ except MySQLdb.Error as err:  
+    print("Something went wrong: (proxies select) {}".format(err))    
+
+ print("min is " + str(min) )
  
  for proxy in proxies:
   try:
@@ -22,7 +29,7 @@ while 1:
     if ("#" in proxy):
        country = proxy.split("#")[1]
     if country.lower() in ('jp','fr','de','it','no','es','se','gb','ca','us','au','nz','nl','bg'):
-      req = "{0}('{1}', '{2}', '-1', '0', '', ''),".format(req, ip,country)
+      req = "{0}('{1}', '{2}', '{3}', '0', '', ''),".format(req, ip,country,min)
       try:
         
         cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",'spoti')
@@ -52,5 +59,5 @@ while 1:
   except:
     err=1
  print("wait()")
- sleep(30)
+ sleep(1000)
  

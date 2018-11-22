@@ -53,7 +53,7 @@ def proxis(cnx):
 def proxis2(cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from proxies2 where error =0 and in_use<=4 order by in_use asc, RAND()")  
+         curs.execute("select * from proxies2 where error =0 order by in_use asc, RAND()")  
          proxy = curs.fetchone()
          return proxy
       except MySQLdb.Error as err:  
@@ -87,11 +87,14 @@ def proxy_used(proxy,cnx,driver):
          if(proxy is None ):   
            return 1
          else:
+           print("proxy used + " + str(proxy_used))
            driver.close()
    
       except MySQLdb.Error as err:  
          print("Something went wrong: (proxies select) {}".format(err))
-
+   
+      except MySQLdb.Error as err:  
+         print("Something went wrong: (proxies select) {}".format(err))
 		 
 def proxy_used_id(proxy,cnx,driver,id):
       try:
@@ -104,7 +107,7 @@ def proxy_used_id(proxy,cnx,driver,id):
            return 1
          else:
            driver.close()
-   
+           print("Ip already exist id = " + str(id))
       except MySQLdb.Error as err:  
          print("Something went wrong: (proxies select) {}".format(err))
 
@@ -152,7 +155,6 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
                for row in reader:
                   if(row['name'] == mycountry):
                      mycountry = row['Alpha-2'].lower()
-
         except:
            myip = "--"
            mycountry="--"
@@ -257,12 +259,12 @@ def songs_album(id_album,cnx):
          curs = cnx.cursor()
          curs.execute("select * from songs where album = '" + str(id_album) + "' order by RAND()")
          songs = curs.fetchall()
-         #s = len(songs)
-         #s = int(random.randint(1,int(s)))
+         s = len(songs)
+         s = int(random.randint(5,int(s)))
 
-         #curs2 = cnx.cursor()
-         #curs2.execute("select * from songs where album = '" + str(id_album) + "' order by RAND() LIMIT " + str(s))
-         #songs = curs2.fetchall()
+         curs2 = cnx.cursor()
+         curs2.execute("select * from songs where album = '" + str(id_album) + "' order by RAND() LIMIT " + str(s))
+         songs = curs2.fetchall()
          
          return songs
       except MySQLdb.Error as err:  
@@ -645,9 +647,7 @@ def random_ua(driver,database,device):
 def error_proxy(id_proxy,cnx):
     try:
          curs = cnx.cursor()
-         print('1')
          print("UPDATE proxies2 SET error = 1 WHERE id = "+ str(id_proxy) )
-         print("2")
          curs.execute("UPDATE proxies2 SET error = 1 WHERE id = "+ str(id_proxy) )
          cnx.commit() 
     except MySQLdb.Error as err:
