@@ -265,7 +265,7 @@ while(1):
                          #heart.change_device(driver)
                          #sleep(2)
                          heart.change_device(driver)
-                         while((x<=50)and(nn<=0)):
+                         while((x<=20)and(nn<=0)):
                            try: 
                              x=x+1 
                              txt = driver.find_element_by_xpath("//section[@class='tracklist-container']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//div[@class='tracklist-name ellipsis-one-line']").text
@@ -299,7 +299,8 @@ while(1):
                                     file.write(str(pl))
                                     file.close()
                            except NoSuchElementException:
-                               driver.refresh()
+                               if(x<4):
+                                   driver.refresh()
                          
                         except: 
                             driver.refresh()

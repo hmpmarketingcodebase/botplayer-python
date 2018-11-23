@@ -409,7 +409,7 @@ def config_driver(database,device,prox):
  #PROXY = "107.178.4.215:35892" # IP:PORT
  #PROXY = "107.178.4.215:35892" # IP:PORT
  PROXY = prox # IP:PORT
- sleep(int(random.randint(1,120))) 
+ sleep(int(random.randint(1,10))) 
  try:  
         cnx = connectiondb(database)
         curs = cnx.cursor()
