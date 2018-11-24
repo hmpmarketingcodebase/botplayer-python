@@ -44,7 +44,7 @@ while 1:
         err=1
 
     elif country.lower() in ('jp','il','ad','at','be','dk','fi','fr','de','gr','hu','is','ie','it','mt','mc','nl','no','pl','pt','ro','sk','es','se','ch','tr','gb','mx','ca','us','za','au','nz','dz','bh','eg','jo','kw','lb','ma','om','ps','qa','sa','tn','ae'):
-      req = req + "('"+ip+"', '"+country+"', '0', '0', '', ''),"
+      req = req + "('"+ip+"', '"+country+"', '"+min+"', '0', '', ''),"
       try:
         cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",'spoti')
         cmd = "INSERT INTO proxies2(proxie_port, country, in_use, error, user, password) VALUES {}".format(req)
