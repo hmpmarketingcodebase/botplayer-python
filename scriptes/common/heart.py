@@ -87,7 +87,7 @@ def proxy_used(proxy,cnx,driver):
          if(proxy is None ):   
            return 1
          else:
-           print("proxy used + " + str(proxy_used))
+           print("proxy used + " + str(proxy))
            driver.close()
    
       except MySQLdb.Error as err:  
@@ -187,16 +187,18 @@ def check_ip(ip,driver):
         driver.close()
         driver.switch_to.window("t2")
     except :
-        #driver.get("http://www.geoplugin.net/json.gp")
-        driver.execute_script("window.open('http://www.geoplugin.net/json.gp', 't3')")
-        sleep(2)
-        driver.switch_to.window("t3")
-        sleep(2)
-        json_out = driver.find_element_by_xpath("//pre").text
-        d = json.loads(json_out)
-        myip = (d['geoplugin_request'])           
-        driver.switch_to.window("t2")
         try:
+           #driver.get("http://www.geoplugin.net/json.gp")
+           driver.execute_script("window.open('http://www.geoplugin.net/json.gp', 't3')")
+           sleep(2)
+           driver.switch_to.window("t3")
+           sleep(2)
+           json_out = driver.find_element_by_xpath("//pre").text
+           d = json.loads(json_out)
+           myip = (d['geoplugin_request'])           
+           driver.switch_to.window("t2")
+        except:
+         try:
            #driver.get("https://iplocation.com/")
            driver.execute_script("window.open('https://iplocation.com/', 't3')")
            sleep(2)
@@ -204,9 +206,9 @@ def check_ip(ip,driver):
            sleep(2)
            myip = driver.find_element_by_xpath("//table//td//b[@class='ip']").text
            driver.switch_to.window("t2")
-        except :
+         except :
            err=1
-           driver.switch_to.window("t2")
+           driver.close()
 
     print(ip + " --- " + myip)
     if((ip != myip)and(myip != '--')):
@@ -343,13 +345,15 @@ def log_insert(proxy_ip,myip,user_account,next_start,mypulicip,type_,cnx):
          print("Something went wrong: (by search) {}".format(err))  
       return (str(curs.lastrowid))
   
-def log_update(rep,proxy_ip,user_account,cnx,database):
+def log_update(id,tot,database):
       try:          
           print("#Log Update")
           cnx = connectiondb(database)
           cursor = cnx.cursor()               
-          cursor.execute("UPDATE `log` SET `number_play`="+str(rep)+"  WHERE `proxy` = '"+proxy_ip+"' and `account` = '" +user_account+ "' ")
-          cnx.commit()  
+          #cursor.execute("UPDATE `log` SET `number_play`="+str(rep)+"  WHERE `proxy` = '"+proxy_ip+"' and `account` = '" +user_account+ "' ")
+          cursor.execute("UPDATE `log` SET `number_play`="+str(tot)+" WHERE id = "+str(id))
+          cnx.commit()
+          print("# Updated")
       except MySQLdb.Error as err:  
           print("Something went wrong: (search) {}".format(err))   
 
@@ -542,6 +546,10 @@ def language_browser(lang,driver):
 def login(driver,user_account,password_account):
     
     try:
+       driver.find_element_by_xpath("//input[@id='login-username']").clear()
+       sleep(1)
+       driver.find_element_by_xpath("//input[@id='login-password']").clear()
+       sleep(2)
        driver.find_element_by_xpath("//input[@id='login-username']").send_keys(user_account)
        driver.find_element_by_xpath("//input[@id='login-password']").send_keys(password_account)
        driver.find_element_by_xpath("//button[@id='login-button']").click()

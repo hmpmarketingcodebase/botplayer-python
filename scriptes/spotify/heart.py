@@ -122,7 +122,7 @@ def player_album(d,song_name,ms,x,proxy_ip,user_account,cnx,ii):
        pplay="" 
        while(f<=sl):
          f=f+1 
-         sleep(5)
+         sleep(2)
          try:         
             pplay = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
          except:
@@ -132,6 +132,7 @@ def player_album(d,song_name,ms,x,proxy_ip,user_account,cnx,ii):
             except:
                 d.close() 
          if(pplay != song_name):
+           f=sl
            print("> "+ pplay);
            change_device(d)
            #sleep(1)
