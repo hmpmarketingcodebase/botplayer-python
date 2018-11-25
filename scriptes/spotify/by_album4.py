@@ -344,18 +344,20 @@ while(1):
                         except: 
                             driver.refresh()
                         common.heart.check_ip(myip,driver)
-                     common.heart.log_update(str(id_insert),pl,'spoti')
+                    
                 except: 
                     driver.refresh() 
-                    common.heart.log_update(str(id_insert),pl,'spoti')    
+                    
       ##### exceptions 
-      
+              
       try:
           if(opsy=='Linux'):
              common.heart.kill_process(pid) 
           driver.close()
+          common.heart.log_update(str(id_insert),pl,'spoti')         
       except:
           err=1
+          common.heart.log_update(str(id_insert),pl,'spoti')         
         
       try:
          cnx = common.heart.connectiondb('spoti')
@@ -378,6 +380,10 @@ while(1):
           if(opsy=='Linux'):
              common.heart.kill_process(pid) 
           driver.close()
+          common.heart.log_update(str(id_insert),pl,'spoti')         
       except:
           err=1
-  
+          try:
+             common.heart.log_update(str(id_insert),pl,'spoti')         
+          except:
+             err=1

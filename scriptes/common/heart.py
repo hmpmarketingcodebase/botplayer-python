@@ -261,12 +261,12 @@ def songs_album(id_album,cnx):
          curs = cnx.cursor()
          curs.execute("select * from songs where album = '" + str(id_album) + "' order by RAND()")
          songs = curs.fetchall()
-         s = len(songs)
-         s = int(random.randint(5,int(s)))
+         #s = len(songs)
+         #s = int(random.randint(5,int(s)))
 
-         curs2 = cnx.cursor()
-         curs2.execute("select * from songs where album = '" + str(id_album) + "' order by RAND() LIMIT " + str(s))
-         songs = curs2.fetchall()
+         #curs2 = cnx.cursor()
+         #curs2.execute("select * from songs where album = '" + str(id_album) + "' order by RAND() LIMIT " + str(s))
+         #songs = curs2.fetchall()
          
          return songs
       except MySQLdb.Error as err:  
