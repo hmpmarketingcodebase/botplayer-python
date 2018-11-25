@@ -69,12 +69,12 @@ while(1):
       cnx = common.heart.connectiondb('spoti')
 
 #get proxy
-      proxy = common.heart.proxis(cnx)
+      #proxy = common.heart.proxis(cnx)
         
       proxy_ip = "209.205.212.34:"+str(prt)
       print(proxy_ip)
       #proxy_ip = ":" 
-      id_proxy = str(proxy[0])  
+      #id_proxy = str(proxy[0])  
       usr = "corameleviv"       
       pwd = "anoualwifi10"       
       #common.heart.proxy_in_use(id_proxy,cnx)
@@ -341,7 +341,7 @@ while(1):
                                    file.close()
                                if(pl == 1 and ins ==0):
                                     ins+= 1
-                                    common.heart.error_proxy(id_proxy,cnx)
+                                    #common.heart.error_proxy(id_proxy,cnx)
                                     id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
                                     print("inserted row = " + str(id_insert))
                                     repeat = 0
