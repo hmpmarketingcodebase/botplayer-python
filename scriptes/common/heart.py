@@ -183,8 +183,8 @@ def check_ip(ip,driver):
         sleep(2)
         driver.switch_to.window("t3")
         sleep(2)
-        myip = driver.find_element_by_xpath("//span[@id='ip']").text           
-        driver.close()
+        myip = driver.find_element_by_xpath("//span[@id='ip']").text   
+        driver.close()        
         driver.switch_to.window("t2")
     except :
         try:
@@ -195,7 +195,8 @@ def check_ip(ip,driver):
            sleep(2)
            json_out = driver.find_element_by_xpath("//pre").text
            d = json.loads(json_out)
-           myip = (d['geoplugin_request'])           
+           myip = (d['geoplugin_request'])    
+           driver.close()   
            driver.switch_to.window("t2")
         except:
          try:
@@ -205,6 +206,7 @@ def check_ip(ip,driver):
            driver.switch_to.window("t3")
            sleep(2)
            myip = driver.find_element_by_xpath("//table//td//b[@class='ip']").text
+           driver.close()
            driver.switch_to.window("t2")
          except :
            err=1
@@ -220,10 +222,11 @@ def account(cnx,country):
       try:
          now = datetime.datetime.now()
          curs = cnx.cursor()
-         curs.execute("select * from account where country = '" + country + "' and in_use =(select min(in_use) from account  where error = 2) order by  RAND()")
+         curs.execute("select * from account where country = '" + country + "' and in_use =(select min(in_use) from account  where error = 2) and error = 2 order by  RAND()")
          account = curs.fetchone() 
+         print("select * from account where country = '" + country + "' and in_use =(select min(in_use) from account  where error = 2) and error = 2 order by  RAND()")
          if(account is None ):   
-           curs .execute("select * from account where in_use =(select min(in_use) from account  where error = 2) order by  RAND()")  
+           curs .execute("select * from account where in_use =(select min(in_use) from account  where error = 2)and error = 2 order by  RAND()")  
            account = curs.fetchone()
          print("/////////////////")
          print(account)

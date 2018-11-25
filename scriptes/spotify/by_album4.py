@@ -155,7 +155,7 @@ while(1):
           #get account
           ll=ll+1
           account_=common.heart.account(cnx,mycountry)
-          user_account = str(account_[1]) 
+          user_account = str(account_[1])
           password_account = str(account_[2])
           id_account = str(account_[0])
           #lang of account will be the same for proxy and user language
