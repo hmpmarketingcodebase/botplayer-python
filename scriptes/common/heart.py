@@ -172,7 +172,7 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
           log_insert(str(proxy_ip),str(myip),"Error proxy",str(current),mypublicip,"Error proxy",cnx)
        else:
           print("Ip already exist")
-       driver.close()
+       return "error proxy"
        
 
 def check_ip(ip,driver):
@@ -222,11 +222,13 @@ def account(cnx,country):
       try:
          now = datetime.datetime.now()
          curs = cnx.cursor()
-         curs.execute("select * from account where country = '" + country + "' and in_use =(select min(in_use) from account  where error = 2) and error = 2 order by  RAND()")
+         #curs.execute("select * from account where country = '" + country + "' and in_use =(select min(in_use) from account  where error = 2) and error = 2 order by  RAND()")
+         curs.execute("select * from account where country = '" + country + "' and error = 2 order by in_use asc,  RAND()")
          account = curs.fetchone() 
-         print("select * from account where country = '" + country + "' and in_use =(select min(in_use) from account  where error = 2) and error = 2 order by  RAND()")
+         #print("select * from account where country = '" + country + "' and in_use =(select min(in_use) from account  where error = 2) and error = 2 order by  RAND()")
          if(account is None ):   
-           curs .execute("select * from account where in_use =(select min(in_use) from account  where error = 2)and error = 2 order by  RAND()")  
+           #curs .execute("select * from account where in_use =(select min(in_use) from account  where error = 2)and error = 2 order by  RAND()")  
+           curs.execute("select * from account where error = 2 order by in_use asc,  RAND()")
            account = curs.fetchone()
          print("/////////////////")
          print(account)
@@ -350,12 +352,14 @@ def log_insert(proxy_ip,myip,user_account,next_start,mypulicip,type_,cnx):
   
 def log_update(id,tot,database):
       try:          
+        if(int(tot)>0):
           print("#Log Update")
           cnx = connectiondb(database)
           cursor = cnx.cursor()               
           #cursor.execute("UPDATE `log` SET `number_play`="+str(rep)+"  WHERE `proxy` = '"+proxy_ip+"' and `account` = '" +user_account+ "' ")
           cursor.execute("UPDATE `log` SET `number_play`="+str(tot)+" WHERE id = "+str(id))
           cnx.commit()
+          print("UPDATE `log` SET `number_play`="+str(tot)+" WHERE id = "+str(id))
           print("# Updated")
       except MySQLdb.Error as err:  
           print("Something went wrong: (search) {}".format(err))   

@@ -89,7 +89,7 @@ def player_(d,song_name,ms,x,song_album_url,proxy_ip,user_account,cnx,ii):
            ActionChains(d).double_click(men2).perform()
            print("replay")
            if(m==3):
-              d.refresh()
+              d.close()
          else:
            m=m-1
            if(replay(d)==1):

@@ -32,7 +32,7 @@ margin_play = sys.argv[1] # margin play(duration of song = 120 seconds # margin 
 play_album_ = sys.argv[2] # id album(get from database)
 part = sys.argv[3] # 
 part_sec = 86400 / int(part) # how many seconds in 1 part per- day
-
+prt = int(sys.argv[4])
 opsy = platform.system() #operation system (windows or linux)
 
 if(opsy=='Linux'):
@@ -40,7 +40,8 @@ if(opsy=='Linux'):
    from pyvirtualdisplay import Display
    display = Display(visible=0, size=(1366, 768))
    display.start()
-   
+
+repeat=0
 while(1):
  pp=0
  vv=0
@@ -68,8 +69,9 @@ while(1):
       cnx = common.heart.connectiondb('spoti')
 
 #get proxy
-      proxy = common.heart.proxis(cnx) 
-      proxy_ip = "209.205.212.34:"+str(sys.argv[4])
+      proxy = common.heart.proxis(cnx)
+        
+      proxy_ip = "209.205.212.34:"+str(prt)
       print(proxy_ip)
       #proxy_ip = ":" 
       id_proxy = str(proxy[0])  
@@ -101,6 +103,16 @@ while(1):
 #connect to proxy by extension, connexion browser side
       my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,1)
       print(my)
+      if(my == "error proxy"):
+            repeat = repeat + 1
+            if repeat==2:
+               repeat = 0
+               print("switch")
+               prt+=1
+               if(prt > (prt+5)):
+                  prt = int(sys.argv[4])
+            driver.close()         
+
       myip = str(my).split(";")[0]
       mycountry = str(my).split(";")[1]
       print("code country is : " + mycountry)
@@ -332,6 +344,7 @@ while(1):
                                     common.heart.error_proxy(id_proxy,cnx)
                                     id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
                                     print("inserted row = " + str(id_insert))
+                                    repeat = 0
                                     common.heart.proxy_used_id(myip,cnx,driver,id_insert)
                                     file = open("log/"+str(id_insert),"w") 
                                     file.write(str(pl))
@@ -344,12 +357,11 @@ while(1):
                         except: 
                             driver.refresh()
                         common.heart.check_ip(myip,driver)
-                    
+                     sleep(15)
                 except: 
                     driver.refresh() 
                     
       ##### exceptions 
-              
       try:
           if(opsy=='Linux'):
              common.heart.kill_process(pid) 
@@ -373,7 +385,7 @@ while(1):
     except MySQLdb.Error as err:
        print("----->Error connection")
        
-  except :
+  except:
       try:
           e = sys.exc_info()[0]
           print(str(e))
