@@ -6,7 +6,7 @@ i = 0
 while 1:
 #get public ip
  try:
-   mypubilcip = get('http://list.didsoft.com/get?email=zzakariaa10@yahoo.fr&pass=c3ui3z&pid=http2000').text
+   mypubilcip = get('http://list.didsoft.com/get?email=zzakariaa10@yahoo.fr&pass=c3ui3z&pid=http2000&https=yes').text
  except:
    mypubilcip = "-"
  proxies = mypubilcip.split('\n')
@@ -18,7 +18,8 @@ while 1:
     min = curs.fetchone()[0]
  except MySQLdb.Error as err:  
     print("Something went wrong: (proxies select) {}".format(err))    
-
+ if (min == None):
+     min=0
  print("min is " + str(min) )
  
  for proxy in proxies:
