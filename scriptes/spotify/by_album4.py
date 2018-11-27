@@ -43,6 +43,7 @@ if(opsy=='Linux'):
 
 repeat=0
 while(1):
+
  pp=0
  vv=0
  while(vv<int(part)):
@@ -62,6 +63,7 @@ while(1):
   sleep(tt)
   try: 
     try:
+      pl=0
       id_insert = 0
       state="Finish"
       pp=pp+1
@@ -117,6 +119,8 @@ while(1):
       mycountry = str(my).split(";")[1]
       print("code country is : " + mycountry)
       if(mycountry.lower() not in ['jp','il','hk','id','my','ph','sg','tw','th','vn','ad','at','be','bg','cy','cz','dk','ee','fi','fr','de','gr','hu','is','ie','it','lv','li','lt','lu','mt','mc','nl','no','pl','pt','ro','sk','es','se','ch','tr','gb','ar','bo','br','cl','co','cr','do','ec','sv','gt','hn','mx','ni','pa','py','pe','uy','ca','us','za','au','nz','dz','bh','eg','jo','kw','lb','ma','om','ps','qa','sa','tn','ae']):
+          print('not in')
+          prt+=1
           driver.close()
       else:
           print("in")
@@ -196,7 +200,7 @@ while(1):
         if(connect==1):
            if(common.heart.proxy_used(myip,cnx,driver)) == 1:
               ii=0
-              pl=0
+              
               print("connect : account " + user_account)
               #come back to default ua 
               #common.heart.random_ua(driver,'spoti','desktop')
@@ -334,11 +338,6 @@ while(1):
                                   ms=(random.randint(30, 50))                                                
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                pl = heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii) + pl
-                               if pl > 1:
-                                   #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
-                                   file = open("log/"+str(id_insert),"w") 
-                                   file.write(str(pl))
-                                   file.close()
                                if(pl == 1 and ins ==0):
                                     ins+= 1
                                     #common.heart.error_proxy(id_proxy,cnx)
@@ -346,9 +345,6 @@ while(1):
                                     print("inserted row = " + str(id_insert))
                                     repeat = 0
                                     common.heart.proxy_used_id(myip,cnx,driver,id_insert)
-                                    file = open("log/"+str(id_insert),"w") 
-                                    file.write(str(pl))
-                                    file.close()
                                print("------> " + str(pl))
                                
                            except NoSuchElementException:

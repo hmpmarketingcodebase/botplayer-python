@@ -178,16 +178,6 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
 def check_ip(ip,driver):
     myip = '--'
     try:
-        #driver.get("http://www.geoplugin.net/json.gp")
-        driver.execute_script("window.open('http://stream-solution.com/myip/', 't3')")
-        sleep(2)
-        driver.switch_to.window("t3")
-        sleep(2)
-        myip = driver.find_element_by_xpath("//span[@id='ip']").text   
-        driver.close()        
-        driver.switch_to.window("t2")
-    except :
-        try:
            #driver.get("http://www.geoplugin.net/json.gp")
            driver.execute_script("window.open('http://www.geoplugin.net/json.gp', 't3')")
            sleep(2)
@@ -198,7 +188,7 @@ def check_ip(ip,driver):
            myip = (d['geoplugin_request'])    
            driver.close()   
            driver.switch_to.window("t2")
-        except:
+    except:
          try:
            #driver.get("https://iplocation.com/")
            driver.execute_script("window.open('https://iplocation.com/', 't3')")
