@@ -5,7 +5,7 @@ import sys
 import MySQLdb
 import datetime
 import subprocess
-import platform
+import platform 
 sys.path.insert(0, 'scripts/spotify/')
 import random
 from requests import get
