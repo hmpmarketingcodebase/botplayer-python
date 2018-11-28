@@ -150,22 +150,24 @@ while(1):
 #if authentication successfully then connect_proxy = 1 and continue ## if not reload by other proxy
       try:
           WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'login-username')))
-          print (" > Proxy is ready!")
+          print (" 444> Proxy is ready!")
           connect_proxy=1
       except TimeoutException:
           try:
               driver.get("https://accounts.spotify.com/en/login")
               WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'login-username')))
-              print (" > Proxy is ready!")
+              print (" >11 Proxy is ready!")
               connect_proxy=1
           except TimeoutException:
               print (" > Loading took too much time! (proxy)")
               connect_proxy=0
               state="Error Proxy!" 
       connect=0
+      print("e")
       #check proxy connection
       if(connect_proxy==1):
         ll=0
+        print("ff")
         #login
         while(connect != 1 and ll<10):
           #get account
@@ -194,8 +196,7 @@ while(1):
                     connect=0
                  print(user_account +' > ' + state)
           except NoSuchElementException:
-                 connect=1
-        common.heart.account_in_use(id_account,cnx)         
+                 connect=1        
         #if connected
         if(connect==1):
            if(common.heart.proxy_used(myip,cnx,driver)) == 1:

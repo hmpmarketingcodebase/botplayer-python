@@ -125,26 +125,29 @@ def player_album(d,song_name,ms,x,proxy_ip,user_account,cnx,ii):
          sleep(2)
          try:         
             pplay = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
+            print("gggg"+pplay )
          except:
             d.refresh()
             try:
                 pplay = d.find_element_by_xpath("//footer[@class='now-playing-bar-container']//div[@class='now-playing-bar__left']//div[@class='track-info ellipsis-one-line']//div[@class='track-info__name ellipsis-one-line']//div[@class='react-contextmenu-wrapper']").text 
             except:
                 d.close() 
+         sleep(2)
          if(pplay != song_name):
-           f=sl
+           
            print("> "+ pplay);
            change_device(d)
            #sleep(1)
            #men = d.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
            #ActionChains(d).move_to_element(men).perform()                    
            sleep(1)
-           men2 = d.find_element_by_xpath("//ol[@class='tracklist']//div["+str(x)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")               
-           ActionChains(d).double_click(men2).perform()
+           doubleclick_album(d,x)
            print("replay")
            m=m+1
            if(m==3):
               d.refresh()
+           elif(m==4):
+              f=sl
          else:
            m=m-1
            if(replay(d)==1):

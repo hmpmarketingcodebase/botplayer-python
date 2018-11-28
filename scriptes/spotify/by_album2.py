@@ -61,6 +61,7 @@ while(1):
   sleep(tt)
   try: 
     try:
+      pl=0
       id_insert = 0
       state="Finish"
       pp=pp+1
@@ -111,15 +112,7 @@ while(1):
           print("in")
       
       print(myip + " ++ " + mycountry)
-#get account
-      account_=common.heart.account(cnx,mycountry)
-      user_account = str(account_[1]) 
-      password_account = str(account_[2])
-      id_account = str(account_[0])
-#lang of account will be the same for proxy and user language
-      #country = str(account_[3])
-      common.heart.account_in_use(id_account,cnx) 
-      print(user_account + " > Let's Goo!" )
+      print(" > Let's Goo!" )
       print("###### "  + str(myip) + " ######")
  
       #view current ip
@@ -135,33 +128,45 @@ while(1):
       common.heart.language_browser(lang,driver)
 #Mobile user agent click extensions
       common.heart.mobile_ua(driver)
-   
+      
       driver.get("https://accounts.spotify.com/en/login")
       connect_proxy=0
 
 #if authentication successfully then connect_proxy = 1 and continue ## if not reload by other proxy
       try:
           WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'login-username')))
-          print (user_account + " > Proxy is ready!")
+          print (" > Proxy is ready!")
           connect_proxy=1
       except TimeoutException:
           try:
               driver.get("https://accounts.spotify.com/en/login")
               WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'login-username')))
-              print (user_account + " > Proxy is ready!")
+              print (" > Proxy is ready!")
               connect_proxy=1
           except TimeoutException:
-              print (user_account + " > Loading took too much time! (proxy)")
+              print (" > Loading took too much time! (proxy)")
               connect_proxy=0
               state="Error Proxy!" 
-      connect=1
-      
+      connect=0
       #check proxy connection
       if(connect_proxy==1):
+        ll=0
         #login
-        common.heart.login(driver,user_account,password_account)
-        sleep(5)
-        try:
+        while(connect != 1 and ll<10):
+          #get account
+          ll=ll+1
+          account_=common.heart.account(cnx,mycountry)
+          user_account = str(account_[1])
+          password_account = str(account_[2])
+          id_account = str(account_[0])
+          #lang of account will be the same for proxy and user language
+          #country = str(account_[3])
+          
+          if(ll>1):
+             driver.get("https://accounts.spotify.com/en/login")
+          common.heart.login(driver,user_account,password_account)
+          sleep(5)
+          try:
                  #if it's an invalid spotify account then connect = 0
                  driver.find_element_by_xpath("//p[@class='alert alert-warning']")
                  connect=0
@@ -173,21 +178,19 @@ while(1):
                  except:
                     connect=0
                  print(user_account +' > ' + state)
-        except NoSuchElementException:
-                 connect=1
-       
+          except NoSuchElementException:
+                 connect=1        
         #if connected
         if(connect==1):
            if(common.heart.proxy_used(myip,cnx,driver)) == 1:
               ii=0
-              pl=0
-
+              
               print("connect : account " + user_account)
               #come back to default ua 
               #common.heart.random_ua(driver,'spoti','desktop')
               common.heart.default_ua(driver)
               driver.switch_to.window("t2")
-            
+           
               #driver.get('http://www.whatsmyua.info/')
               #sleep(5)
               #driver.get('https://www.spotify.com/us/account/overview/?utm_source=play&utm_campaign=wwwredirect')
@@ -285,24 +288,17 @@ while(1):
                                   ms=(random.randint(30, 50))                                                
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                pl = heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii) + pl
-                               if pl > 1:
-                                   #common.heart.log_update(pl,proxy_ip,user_account,cnx,'spoti')
-                                   file = open("log/"+str(id_insert),"w") 
-                                   file.write(str(pl))
-                                   file.close()
-                               print(str(sys.argv[4]) + " ------> " + str(pl))
                                if(pl == 1):
                                     common.heart.error_proxy(id_proxy,cnx)
                                     id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
                                     common.heart.proxy_used_id(myip,cnx,driver,id_insert)
-                                    file = open("log/"+str(id_insert),"w") 
-                                    file.write(str(pl))
-                                    file.close()
                            except NoSuchElementException:
                                if(x<4):
+                                   
                                    driver.refresh()
                          
                         except: 
+                         
                             driver.refresh()
                         #common.heart.check_ip(myip,driver)
                 except: 
@@ -329,7 +325,7 @@ while(1):
          #common.heart.error_proxy(in_use_proxy,id_proxy,cnx)
          #id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,"Error proxy",mypubilcip,"Album",cnx)
       #common.heart.finish(proxy_ip,user_account,cnx,state)     
-      print(user_account + " > " + state)
+      print(state)
     except MySQLdb.Error as err:
        print("----->Error connection")
        common.heart.read_log_update(id_insert,'spoti','../spotify/log/')

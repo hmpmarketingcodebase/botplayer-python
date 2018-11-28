@@ -75,7 +75,16 @@ def proxy_in_use2(id_proxy,cnx):
          cnx.commit() 
     except MySQLdb.Error as err:
          print("Something went wrong: (Proxies update) {}".format(err))
-
+		 
+def proxy_error2(proxy,cnx):
+    try:
+         print("gg")
+         curs = cnx.cursor()
+         print("UPDATE proxies2 SET error = -1 WHERE proxie_port = '"+ str(proxy)+"'")
+         curs.execute("UPDATE proxies2 SET error = -1 WHERE proxie_port = '"+ str(proxy)+"'" )
+         cnx.commit() 
+    except MySQLdb.Error as err:
+         print("Something went wrong: (Proxies update) {}".format(err))
 
 def proxy_used(proxy,cnx,driver):
       try:
@@ -170,6 +179,9 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
           proxy_ip = proxy + ":" + port
           current=datetime.datetime.now()
           log_insert(str(proxy_ip),str(myip),"Error proxy",str(current),mypublicip,"Error proxy",cnx)
+          if(type!=1):
+             proxy_error2(str(proxy_ip),cnx)
+          
        else:
           print("Ip already exist")
        return "error proxy"
