@@ -103,7 +103,7 @@ while(1):
       print ("PID : " + str(p.pid))      
       pid = str(p.pid)
 #connect to proxy by extension, connexion browser side
-      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,1)
+      my = common.heart.proxy_connect(cnx,"51.15.13.145","3126","proxymanager","managedproxies48",driver,mypubilcip,1)
       print(my)
       if(my == "error proxy"):
             repeat = repeat + 1

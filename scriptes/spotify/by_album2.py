@@ -99,7 +99,8 @@ while(1):
       print ("PID : " + str(p.pid))      
       pid = str(p.pid)
 #connect to proxy by extension, connexion browser side
-      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,2)
+      #my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,2)
+      my = common.heart.proxy_connect(cnx,"51.15.13.145","3126","proxymanager","managedproxies48",driver,mypubilcip,2)
       print(my)
       myip = str(my).split(";")[0]
       mycountry = str(my).split(";")[1]
@@ -303,17 +304,17 @@ while(1):
                         #common.heart.check_ip(myip,driver)
                 except: 
                     driver.refresh() 
-                    
+              sleep(15)      
       ##### exceptions 
       
       try:
           if(opsy=='Linux'):
              common.heart.kill_process(pid) 
           driver.close()
-          common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
+          common.heart.log_update(str(id_insert),pl,'spoti')  
       except:
           err=1
-          common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
+          common.heart.log_update(str(id_insert),pl,'spoti')  
       
       try:
          cnx = common.heart.connectiondb('spoti')
@@ -328,7 +329,7 @@ while(1):
       print(state)
     except MySQLdb.Error as err:
        print("----->Error connection")
-       common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
+       common.heart.log_update(str(id_insert),pl,'spoti')  
   except :
       try:
           e = sys.exc_info()[0]
@@ -336,7 +337,7 @@ while(1):
           if(opsy=='Linux'):
              common.heart.kill_process(pid) 
           driver.close()
-          common.heart.read_log_update(id_insert,'spoti','../spotify/log/')
+          common.heart.log_update(str(id_insert),pl,'spoti')  
          
       except:
           if("TypeError" in str(e)):
