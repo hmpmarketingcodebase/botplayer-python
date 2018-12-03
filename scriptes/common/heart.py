@@ -53,7 +53,7 @@ def proxis(cnx):
 def proxis2(cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from proxies2 where error =0 order by in_use asc, RAND()")  
+         curs.execute("select * from proxies2 where error =0 and in_use <4 order by in_use asc, RAND()")  
          proxy = curs.fetchone()
          return proxy
       except MySQLdb.Error as err:  

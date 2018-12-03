@@ -11,6 +11,7 @@ while 1:
    mypubilcip = "-"
  proxies = mypubilcip.split('\n')
  min = 0
+ '''
  try:
     cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",'spoti')
     curs = cnx.cursor()
@@ -21,7 +22,7 @@ while 1:
  if (min == None):
      min=0
  print("min is " + str(min) )
- 
+ '''
  for proxy in proxies:
   try:
     req =""
@@ -57,6 +58,19 @@ while 1:
         print("inserted : " + str(proxy) )
       except:
         err=1
+		
+      try:
+        cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",'spoti')
+        cmd = "delete from proxies2 where in_use > 2"
+        cmd = cmd[:-1]
+        cursor = cnx.cursor()
+        cursor.execute(cmd)
+        cnx.commit() 
+        i=i+1
+        print("deleted : ")
+      except:
+        err=1
+ 
   except:
     err=1
  print("wait()")
