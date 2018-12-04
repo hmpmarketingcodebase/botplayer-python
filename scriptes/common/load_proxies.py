@@ -58,21 +58,20 @@ while 1:
         print("inserted : " + str(proxy) )
       except:
         err=1
-		
-      try:
-        cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",'spoti')
-        cmd = "delete from proxies2 where in_use > 2"
-        cmd = cmd[:-1]
-        cursor = cnx.cursor()
-        cursor.execute(cmd)
-        cnx.commit() 
-        i=i+1
-        print("deleted : ")
-      except:
-        err=1
- 
   except:
     err=1
+	
+
+  try:
+        cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",'spoti')
+        cmd2 = "delete from proxies2 where in_use > 2 or error = -1"
+        cursor = cnx.cursor()
+        cursor.execute(cmd2)
+        cnx.commit()
+        print("deleted : ")
+  except:
+        err=1
+		
  print("wait()")
  sleep(1000)
  
