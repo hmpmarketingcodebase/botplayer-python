@@ -39,6 +39,7 @@ if(opsy=='Linux'):
    display.start()
 #follow = 0
 pid=10
+repeat=0
 while(1):
  #follow = follow + 1
  try:
@@ -62,6 +63,7 @@ while(1):
   sleep(tt)
   try: 
     try:
+      pl=0
       id_insert = 0
       state="finish"
       pp=pp+1
@@ -302,7 +304,7 @@ while(1):
                                 if(pl == 1 and ins ==0):
                                     ins+= 1
                                     #common.heart.error_proxy(id_proxy,cnx)
-                                    id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
+                                    id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Artist",cnx)
                                     print("inserted row = " + str(id_insert))
                                     repeat = 0
                                     common.heart.proxy_used_id(myip,cnx,driver,id_insert)
@@ -336,14 +338,17 @@ while(1):
     except MySQLdb.Error as err:
        print("----->Error connection")
        common.heart.log_update(str(id_insert),pl,'spoti') 
-  except :
+  except:
       try:
           e = sys.exc_info()[0]
           print(str(e))
           if(opsy=='Linux'):
              common.heart.kill_process(pid) 
           driver.close()
-          common.heart.log_update(str(id_insert),pl,'spoti') 
+          common.heart.log_update(str(id_insert),pl,'spoti')         
       except:
           err=1
-          
+          try:
+             common.heart.log_update(str(id_insert),pl,'spoti')         
+          except:
+             err=1
