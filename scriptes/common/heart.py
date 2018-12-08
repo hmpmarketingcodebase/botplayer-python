@@ -239,6 +239,18 @@ def account(cnx,country):
          print("Something went wrong: (Accounts) {}".format(err))   
 
 
+def account2(cnx,country):
+      try:
+         now = datetime.datetime.now()
+         curs = cnx.cursor()
+         curs.execute("select * from account where error = 2 order by in_use asc,  RAND()")
+         account = curs.fetchone() 
+         return account
+      except MySQLdb.Error as err:  
+         print("Something went wrong: (Accounts) {}".format(err))   
+
+
+
 def account_in_use(id_account,cnx):
       try:
          curs = cnx.cursor()
