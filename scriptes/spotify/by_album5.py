@@ -32,7 +32,7 @@ margin_play = sys.argv[1] # margin play(duration of song = 120 seconds # margin 
 play_album_ = sys.argv[2] # id album(get from database)
 part = sys.argv[3] # 
 part_sec = 86400 / int(part) # how many seconds in 1 part per- day
-prt = int(sys.argv[4])
+#prt = int(sys.argv[4])
 opsy = platform.system() #operation system (windows or linux)
 
 if(opsy=='Linux'):
@@ -43,7 +43,7 @@ if(opsy=='Linux'):
 
 repeat=0
 while(1):
-
+ prt = int(random.randint(9177,9476))
  pp=0
  vv=0
  while(vv<int(part)):
@@ -73,7 +73,7 @@ while(1):
 #get proxy
       #proxy = common.heart.proxis(cnx)
         
-      proxy_ip = "209.205.212.34:"+str(prt)
+      proxy_ip = "195.154.161.111:"+str(prt)
       print(proxy_ip)
       #proxy_ip = ":" 
       #id_proxy = str(proxy[0])  
@@ -106,13 +106,6 @@ while(1):
       my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,1)
       print(my)
       if(my == "error proxy"):
-            repeat = repeat + 1
-            if repeat==2:
-               repeat = 0
-               print("switch")
-               prt+=1
-               if(prt > (prt+5)):
-                  prt = int(sys.argv[4])
             driver.close()         
 
       myip = str(my).split(";")[0]
@@ -120,7 +113,6 @@ while(1):
       print("code country is : " + mycountry)
       if(mycountry.lower() not in ['jp','il','hk','id','my','ph','sg','tw','th','vn','ad','at','be','bg','cy','cz','dk','ee','fi','fr','de','gr','hu','is','ie','it','lv','li','lt','lu','mt','mc','nl','no','pl','pt','ro','sk','es','se','ch','tr','gb','ar','bo','br','cl','co','cr','do','ec','sv','gt','hn','mx','ni','pa','py','pe','uy','ca','us','za','au','nz','dz','bh','eg','jo','kw','lb','ma','om','ps','qa','sa','tn','ae']):
           print('not in')
-          prt+=1
           driver.close()
       else:
           print("in")
