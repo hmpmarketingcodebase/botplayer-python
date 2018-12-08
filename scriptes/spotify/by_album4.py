@@ -73,7 +73,8 @@ while(1):
 #get proxy
       #proxy = common.heart.proxis(cnx)
         
-      proxy_ip = "209.205.212.34:"+str(prt)
+      #proxy_ip = "209.205.212.34:"+str(prt)
+      proxy_ip = str(prt)
       print(proxy_ip)
       #proxy_ip = ":" 
       #id_proxy = str(proxy[0])  
@@ -156,14 +157,14 @@ while(1):
           try:
               driver.get("https://accounts.spotify.com/en/login")
               WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'login-username')))
-              print (" >11 Proxy is ready!")
+              print (" > Proxy is ready!")
               connect_proxy=1
           except TimeoutException:
               print (" > Loading took too much time! (proxy)")
               connect_proxy=0
               state="Error Proxy!" 
       connect=0
-      print("e")
+      
       #check proxy connection
       if(connect_proxy==1):
         ll=0
