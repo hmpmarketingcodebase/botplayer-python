@@ -34,6 +34,7 @@ part = sys.argv[3] #
 part_sec = 86400 / int(part) # how many seconds in 1 part per- day
 #prt = int(sys.argv[4])
 opsy = platform.system() #operation system (windows or linux)
+#35.185.98.205 
 
 if(opsy=='Linux'):
    #for server run with virtual display
@@ -43,7 +44,7 @@ if(opsy=='Linux'):
 
 repeat=0
 while(1):
- prt = int(random.randint(9177,9476))
+ 
  pp=0
  vv=0
  while(vv<int(part)):
@@ -72,7 +73,7 @@ while(1):
 
 #get proxy
       #proxy = common.heart.proxis(cnx)
-        
+      prt = int(random.randint(9177,9476))       
       proxy_ip = "195.154.161.111:"+str(prt)
       print(proxy_ip)
       #proxy_ip = ":" 
