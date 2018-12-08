@@ -188,7 +188,7 @@ while(1):
         while(connect != 1 and ll<10):
           #get account
           ll=ll+1
-          account_=common.heart.account(cnx,mycountry)
+          account_=common.heart.account2(cnx,mycountry)
           user_account = str(account_[1])
           password_account = str(account_[2])
           id_account = str(account_[0])
