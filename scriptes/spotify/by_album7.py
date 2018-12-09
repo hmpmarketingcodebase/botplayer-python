@@ -79,8 +79,8 @@ while(1):
       print(proxy_ip)
       #proxy_ip = ":" 
       #id_proxy = str(proxy[0])  
-      #usr = "corameleviv"       
-      #pwd = "anoualwifi10"       
+      usr = "corameleviv"       
+      pwd = "anoualwifi10"       
       #common.heart.proxy_in_use(id_proxy,cnx)
 
 #get albums
