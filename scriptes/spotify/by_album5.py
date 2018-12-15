@@ -339,7 +339,9 @@ while(1):
                                else:
                                   ms=(random.randint(30, 50))                                                
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
-                               pl = heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii) + pl
+                               aaa=heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii)
+                               pl = aaa + pl
+                               plc = aaa + plc
                                if(pl == 1 and ins ==0):
                                     ins+= 1
                                     #common.heart.error_proxy(id_proxy,cnx)
