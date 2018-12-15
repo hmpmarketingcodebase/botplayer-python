@@ -31,6 +31,9 @@ except:
 margin_play = sys.argv[1] # margin play(duration of song = 120 seconds # margin play = 20 seconds # then play song between 100 and 120 seconds)
 play_album_ = sys.argv[2] # id album(get from database)
 part = sys.argv[3] # 
+ip_prox = sys.argv[4] # 
+min = sys.argv[5] # 
+max = sys.argv[6] # 
 part_sec = 86400 / int(part) # how many seconds in 1 part per- day
 #prt = int(sys.argv[4])
 opsy = platform.system() #operation system (windows or linux)
@@ -65,6 +68,7 @@ while(1):
   try: 
     try:
       pl=0
+      plc=0
       id_insert = 0
       state="Finish"
       pp=pp+1
@@ -73,8 +77,10 @@ while(1):
 
 #get proxy
       #proxy = common.heart.proxis(cnx)
-      prt = int(random.randint(9177,9476))       
-      proxy_ip = "195.154.161.111:"+str(prt)
+      #prt = int(random.randint(9177,9476))       
+      prt = int(random.randint(min,max))       
+      #proxy_ip = "195.154.161.111:"+str(prt)
+      proxy_ip = str(ip_prox)+":"+str(prt)
       print(proxy_ip)
       #proxy_ip = ":" 
       #id_proxy = str(proxy[0])  
@@ -221,6 +227,7 @@ while(1):
                 a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
               ins = 0
               for p_a in play_album:
+               plc=0
                #get album of current play_album            
                for al in albums:
                 try:
@@ -306,6 +313,7 @@ while(1):
                             common.heart.clean_memory()
                          ii=ii+1
                          song_name = s[1]
+                         client = s[7]
                          song_duration = int(s[3])
                          x=0
                          nn=0
@@ -340,7 +348,7 @@ while(1):
                                     repeat = 0
                                     common.heart.proxy_used_id(myip,cnx,driver,id_insert)
                                print("------> " + str(pl))
-                               
+                               plc = pl
                            except NoSuchElementException:
                                if(x<4):
                                  driver.refresh()
@@ -350,7 +358,7 @@ while(1):
                      sleep(15)
                 except: 
                     driver.refresh() 
-                    
+               common.heart.account_in_use(plc,client,cnx)     
       ##### exceptions 
       try:
           if(opsy=='Linux'):
