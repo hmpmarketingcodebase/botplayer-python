@@ -78,7 +78,7 @@ while(1):
 #get proxy
       #proxy = common.heart.proxis(cnx)
       #prt = int(random.randint(9177,9476))       
-      prt = int(random.randint(min,max))       
+      prt = int(random.randint(int(min),int(max)))       
       #proxy_ip = "195.154.161.111:"+str(prt)
       proxy_ip = str(ip_prox)+":"+str(prt)
       print(proxy_ip)
