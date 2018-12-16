@@ -69,6 +69,7 @@ while(1):
     try:
       pl=0
       plc=0
+      aaa=0
       id_insert = 0
       state="Finish"
       pp=pp+1

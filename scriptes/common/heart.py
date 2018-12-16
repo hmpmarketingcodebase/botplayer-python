@@ -21,9 +21,9 @@ import json
 import csv
 
 def connectiondb(database):
-   cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
+   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
    #cnx = MySQLdb.connect("localhost","user",",Dc7aUb)3t>H@1.",database)    
-   #cnx = MySQLdb.connect("10.142.0.5","root","anoualwifi10",database)    
+   cnx = MySQLdb.connect("10.142.0.5","root","anoualwifi10",database)    
    return cnx
 '''   
 def proxis(country,cnx):
@@ -270,6 +270,16 @@ def client_play(play,client,cnx):
          cnx.commit() 
       except MySQLdb.Error as err:
          print("Something went wrong: {}".format(err))
+
+def client_follow(client,cnx):
+      try:
+         print(" + 1 follow to client n°" + str(client)) 
+         curs = cnx.cursor()
+         curs.execute("UPDATE `client` SET follow=follow+1 where id = " + str(client))
+         cnx.commit() 
+      except MySQLdb.Error as err:
+         print("Something went wrong: {}".format(err))
+
 def songs(id_playlist,cnx):
       try:
          curs = cnx.cursor()

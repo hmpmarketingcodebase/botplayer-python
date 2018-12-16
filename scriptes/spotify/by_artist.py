@@ -64,6 +64,7 @@ while(1):
   try: 
     try:
       pl=0
+      plc=0
       id_insert = 0
       state="finish"
       pp=pp+1
@@ -183,7 +184,6 @@ while(1):
       #check proxy connection
       if(connect_proxy==1):
         ll=0
-        
         #login
         while(connect != 1 and ll<10):
           #get account
@@ -194,7 +194,6 @@ while(1):
           id_account = str(account_[0])
           #lang of account will be the same for proxy and user language
           #country = str(account_[3])
-          
           if(ll>1):
              driver.get("https://accounts.spotify.com/en/login")
           common.heart.login(driver,user_account,password_account)
@@ -217,7 +216,6 @@ while(1):
         if(connect==1):
            if(common.heart.proxy_used(myip,cnx,driver)) == 1:
                 ii=0
-              
                 print("connect : account " + user_account)
                 #come back to default ua 
                 #common.heart.random_ua(driver,'spoti','desktop')
@@ -233,12 +231,14 @@ while(1):
                 common.heart.check_ip(myip,driver)
                 ins = 0
                 for a in artists:
+                        plc=0
                         follow=(random.randint(22, 1000))
                         if(opsy=='Linux'):
                            common.heart.clean_memory()
                         ii=ii+1
                         artist_url = a[2]
                         fol = a[3]
+                        client = a[4]
                         driver.get(artist_url)
                         f = follow%fol
                         print("follow = " +  str(f))
@@ -247,19 +247,18 @@ while(1):
                            if(mm<ss ):
                             mm=mm+1
                             try:
-                              try:
-                                   
+                              try:           
                                     # click search if not fin reload page X 2 if not exist quit and reload other
                                     a = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='header-buttons']//button[@class='btn btn-black btn--narrow']")))
                                     a.click() 
                                     sleep(5)  
-                                
+                                    common.heart.client_follow(client,cnx)       
                               except TimeoutException:
                                     driver.get(artist_url)
                                     a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.spoticon-heart-24")))
                                     a.click() 
                                     sleep(5)  
-                                
+                                    common.heart.client_follow(client,cnx)
                             except TimeoutException:
                               try:
                                 try:
@@ -267,19 +266,19 @@ while(1):
                                     a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.spoticon-heart-24")))
                                     a.click() 
                                     sleep(5)  
-                                
+                                    common.heart.client_follow(client,cnx)
                                 except TimeoutException:
                                     driver.get(artist_url)
                                     a = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='header-buttons']//button[@class='btn btn-black btn--narrow']")))
                                     a.click()
                                     sleep(5)  
-                                
+                                    common.heart.client_follow(client,cnx)
                               except TimeoutException:
                                 driver.get(artist_url)
                                 a = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='header-buttons']//button[@class='btn btn-black btn--narrow']")))
                                 a.click()
                                 sleep(5)  
-                                
+                                common.heart.client_follow(client,cnx)
                         driver.execute_script("window.scrollBy(0, 1000);")
                         sleep(3)
                         zz=0
@@ -300,7 +299,9 @@ while(1):
                                 ActionChains(driver).double_click(men).perform()
                                 print("####### " + song_name)
                                 ms=(random.randint(30, 40))
-                                pl = heart.player_album(driver,song_name,ms,kk,proxy_ip,user_account,cnx,ii) + pl
+                                aaa = heart.player_album(driver,song_name,ms,kk,proxy_ip,user_account,cnx,ii) 
+                                pl = aaa + pl
+                                plc = aaa + plc
                                 if(pl == 1 and ins ==0):
                                     ins+= 1
                                     #common.heart.error_proxy(id_proxy,cnx)
@@ -312,7 +313,11 @@ while(1):
                                
                           except:
                             sleep(1)
+                        
+                        if(plc>0 and client>0):
+                           common.heart.client_play(plc,client,cnx)
                         common.heart.check_ip(myip,driver)
+                        
       ##### exceptions 
       try:
          if(opsy=='Linux'):
