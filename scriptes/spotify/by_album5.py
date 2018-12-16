@@ -262,44 +262,7 @@ while(1):
                      for a in artists:
                         if(int(a[0]) == album_artist):
                             album_artist_name = a[1]
-                     '''
-                     wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[2][@class='navBar-group']"))).click()
-                     wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[1][@class='navBar-group']"))).click()
-                     search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                  
-                     search.send_keys(song_album_name + " " + album_artist_name)
-                     sleep(5)
-                     # click album tab
-                     sl = driver.current_url
-                     sl1 = sl.split('/')
-                     sl = sl1[len(sl1)-1]
-                     try:
-                         a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/albums/"+str(sl)+"']")))
-                         a.click()
-                     except TimeoutException:
-                         try:
-                             print("album tab not found")
-                             driver.refresh()
-                             a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/albums/"+str(sl)+"']")))
-                             a.click()
-                         except TimeoutException:
-                             driver.refresh()
-                             a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/albums/"+str(sl)+"']")))
-                             a.click()
-
-                     try:
-                      a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@class='mo-info-name' and @href='"+str(_link)+"']")))
-                      a.click()
-                     except TimeoutException:
-                      driver.refresh()
-                      a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@class='mo-info-name' and @href='"+str(_link)+"']")))
-                      a.click()
-                     # wait result list
-                     try:
-                       wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']")))
-                     except TimeoutException:
-                       driver.refresh()
-                       wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']")))
-                     '''
+                     
                      driver.get(song_album_url)
                      sleep(1)
                      driver.execute_script("window.scrollBy(0, 1000);")
@@ -351,7 +314,6 @@ while(1):
                                     repeat = 0
                                     common.heart.proxy_used_id(myip,cnx,driver,id_insert)
                                print("------> " + str(pl))
-                               plc = pl
                            except NoSuchElementException:
                                if(x<4):
                                  driver.refresh()
@@ -360,7 +322,7 @@ while(1):
                         common.heart.check_ip(myip,driver)
                      sleep(15)
                      if(plc>0):
-                           common.heart.account_in_use(plc,client,cnx)
+                           common.heart.client_play(plc,client,cnx)
                 except: 
                     driver.refresh()
                     

@@ -21,9 +21,9 @@ import json
 import csv
 
 def connectiondb(database):
-   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
+   cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
    #cnx = MySQLdb.connect("localhost","user",",Dc7aUb)3t>H@1.",database)    
-   cnx = MySQLdb.connect("10.142.0.5","root","anoualwifi10",database)    
+   #cnx = MySQLdb.connect("10.142.0.5","root","anoualwifi10",database)    
    return cnx
 '''   
 def proxis(country,cnx):
@@ -253,17 +253,7 @@ def account2(cnx,country):
 
 
 
-def account_in_use(play,client,cnx):
-      try:
-         print(" + " + str(play) + " to client n°" + str(client)) 
-         curs = cnx.cursor()
-         curs.execute("UPDATE `client` SET plays=plays+"+str(play)+" where id = " + str(client))
-         cnx.commit() 
-      except MySQLdb.Error as err:
-         print("Something went wrong: {}".format(err))
-
-
-def client_play(id_account,cnx):
+def account_in_use(id_account,cnx):
       try:
          curs = cnx.cursor()
          curs.execute("UPDATE account SET in_use = in_use+1 WHERE id = "+ str(id_account) )
@@ -271,6 +261,15 @@ def client_play(id_account,cnx):
       except MySQLdb.Error as err:
          print("Something went wrong: {}".format(err))
 
+		 
+def client_play(play,client,cnx):
+      try:
+         print(" + " + str(play) + " to client n°" + str(client)) 
+         curs = cnx.cursor()
+         curs.execute("UPDATE `client` SET plays=plays+"+str(play)+" where id = " + str(client))
+         cnx.commit() 
+      except MySQLdb.Error as err:
+         print("Something went wrong: {}".format(err))
 def songs(id_playlist,cnx):
       try:
          curs = cnx.cursor()
