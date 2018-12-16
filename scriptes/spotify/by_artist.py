@@ -29,7 +29,7 @@ except:
 part = sys.argv[1] # 
 prt = int(sys.argv[2])
 part_sec = 86400 / int(part) # how many seconds in 1 part per day
-
+aaa=0
 opsy = platform.system() #operation system (windows or linux)
 
 if(opsy=='Linux'):
@@ -290,11 +290,13 @@ while(1):
                             try:
                                 men = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(kk)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
                             except:
-                                driver.get(artist_url)
+                                #driver.get(artist_url)
                                 men = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(kk)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col position-outer']")
                             heart.change_device(driver)
                             sleep(2)
                             song_name = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(kk)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//div[@class='tracklist-name ellipsis-one-line']").text
+                            print(song_name)
+                            print(x)
                             if song_name in x:
                                 ActionChains(driver).double_click(men).perform()
                                 print("####### " + song_name)
