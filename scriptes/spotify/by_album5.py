@@ -227,10 +227,11 @@ while(1):
                 a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
               ins = 0
               for p_a in play_album:
-               plc=0
+               
                #get album of current play_album            
                for al in albums:
                 try:
+                  plc=0
                   if(int(al[0]) == p_a[1]):
                      try:
                         cnx = common.heart.connectiondb('spoti')
@@ -359,8 +360,9 @@ while(1):
                         common.heart.check_ip(myip,driver)
                      sleep(15)
                 except: 
-                    driver.refresh() 
-               common.heart.account_in_use(plc,client,cnx)     
+                    driver.refresh()
+               if(plc>0):
+                  common.heart.account_in_use(plc,client,cnx)     
       ##### exceptions 
       try:
           if(opsy=='Linux'):
