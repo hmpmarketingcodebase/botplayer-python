@@ -274,6 +274,7 @@ while(1):
                      common.heart.check_ip(myip,driver)
                      for s in song:
                         try:
+                         plc=0
                          if(opsy=='Linux'):
                             common.heart.clean_memory()
                          ii=ii+1
@@ -315,6 +316,8 @@ while(1):
                                     repeat = 0
                                     common.heart.proxy_used_id(myip,cnx,driver,id_insert)
                                print("------> " + str(pl))
+                               if(plc>0):
+                                    common.heart.client_play(plc,client,cnx)
                            except NoSuchElementException:
                                if(x<4):
                                  driver.refresh()
@@ -322,8 +325,7 @@ while(1):
                             driver.refresh()
                         common.heart.check_ip(myip,driver)
                      sleep(15)
-                     if(plc>0):
-                           common.heart.client_play(plc,client,cnx)
+                     
                 except: 
                     driver.refresh()
                     
