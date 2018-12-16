@@ -359,10 +359,11 @@ while(1):
                             driver.refresh()
                         common.heart.check_ip(myip,driver)
                      sleep(15)
+                     if(plc>0):
+                           common.heart.account_in_use(plc,client,cnx)
                 except: 
                     driver.refresh()
-               if(plc>0):
-                  common.heart.account_in_use(plc,client,cnx)     
+                    
       ##### exceptions 
       try:
           if(opsy=='Linux'):
