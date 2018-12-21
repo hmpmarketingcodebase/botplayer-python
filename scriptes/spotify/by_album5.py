@@ -173,6 +173,7 @@ while(1):
           #get account
           ll=ll+1
           account_=common.heart.account(cnx,mycountry)
+          print("ddddddd  " + account_)
           user_account = str(account_[1])
           password_account = str(account_[2])
           id_account = str(account_[0])
