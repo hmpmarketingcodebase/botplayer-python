@@ -241,17 +241,18 @@ def account(cnx,country):
          print("user = " + user)
          id_account = account[0]
          curs2 = cnx.cursor()
-         curs2.execute("select * from log where account='" + str(user) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!' and next_start<>'finish' ")  
+         req = "select * from log where account='" + str(user) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!' and next_start<>'finish' "
+         #print(req)
+         curs2.execute(req)  
          acc = curs2.fetchone()
          account_in_use(id_account,cnx)
          
          if(acc is None ):   
-           return 1
+           return account
          else:
            print("account used + " + str(acc))
            driver.close()
          
-         return account
       except MySQLdb.Error as err:  
          print("Something went wrong: (Accounts) {}".format(err))   
 
