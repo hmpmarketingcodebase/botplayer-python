@@ -192,7 +192,7 @@ while(1):
           user_account = str(account_[1])
           password_account = str(account_[2])
           id_account = str(account_[0])
-          account_in_use(id_account,cnx)
+          #account_in_use(id_account,cnx)
           #lang of account will be the same for proxy and user language
           #country = str(account_[3])
           if(ll>1):
