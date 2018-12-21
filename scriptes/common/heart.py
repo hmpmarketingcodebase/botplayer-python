@@ -239,9 +239,9 @@ def account(cnx,country):
 
          user = account[1]
          id_account = account[0]
-         now = datetime.datetime.now()
-         curs.execute("select * from log where account='" + str(user) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!' and next_start<>'finish' ")  
-         acc = curs.fetchone()
+         curs2 = cnx.cursor()
+         curs2.execute("select * from log where account='" + str(user) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!' and next_start<>'finish' ")  
+         acc = curs2.fetchone()
          account_in_use(id_account,cnx)
          
          if(acc is None ):   
