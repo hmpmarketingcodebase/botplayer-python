@@ -226,13 +226,13 @@ def account(cnx,country):
       try:
          now = datetime.datetime.now()
          curs = cnx.cursor()
-         #curs.execute("select * from account where country = '" + country + "' and in_use =(select min(in_use) from account  where error = 2) and error = 2 order by  RAND()")
-         curs.execute("select * from account where country = '" + country + "' and error = 2 order by in_use asc,  RAND()")
+         curs.execute("select * from account where country = '" + country + "' and in_use =(select min(in_use) from account  where error = 2) and error = 2 order by  RAND()")
+         #curs.execute("select * from account where country = '" + country + "' and error = 2 order by in_use asc,  RAND()")
          account = curs.fetchone() 
          #print("select * from account where country = '" + country + "' and in_use =(select min(in_use) from account  where error = 2) and error = 2 order by  RAND()")
          if(account is None ):   
-           #curs .execute("select * from account where in_use =(select min(in_use) from account  where error = 2)and error = 2 order by  RAND()")  
-           curs.execute("select * from account where error = 2 order by in_use asc,  RAND()")
+           curs .execute("select * from account where in_use =(select min(in_use) from account  where error = 2)and error = 2 order by  RAND()")  
+           #curs.execute("select * from account where error = 2 order by in_use asc,  RAND()")
            account = curs.fetchone()
          print("/////////////////")
          print(account)
@@ -255,6 +255,7 @@ def account2(cnx,country):
 
 def account_in_use(id_account,cnx):
       try:
+         print("Update account")
          curs = cnx.cursor()
          curs.execute("UPDATE account SET in_use = in_use+1 WHERE id = "+ str(id_account) )
          cnx.commit() 
