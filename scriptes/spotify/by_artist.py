@@ -192,6 +192,7 @@ while(1):
           user_account = str(account_[1])
           password_account = str(account_[2])
           id_account = str(account_[0])
+          account_in_use(id_account,cnx)
           #lang of account will be the same for proxy and user language
           #country = str(account_[3])
           if(ll>1):
@@ -295,8 +296,8 @@ while(1):
                             heart.change_device(driver)
                             sleep(2)
                             song_name = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(kk)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//div[@class='tracklist-name ellipsis-one-line']").text
-                            print(song_name)
-                            print(x)
+                            #print(song_name)
+                            #print(x)
                             if song_name in x:
                                 ActionChains(driver).double_click(men).perform()
                                 print("####### " + song_name)
