@@ -2,9 +2,9 @@ depth=0;
 while true
 do
    sudo bash clean_tmp.sh
-   sleep 1000s
+   sleep 1400s
    sudo bash clean_ram.sh
-   sleep 1000s
+   sleep 1400s
    
    let "depth++"
    if [ `expr $depth % 5` -eq 0 ]; then
