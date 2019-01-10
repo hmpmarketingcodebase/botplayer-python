@@ -148,15 +148,15 @@ while(1):
       connect_proxy=0
 
 #if authentication successfully then connect_proxy = 1 and continue ## if not reload by other proxy
-          connect=1 
-          try:
+      connect=1 
+      try:
              driver.find_element_by_xpath("//button[@class='btn btn-block btn-green ng-binding ng-scope']")
-          except:
+      except:
              connect=-1
              state="Inc usr or passwd."
              print(state)
              common.heart.error_account(user_account,password_account,cnx)
-          print(user_account +' > ' + state)
+      print(user_account +' > ' + state)
       
       #check proxy connection
       if(connect_proxy==1):
