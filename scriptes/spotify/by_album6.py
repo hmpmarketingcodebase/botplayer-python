@@ -31,6 +31,10 @@ except:
 margin_play = sys.argv[1] # margin play(duration of song = 120 seconds # margin play = 20 seconds # then play song between 100 and 120 seconds)
 play_album_ = sys.argv[2] # id album(get from database)
 part = sys.argv[3] # 
+ip_prox1 = sys.argv[4] # 
+min = sys.argv[5] # 
+ip_prox2 = sys.argv[6] # 
+max = sys.argv[7] # 
 part_sec = 86400 / int(part) # how many seconds in 1 part per- day
 #prt = int(sys.argv[4])
 opsy = platform.system() #operation system (windows or linux)
@@ -65,6 +69,8 @@ while(1):
   try: 
     try:
       pl=0
+      plc=0
+      aaa=0
       id_insert = 0
       state="Finish"
       pp=pp+1
@@ -73,9 +79,12 @@ while(1):
 
 #get proxy
       #proxy = common.heart.proxis(cnx)
-	  #62.210.116.111:7531
-      prt = int(random.randint(7531,7780))       
-      proxy_ip = "62.210.116.111:"+str(prt)
+      #prt = int(random.randint(9177,9476))       
+      #prt = int(random.randint(int(min),int(max)))   
+       prt = min  
+       ip_prox = ip_prox1
+      #proxy_ip = "195.154.161.111:"+str(prt)
+      proxy_ip = str(ip_prox)+":"+str(prt)
       print(proxy_ip)
       #proxy_ip = ":" 
       #id_proxy = str(proxy[0])  
@@ -167,6 +176,7 @@ while(1):
           #get account
           ll=ll+1
           account_=common.heart.account(cnx,mycountry)
+          #print("ddddddd  " + account_)
           user_account = str(account_[1])
           password_account = str(account_[2])
           id_account = str(account_[0])
@@ -222,9 +232,11 @@ while(1):
                 a = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "a.link-subtle.navBar-link.ellipsis-one-line")))
               ins = 0
               for p_a in play_album:
+               
                #get album of current play_album            
                for al in albums:
                 try:
+                  plc=0
                   if(int(al[0]) == p_a[1]):
                      try:
                         cnx = common.heart.connectiondb('spoti')
@@ -255,44 +267,7 @@ while(1):
                      for a in artists:
                         if(int(a[0]) == album_artist):
                             album_artist_name = a[1]
-                     '''
-                     wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[2][@class='navBar-group']"))).click()
-                     wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@class='navBar-expand']//li[1][@class='navBar-group']"))).click()
-                     search = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input.inputBox-input")))                  
-                     search.send_keys(song_album_name + " " + album_artist_name)
-                     sleep(5)
-                     # click album tab
-                     sl = driver.current_url
-                     sl1 = sl.split('/')
-                     sl = sl1[len(sl1)-1]
-                     try:
-                         a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/albums/"+str(sl)+"']")))
-                         a.click()
-                     except TimeoutException:
-                         try:
-                             print("album tab not found")
-                             driver.refresh()
-                             a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/albums/"+str(sl)+"']")))
-                             a.click()
-                         except TimeoutException:
-                             driver.refresh()
-                             a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/search/albums/"+str(sl)+"']")))
-                             a.click()
-
-                     try:
-                      a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@class='mo-info-name' and @href='"+str(_link)+"']")))
-                      a.click()
-                     except TimeoutException:
-                      driver.refresh()
-                      a = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@class='mo-info-name' and @href='"+str(_link)+"']")))
-                      a.click()
-                     # wait result list
-                     try:
-                       wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']")))
-                     except TimeoutException:
-                       driver.refresh()
-                       wait.until(EC.element_to_be_clickable((By.XPATH, "//section[@class='tracklist-container']//div[1][@class='react-contextmenu-wrapper']")))
-                     '''
+                     
                      driver.get(song_album_url)
                      sleep(1)
                      driver.execute_script("window.scrollBy(0, 1000);")
@@ -303,10 +278,12 @@ while(1):
                      common.heart.check_ip(myip,driver)
                      for s in song:
                         try:
+                         plc=0
                          if(opsy=='Linux'):
                             common.heart.clean_memory()
                          ii=ii+1
                          song_name = s[1]
+                         client = s[7]
                          song_duration = int(s[3])
                          x=0
                          nn=0
@@ -332,7 +309,9 @@ while(1):
                                else:
                                   ms=(random.randint(30, 50))                                                
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
-                               pl = heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii) + pl
+                               aaa=heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii)
+                               pl = aaa + pl
+                               plc = aaa + plc
                                if(pl == 1 and ins ==0):
                                     ins+= 1
                                     #common.heart.error_proxy(id_proxy,cnx)
@@ -341,7 +320,8 @@ while(1):
                                     repeat = 0
                                     common.heart.proxy_used_id(myip,cnx,driver,id_insert)
                                print("------> " + str(pl))
-                               
+                               if(plc>0):
+                                    common.heart.client_play(plc,client,cnx)
                            except NoSuchElementException:
                                if(x<4):
                                  driver.refresh()
@@ -349,9 +329,16 @@ while(1):
                             driver.refresh()
                         common.heart.check_ip(myip,driver)
                      sleep(15)
+                     
                 except: 
-                    driver.refresh() 
-                    
+                    driver.refresh()
+           else:
+                if (prt = min):
+                    prt=max
+                    ip_prox = ip_prox2
+                else:
+                    prt=min
+                    ip_prox = ip_prox1
       ##### exceptions 
       try:
           if(opsy=='Linux'):
