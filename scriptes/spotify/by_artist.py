@@ -320,7 +320,7 @@ while(1):
                         if(plc>0 and client>0):
                            common.heart.client_play(plc,client,cnx)
                         common.heart.check_ip(myip,driver)
-                        
+                         
       ##### exceptions 
       try:
          if(opsy=='Linux'):
