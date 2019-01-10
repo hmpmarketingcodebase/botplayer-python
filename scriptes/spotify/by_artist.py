@@ -229,7 +229,7 @@ while(1):
                 zz=0
                 mm=0
                 ss=int(ar[1])*5
-                #common.heart.check_ip(myip,driver)
+                common.heart.check_ip(myip,driver)
                 ins = 0
                 for a in artists:
                         plc=0
@@ -319,7 +319,7 @@ while(1):
                         
                         if(plc>0 and client>0):
                            common.heart.client_play(plc,client,cnx)
-                        #common.heart.check_ip(myip,driver)
+                        common.heart.check_ip(myip,driver)
                         
       ##### exceptions 
       try:
