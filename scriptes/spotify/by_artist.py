@@ -199,20 +199,15 @@ while(1):
              driver.get("https://accounts.spotify.com/en/login")
           common.heart.login(driver,user_account,password_account)
           sleep(5)
+          connect=1 
           try:
-                 #if it's an invalid spotify account then connect = 0
-                 driver.find_element_by_xpath("//p[@class='alert alert-warning']")
-                 connect=0
-                 state="Cannot Connect"
-                 try:
-                    driver.find_element_by_xpath("//p[@class='alert alert-warning']//span[contains(text(), 'Incorrect username or password.')]")
-                    connect=-1
-                    state="Inc usr or passwd."
-                 except:
-                    connect=0
-                 print(user_account +' > ' + state)
-          except NoSuchElementException:
-                 connect=1        
+             driver.find_element_by_xpath("//button[@class='btn btn-block btn-green ng-binding ng-scope']")
+          except:
+             connect=-1
+             state="Inc usr or passwd."
+             print(state)
+             common.heart.error_account(user_account,password_account,cnx)
+          print(user_account +' > ' + state)
         #if connected
         if(connect==1):
            if(common.heart.proxy_used(myip,cnx,driver)) == 1:
@@ -335,8 +330,7 @@ while(1):
          cnx = common.heart.connectiondb('spoti')
       except MySQLdb.Error as err:
          print("Error connection")
-      if(connect == -1):  
-         common.heart.error_account(user_account,password_account,cnx)
+
       #if(connect_proxy != 1):        
          #common.heart.error_proxy(in_use_proxy,id_proxy,cnx)
          #common.heart.log_insert(proxy_ip,user_account,"Error proxy",mypubilcip,"Artist",cnx)
