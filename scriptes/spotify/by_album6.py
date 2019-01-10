@@ -81,8 +81,8 @@ while(1):
       #proxy = common.heart.proxis(cnx)
       #prt = int(random.randint(9177,9476))       
       #prt = int(random.randint(int(min),int(max)))   
-       prt = min  
-       ip_prox = ip_prox1
+      prt = min  
+      ip_prox = ip_prox1
       #proxy_ip = "195.154.161.111:"+str(prt)
       proxy_ip = str(ip_prox)+":"+str(prt)
       print(proxy_ip)
@@ -333,7 +333,7 @@ while(1):
                 except: 
                     driver.refresh()
            else:
-                if (prt = min):
+                if (prt == min):
                     prt=max
                     ip_prox = ip_prox2
                 else:
@@ -345,13 +345,13 @@ while(1):
              common.heart.kill_process(pid) 
           driver.close()
           common.heart.log_update(str(id_insert),pl,'spoti')         
-      except:
+      except TimeoutException:
           err=1
           common.heart.log_update(str(id_insert),pl,'spoti')         
         
       try:
          cnx = common.heart.connectiondb('spoti')
-      except MySQLdb.Error as err:
+      except TimeoutException:
          print("Error connection")
       if(connect == -1):  
          common.heart.error_account(user_account,password_account,cnx)
@@ -360,10 +360,10 @@ while(1):
          #id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,"Error proxy",mypubilcip,"Album",cnx)
       #common.heart.finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)
-    except MySQLdb.Error as err:
+    except TimeoutException:
        print("----->Error connection")
        
-  except:
+  except TimeoutException:
       try:
           e = sys.exc_info()[0]
           print(str(e))
@@ -371,7 +371,7 @@ while(1):
              common.heart.kill_process(pid) 
           driver.close()
           common.heart.log_update(str(id_insert),pl,'spoti')         
-      except:
+      except TimeoutException:
           err=1
           try:
              common.heart.log_update(str(id_insert),pl,'spoti')         
