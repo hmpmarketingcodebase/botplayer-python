@@ -21,9 +21,9 @@ import json
 import csv
 
 def connectiondb(database):
-   #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
+   cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
    #cnx = MySQLdb.connect("localhost","user",",Dc7aUb)3t>H@1.",database)    
-   cnx = MySQLdb.connect("10.142.0.5","root","anoualwifi10",database)    
+   #cnx = MySQLdb.connect("35.231.200.88","root","anoualwifi10",database)    
    return cnx
 '''   
 def proxis(country,cnx):
