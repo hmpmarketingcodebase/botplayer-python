@@ -1,13 +1,9 @@
-depth=0;
 while true
 do
    sudo bash clean_tmp.sh
-   sleep 1400s
+   sleep 5s
    sudo bash clean_ram.sh
-   sleep 1400s
-   
-   let "depth++"
-   if [ `expr $depth % 5` -eq 0 ]; then
+   sleep 5s
    sudo killall chrome chromedriver
-   fi
+   sleep 7200s   
 done
