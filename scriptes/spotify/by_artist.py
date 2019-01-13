@@ -39,9 +39,9 @@ if(opsy=='Linux'):
 #follow = 0
 pid=10
 repeat=0
-proxy_ = ["62.210.106.223","51.15.13.157"]
-port_start =[1151,3226]
-port_end =[1175,3250]
+proxy_ = ["163.172.39.13","51.15.13.157","209.205.212.34"]
+port_start =[1151,3226,3000]
+port_end =[1175,3250,3250]
 
 while(1):
  #follow = follow + 1
