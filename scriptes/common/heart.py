@@ -25,7 +25,7 @@ def connectiondb(database):
    #cnx = MySQLdb.connect("localhost","user",",Dc7aUb)3t>H@1.",database)    
    cnx = MySQLdb.connect("10.142.0.5","root","anoualwifi10",database)    
    return cnx
-'''   
+'''    
 def proxis(country,cnx):
       try:
          curs = cnx.cursor()
@@ -86,11 +86,11 @@ def proxy_error2(proxy,cnx):
     except MySQLdb.Error as err:
          print("Something went wrong: (Proxies update) {}".format(err))
 
-def proxy_used(proxy,cnx,driver):
+def proxy_used(proxy,cnx,playlist,driver):
       try:
          curs = cnx.cursor()
          now = datetime.datetime.now()
-         curs.execute("select * from log where realip='" + str(proxy) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!' and next_start<>'finish' ")  
+         curs.execute("select * from log where realip='" + str(proxy) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!' and next_start<>'finish' and playlist= '"+str(playlist)+"'")  
          proxy = curs.fetchone()
          
          if(proxy is None ):   
@@ -105,11 +105,11 @@ def proxy_used(proxy,cnx,driver):
       except MySQLdb.Error as err:  
          print("Something went wrong: (proxies select) {}".format(err))
 		 
-def proxy_used_id(proxy,cnx,driver,id):
+def proxy_used_id(proxy,cnx,driver,id,playlist,type):
       try:
          curs = cnx.cursor()
          now = datetime.datetime.now()
-         r = "select * from log where realip='" + str(proxy) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!' and id<>'"+str(id)+"'"  
+         r = "select * from log where realip='" + str(proxy) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!' and id<>'"+str(id)+"' and playlist ='" + str(playlist) + "'"  
          print(r)
          curs.execute(r)  
          proxy = curs.fetchone()
@@ -117,14 +117,14 @@ def proxy_used_id(proxy,cnx,driver,id):
          if(proxy is None ):   
            return 1
          else:
-           driver.close()
+           if(type=='Album'):
+              driver.close()
            print("Ip already exist id = " + str(id))
       except MySQLdb.Error as err:  
          print("Something went wrong: (proxies select) {}".format(err))
 
-def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
-    if(type==1):
-       try:
+def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type,playlist):
+    try:
           driver.get("chrome-extension://fhnlhdgbgbodgeeabjnafmaobfomfopf/options.html?host="+proxy+"&port="+port+"&user="+user+"&pass="+password)
           driver.find_element_by_xpath("//input[@id='socks5']").click()
           sleep(2)
@@ -140,9 +140,9 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
           sleep(3)    
        
           driver.find_element_by_xpath("//span[@id='http']").click()
-       except NoSuchElementException:
+    except NoSuchElementException:
         print("X 1")
-       sleep(3)
+        sleep(3)
 
     myip="--"
     mycountry="--"
@@ -171,7 +171,10 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
            mycountry="--"
     print(mycountry)
     #print(myip)
-    a = proxy_used(myip,cnx,driver)
+    if(type=='Album'):
+        a = proxy_used(myip,cnx,playlist,driver)
+    elif(type=='Artist'):
+        a = 1
     print(myip  + " vs " + mypublicip) 
     if((a == 1) and  (myip != '--')):
        return myip + ";" + mycountry
@@ -180,7 +183,7 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type):
           print("Error Proxy!!")
           proxy_ip = proxy + ":" + port
           current=datetime.datetime.now()
-          log_insert(str(proxy_ip),str(myip),"Error proxy",str(current),mypublicip,"Error proxy",cnx)
+          log_insert(str(proxy_ip),str(myip),"Error proxy",str(current),mypublicip,"Error proxy","","",cnx)
           if(type!=1):
              proxy_error2(str(proxy_ip),cnx)
           
@@ -222,7 +225,7 @@ def check_ip(ip,driver):
     
 
   
-def account(cnx,country):
+def account(cnx,country,playlist_account):
       try:
          now = datetime.datetime.now()
          curs = cnx.cursor()
@@ -241,7 +244,7 @@ def account(cnx,country):
          print("user = " + user)
          id_account = account[0]
          curs2 = cnx.cursor()
-         req = "select * from log where account='" + str(user) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!' and next_start<>'finish' "
+         req = "select * from log where account='" + str(user) + "' and month(next_start)='"+str(now.month)+"' and day(next_start)='"+str(now.day)+"' and year(next_start) = '"+str(now.year)+"' and next_start<>'Error Proxy!' and next_start<>'finish' and playlist_account='"+str(playlist_account)+"'"
          #print(req)
          curs2.execute(req)  
          acc = curs2.fetchone()
@@ -313,10 +316,10 @@ def songs(id_playlist,cnx):
          print("Something went wrong: (song) {}".format(err)) 
 
 
-def songs_album(id_album,cnx):
+def songs_album(id_album,playlist,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from songs where album = '" + str(id_album) + "' order by RAND()")
+         curs.execute("select * from songs where album = '" + str(id_album) + "' and playlist = '" + str(playlist) + "' order by RAND()")
          songs = curs.fetchall()
          #s = len(songs)
          #s = int(random.randint(5,int(s)))
@@ -347,10 +350,10 @@ def songs_artist(id_artist,cnx):
          print("Something went wrong: (song) {}".format(err)) 
 
 
-def playlist_album(play_album,cnx):
+def playlist_album(play_album,playlist,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from playlist_album where play >= " + str(int(play_album)) + " order by RAND()")
+         curs.execute("select * from playlist_album where play >= " + str(int(play_album)) + " and playlist = " + str(int(playlist)) + " order by RAND()")
          songs = curs.fetchall()
          return songs
       except MySQLdb.Error as err:  
@@ -392,11 +395,13 @@ def artist_id(cnx,id):
       except MySQLdb.Error as err:  
          print("Something went wrong: (artists) {}".format(err))   
 
-def log_insert(proxy_ip,myip,user_account,next_start,mypulicip,type_,cnx):
+def log_insert(proxy_ip,myip,user_account,next_start,mypulicip,type_,playlist,playlist_account,cnx):
       print("# log insert")
       try:
          curs = cnx.cursor()
-         curs.execute("INSERT INTO `log`(`proxy`, `account`, `next_start`, `number_play`, `ip`, `seconds`, `type`, `realip`) VALUES ('"+proxy_ip+"','"+user_account+"','"+next_start+"',0,'"+ mypulicip +"',0,'"+type_+"','"+myip+"')")
+         req = "INSERT INTO `log`(`proxy`, `account`, `next_start`, `number_play`, `ip`, `seconds`, `type`, `realip`, `playlist`, `playlist_account`) VALUES ('"+proxy_ip+"','"+user_account+"','"+next_start+"',0,'"+ mypulicip +"',0,'"+type_+"','"+myip+"','"+str(playlist)+"','"+str(playlist_account)+"')"
+         print(req)
+         curs.execute(req)
          cnx.commit() 
       except MySQLdb.Error as err:  
          print("Something went wrong: (by search) {}".format(err))  
