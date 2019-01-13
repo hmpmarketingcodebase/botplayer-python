@@ -25,12 +25,11 @@ try:
 except:
    mypubilcip = "-"
    
-   
-part = sys.argv[1] # 
-prt = int(sys.argv[2])
+part = 10000  
 part_sec = 86400 / int(part) # how many seconds in 1 part per day
 aaa=0
 opsy = platform.system() #operation system (windows or linux)
+proxy_number = sys.argv[1]
 
 if(opsy=='Linux'):
    #for server run with virtual display
@@ -40,6 +39,10 @@ if(opsy=='Linux'):
 #follow = 0
 pid=10
 repeat=0
+proxy_ = ["62.210.106.223","51.15.13.157"]
+port_start =[1151,3226]
+port_end =[1175,3250]
+
 while(1):
  #follow = follow + 1
  try:
@@ -61,6 +64,11 @@ while(1):
   ttb = current + datetime.timedelta(0,tt)
   print("will be playing at :" + str(ttb) )
   sleep(tt)
+  pos_ = int(proxy_number)
+  pos_ = pos_-1
+  min = port_start[pos_]
+  max = port_end[pos_]
+  ip_prox = proxy_[pos_]
   try: 
     try:
       pl=0
@@ -72,19 +80,22 @@ while(1):
       cnx = common.heart.connectiondb('spoti')
   
 #get proxy
-      proxy = common.heart.proxis(cnx)
-      proxy_ip = "209.205.212.34:"+str(prt)
-      #proxy_ip = ":"
-      #id_proxy = str(proxy[0])       
       usr = "corameleviv"       
       pwd = "anoualwifi10"  
       #common.heart.proxy_in_use(id_proxy,cnx)
+      prt = int(random.randint(int(min),int(max)))  
+      proxy_ip = str(ip_prox)+":"+str(prt)
+      print(proxy_ip)
 
 #get random common.heart.songs 
       x=[] 
+      playlist_x=[] 
+      playlist_account_x=[] 
       song = common.heart.songs(1,cnx)
       for s in song:
           x.append(s[1])  
+          playlist_x.append(s[5])  
+          playlist_account_x.append(s[8])  
 #get albums
       albums = common.heart.albums_(cnx)
       
@@ -107,7 +118,7 @@ while(1):
       print ("PID : " + str(p.pid))      
       pid = str(p.pid)
 #connect to proxy by extension, connexion browser side
-      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,1)
+      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,'Artist','')
       print(my)
       if(my == "error proxy"):
             repeat = repeat + 1
@@ -210,7 +221,7 @@ while(1):
           print(user_account +' > ' + state)
         #if connected
         if(connect==1):
-           if(common.heart.proxy_used(myip,cnx,driver)) == 1:
+           #if(common.heart.proxy_used(myip,cnx,driver)) == 1:
                 ii=0
                 print("connect : account " + user_account)
                 #come back to default ua 
@@ -225,6 +236,7 @@ while(1):
                 mm=0
                 ss=int(ar[1])*5
                 common.heart.check_ip(myip,driver)
+                ppp = []
                 ins = 0
                 for a in artists:
                         plc=0
@@ -293,20 +305,29 @@ while(1):
                             song_name = driver.find_element_by_xpath("//ol[@class='tracklist']//div["+str(kk)+"][@class='react-contextmenu-wrapper']//div[@class='tracklist-col name']//div[@class='tracklist-name ellipsis-one-line']").text
                             #print(song_name)
                             #print(x)
+                            
                             if song_name in x:
+                                pos_playlist = x.index(song_name)
+                                playlist = playlist_x[pos_playlist]
+                                playlist_account = playlist_account_x[pos_playlist] 
+                                print("name = " + song_name)
+                                print("playlist = " + str(playlist))
+                                print("playlist account = " + str(playlist_account))
                                 ActionChains(driver).double_click(men).perform()
                                 print("####### " + song_name)
-                                ms=(random.randint(30, 40))
+                                ms=(random.randint(30, 50))
                                 aaa = heart.player_album(driver,song_name,ms,kk,proxy_ip,user_account,cnx,ii) 
                                 pl = aaa + pl
                                 plc = aaa + plc
-                                if(pl == 1 and ins ==0):
-                                    ins+= 1
+                               
+                                if(playlist not in ppp):
+                                    ppp.append(playlist)
                                     #common.heart.error_proxy(id_proxy,cnx)
-                                    id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Artist",cnx)
+                                    id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Artist",playlist,playlist_account,cnx)
+                                                
                                     print("inserted row = " + str(id_insert))
                                     repeat = 0
-                                    common.heart.proxy_used_id(myip,cnx,driver,id_insert)
+                                    common.heart.proxy_used_id(myip,cnx,driver,id_insert,playlist,'Artist')
                                 print("------> " + str(pl))
                                
                           except:

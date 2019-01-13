@@ -27,14 +27,15 @@ try:
 except:
    mypubilcip = "-"
 
-
-margin_play = sys.argv[1] # margin play(duration of song = 120 seconds # margin play = 20 seconds # then play song between 100 and 120 seconds)
-play_album_ = sys.argv[2] # id album(get from database)
-part = sys.argv[3] # 
-database = sys.argv[4] # 
+play_album_ = sys.argv[1] # id album(get from database)
+playlist = sys.argv[2] # id album(get from database)
+playlist_account = sys.argv[3] # id album(get from database)
+proxy_number = sys.argv[4]
+database = 'spoti' # 
 #ip_prox = sys.argv[4] # 
 #min = sys.argv[5] # 
 #max = sys.argv[6] # 
+part = 1000000
 part_sec = 86400 / int(part) # how many seconds in 1 part per- day
 #prt = int(sys.argv[4])
 opsy = platform.system() #operation system (windows or linux)
@@ -62,9 +63,7 @@ while(1):
        driver.close()
   except:
        err=1
-	   
-  print(str(int(len(proxy_))))
-  pos_ = random.randint(1,int(len(proxy_)))
+  pos_ = int(proxy_number)
   pos_ = pos_-1
   min = port_start[pos_]
   max = port_end[pos_]
@@ -105,7 +104,7 @@ while(1):
       albums = common.heart.albums_(cnx)
       
 #get playlist_album
-      play_album = common.heart.playlist_album(str(play_album_),cnx)
+      play_album = common.heart.playlist_album(str(play_album_),str(playlist),cnx)
 
 #get artist      
       artists = common.heart.artist(cnx)
@@ -123,7 +122,7 @@ while(1):
       print ("PID : " + str(p.pid))      
       pid = str(p.pid)
 #connect to proxy by extension, connexion browser side
-      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,1)
+      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,"Album",playlist)
       print(my)
       if(my == "error proxy"):
             driver.close()         
@@ -179,12 +178,11 @@ while(1):
       #check proxy connection
       if(connect_proxy==1):
         ll=0
-        print("ff")
         #login
         while(connect != 1 and ll<10):
           #get account
           ll=ll+1
-          account_=common.heart.account(cnx,mycountry)
+          account_=common.heart.account(cnx,mycountry,playlist_account)
           #print("ddddddd  " + account_)
           user_account = str(account_[1])
           password_account = str(account_[2])
@@ -202,15 +200,12 @@ while(1):
           except:
              connect=-1
              state="Inc usr or passwd."
-             print(state)
              common.heart.error_account(user_account,password_account,cnx)
-          print(user_account +' > ' + state)
-                  
+                          
         #if connected
         if(connect==1):
-           if(common.heart.proxy_used(myip,cnx,driver)) == 1:
-              ii=0
-              
+           if(common.heart.proxy_used(myip,cnx,driver,playlist)) == 1:
+              ii=0     
               print("connect : account " + user_account)
               #come back to default ua 
               #common.heart.random_ua(driver,'spoti','desktop')
@@ -249,7 +244,7 @@ while(1):
                         print("Error connection")
                      song_album_url = al[2] 
                      song_album_name = al[1]
-                     song = common.heart.songs_album(p_a[1],cnx)   
+                     song = common.heart.songs_album(p_a[1],playlist,cnx)   
                      try:
                       try:
                           wait = WebDriverWait(driver, 30)
@@ -310,9 +305,9 @@ while(1):
                                   heart.doubleclick_album(driver,x)
                                if(pp%10==0):
                                   #ms=(random.randint(int(song_duration) - int(margin_play) , int(song_duration)))
-                                  ms=(random.randint(30, 50))                                                
+                                  ms=(random.randint(40, 60))                                                
                                else:
-                                  ms=(random.randint(30, 50))                                                
+                                  ms=(random.randint(40, 60))                                                
                                print(user_account + " > Playing : " + song_name + " in " + str(ms) + " seconds")
                                aaa=heart.player_album(driver,song_name,ms,x,proxy_ip,user_account,cnx,ii)
                                pl = aaa + pl
@@ -320,10 +315,10 @@ while(1):
                                if(pl == 1 and ins ==0):
                                     ins+= 1
                                     #common.heart.error_proxy(id_proxy,cnx)
-                                    id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Album",cnx)
+                                    id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,str(next_start),mypubilcip,"Album",playlist,playlist_account,cnx)
                                     print("inserted row = " + str(id_insert))
                                     repeat = 0
-                                    common.heart.proxy_used_id(myip,cnx,driver,id_insert)
+                                    common.heart.proxy_used_id(myip,cnx,driver,id_insert,playlist,'Album')
                                print("------> " + str(pl))
                                if(plc>0):
                                     common.heart.client_play(plc,client,cnx)
