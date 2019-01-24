@@ -41,9 +41,9 @@ part_sec = 86400 / int(part) # how many seconds in 1 part per- day
 opsy = platform.system() #operation system (windows or linux)
 #35.185.98.205
  
-proxy_ = ["163.172.39.13","51.15.13.157","209.205.212.34"]
-port_start =[1151,3226,3000]
-port_end =[1175,3250,3250]
+proxy_ = ["163.172.39.13","163.172.39.13","51.15.13.157","51.15.13.157","209.205.212.34"]
+port_start =[1151,1163,3226,3239,3000]
+port_end =[1162,1175,3238,3250,3250]
 
 if(opsy=='Linux'):
    #for server run with virtual display
