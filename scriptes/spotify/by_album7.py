@@ -79,7 +79,7 @@ while(1):
   try:
    try:
     try:  
-    try:
+     try:
       pl=0
       plc=0
       aaa=0
@@ -355,7 +355,7 @@ while(1):
          #id_insert = common.heart.log_insert(str(proxy_ip),str(myip),user_account,"Error proxy",mypubilcip,"Album",cnx)
       #common.heart.finish(proxy_ip,user_account,cnx,state)     
       print(user_account + " > " + state)
-    except MySQLdb.Error as err:
+     except MySQLdb.Error as err:
        print("----->Error connection")
        
     except:
