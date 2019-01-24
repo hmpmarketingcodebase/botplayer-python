@@ -23,7 +23,7 @@ import csv
 def connectiondb(database):
    #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
    #cnx = MySQLdb.connect("localhost","user",",Dc7aUb)3t>H@1.",database)    
-   cnx = MySQLdb.connect("10.142.0.5","root","anoualwifi10",database)    
+   cnx = MySQLdb.connect("10.142.0.2","root","anoualwifi10",database)    
    return cnx
 '''    
 def proxis(country,cnx):
@@ -184,8 +184,6 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type,playlist):
           proxy_ip = proxy + ":" + port
           current=datetime.datetime.now()
           log_insert(str(proxy_ip),str(myip),"Error proxy",str(current),mypublicip,"Error proxy","","",cnx)
-          if(type!=1):
-             proxy_error2(str(proxy_ip),cnx)
           
        else:
           print("Ip already exist")

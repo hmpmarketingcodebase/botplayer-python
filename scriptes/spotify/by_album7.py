@@ -76,7 +76,9 @@ while(1):
   ttb = current + datetime.timedelta(0,tt)
   print("will be playing at :" + str(ttb) )
   sleep(tt)
-  try: 
+  try:
+   try:
+    try:  
     try:
       pl=0
       plc=0
@@ -329,7 +331,7 @@ while(1):
                             driver.refresh()
                         common.heart.check_ip(myip,driver)
                      sleep(15)
-                     
+ 
                 except: 
                     driver.refresh()
                     
@@ -356,7 +358,7 @@ while(1):
     except MySQLdb.Error as err:
        print("----->Error connection")
        
-  except:
+    except:
       try:
           e = sys.exc_info()[0]
           print(str(e))
@@ -370,3 +372,7 @@ while(1):
              common.heart.log_update(str(id_insert),pl,database)         
           except:
              err=1
+   except:
+     print("skip1")
+  except:
+   print("skip2")  
