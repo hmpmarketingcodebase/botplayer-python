@@ -25,7 +25,7 @@ def connectiondb(database):
    #cnx = MySQLdb.connect("localhost","user",",Dc7aUb)3t>H@1.",database)    
    cnx = MySQLdb.connect("10.142.0.2","root","anoualwifi10",database)    
    return cnx
-'''    
+'''     
 def proxis(country,cnx):
       try:
          curs = cnx.cursor()
