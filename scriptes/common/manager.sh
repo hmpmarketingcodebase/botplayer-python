@@ -9,6 +9,20 @@ if [ "$disk" = "100%" ]
 then
 echo "Clean DISK"
 nohup sudo bash clean_tmp.sh 0</dev/null &
+nohup sudo killall python3 chrome chromedriver Xvfb 0</dev/null &
+
+sleep 30s
+
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+
 fi
 
 echo "DISK "${disk}
@@ -16,6 +30,20 @@ if [ ${disk} \> "95%" ]
 then
 echo "Clean DISK"
 nohup sudo bash clean_tmp.sh 0</dev/null &
+nohup sudo killall python3 chrome chromedriver Xvfb 0</dev/null &
+
+sleep 30s
+
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+
 fi
 
 num=$(free -m | awk 'NR==2{printf "%.f", $3*100/$2 }')
@@ -25,6 +53,20 @@ if (( $(($ram)) > 84 ))
 then
 echo "clean RAM"
 nohup sudo bash clean_ram.sh 0</dev/null &
+nohup sudo killall python3 chrome chromedriver Xvfb 0</dev/null &
+
+sleep 30s
+
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+nohup python3 ../spotify/$1 0</dev/null &
+
 fi
 
 sleep 5s
