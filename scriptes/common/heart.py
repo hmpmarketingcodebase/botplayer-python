@@ -735,6 +735,7 @@ def sizeof_fmt(num, suffix='B'):
 
 	
 def cleaner():
+      print("hhhhhhhhhhhhhhh")
       cmd=('bash manager.sh & disown')
       subprocess.call(cmd, shell=True, cwd='../common/')
   
