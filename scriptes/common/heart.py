@@ -734,10 +734,6 @@ def sizeof_fmt(num, suffix='B'):
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 	
-def cleaner():
-      print("hhhhhhhhhhhhhhh")
-      cmd=('bash manager.sh & disown')
-      subprocess.call(cmd, shell=True, cwd='../common/')
   
 def clean_memory():
   # cmd=('sudo bash clean_ram.sh & disown')
