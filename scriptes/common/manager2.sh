@@ -6,7 +6,7 @@ nohup sudo killall python3 chrome chromedriver Xvfb 0</dev/null &
 
 echo "Clean DISK"
 nohup sudo bash clean_tmp.sh 0</dev/null &
-sleep(5)
+sleep 5s
 echo "clean RAM"
 nohup sudo bash clean_ram.sh 0</dev/null &
 
