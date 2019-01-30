@@ -20,6 +20,6 @@ nohup python3 ../spotify/$1 0</dev/null &
 nohup python3 ../spotify/$1 0</dev/null &
 nohup python3 ../spotify/$1 0</dev/null &
 nohup python3 ../spotify/$1 0</dev/null &
-sleep 8000s
+sleep 3600s
 
 done
