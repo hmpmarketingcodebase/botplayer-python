@@ -60,7 +60,7 @@ while(1):
   try:
        #if(opsy=='Linux'):
        print("KILLL " + str(pid))
-       common.heart.kill_process(pid) 
+       common.heart.kill_process(driver) 
        print("KILLLED " + str(pid)) 
        driver.close()
        driver.close()
@@ -342,7 +342,7 @@ while(1):
       ##### exceptions 
       try:
           if(opsy=='Linux'):
-             common.heart.kill_process(pid) 
+             common.heart.kill_process(driver) 
           driver.close()
           common.heart.log_update(str(id_insert),pl,database)         
       except:
@@ -367,7 +367,7 @@ while(1):
           e = sys.exc_info()[0]
           print(str(e))
           if(opsy=='Linux'):
-             common.heart.kill_process(pid) 
+             common.heart.kill_process(driver) 
           driver.close()
           common.heart.log_update(str(id_insert),pl,database)         
       except:

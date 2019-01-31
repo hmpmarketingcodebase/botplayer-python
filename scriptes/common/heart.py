@@ -754,12 +754,14 @@ def clean_memory():
          os.system("killall chrome chromedriver")
          sleep(5)
          
-def kill_process(parent_pid):
+def kill_process(driver):
    #os.system("pkill -TERM -P " + str(parent_pid))
-   p = psutil.Process(parent_pid)
-   p.terminate()  #or p.kill()
-   print("# " + str(parent_pid) + " Killed")
-
+   #p = psutil.Process(parent_pid)
+   #p.terminate()  #or p.kill()
+   #print("# " + str(parent_pid) + " Killed")
+   driver.driver()
+   driver.driver()
+   driver.driver()
 
 def read_log_update(id,database,pat):
    print("#####ssss#######")
