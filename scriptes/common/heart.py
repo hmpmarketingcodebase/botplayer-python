@@ -755,7 +755,9 @@ def clean_memory():
          sleep(5)
          
 def kill_process(parent_pid):
-   os.system("pkill -TERM -P " + str(parent_pid))
+   #os.system("pkill -TERM -P " + str(parent_pid))
+   p = psutil.Process(parent_pid)
+   p.terminate()  #or p.kill()
    print("# " + str(parent_pid) + " Killed")
 
 
