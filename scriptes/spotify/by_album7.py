@@ -58,8 +58,12 @@ while(1):
  vv=0
  while(vv<int(part)):
   try:
-       if(opsy=='Linux'):
-          common.heart.kill_process(pid) 
+       #if(opsy=='Linux'):
+       print("KILLL " + str(pid))
+       common.heart.kill_process(pid) 
+       print("KILLLED " + str(pid)) 
+       driver.close()
+       driver.close()
        driver.close()
   except:
        err=1
