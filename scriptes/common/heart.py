@@ -171,10 +171,10 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type,playlist):
            mycountry="--"
     print(mycountry)
     #print(myip)
-    if(type=='Album'):
-        a = proxy_used(myip,cnx,playlist,driver)
-    elif(type=='Artist'):
-        a = 1
+    #if(type=='Album'):
+    a = proxy_used(myip,cnx,playlist,driver)
+    #elif(type=='Artist'):
+    #    a = 1
     print(myip  + " vs " + mypublicip) 
     if((a == 1) and  (myip != '--')):
        return myip + ";" + mycountry
@@ -298,10 +298,10 @@ def client_follow(client,cnx):
       except MySQLdb.Error as err:
          print("Something went wrong: {}".format(err))
 
-def songs(id_playlist,cnx):
+def songs(id_playlist,level,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from songs where playlist >= " + str(id_playlist) + " order by RAND()")
+         curs.execute("select * from songs where level >= '" +level(level)+ "' and playlist = '" + str(id_playlist) + "' order by RAND()")
          songs = curs.fetchall()
          #s = len(songs)
          #s = int(random.randint(int(int(s)/2),int(s)))
@@ -314,10 +314,21 @@ def songs(id_playlist,cnx):
          print("Something went wrong: (song) {}".format(err)) 
 
 
-def songs_album(id_album,playlist,cnx):
+
+def songs_direct_mobile(playlist,playlist_account,level,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from songs where album = '" + str(id_album) + "' and playlist = '" + str(playlist) + "' order by RAND()")
+         curs.execute("select * from songs where level>='"+str(level)+"' and playlist = '" + str(playlist) + "' and playlist_account = '" + str(playlist_account) + "' order by RAND()")
+         songs = curs.fetchall()
+         
+         return songs
+      except MySQLdb.Error as err:  
+         print("Something went wrong: (song) {}".format(err)) 
+
+def songs_album(id_album,playlist,level,cnx):
+      try:
+         curs = cnx.cursor()
+         curs.execute("select * from songs where level>='"+str(level)+"' and album = '" + str(id_album) + "' and playlist = '" + str(playlist) + "' order by RAND()")
          songs = curs.fetchall()
          #s = len(songs)
          #s = int(random.randint(5,int(s)))
@@ -481,6 +492,7 @@ def config_driver(database,device,prox):
         curs = cnx.cursor()
         curs.execute("select * from user_agent where device = '"+device+"' order by RAND()")
         ua = curs.fetchone() 
+        print(ua)
         cnx.commit() 
  except MySQLdb.Error as err:
         print("Something went wrong: (connection) {}".format(err))
@@ -504,13 +516,10 @@ def config_driver(database,device,prox):
     chrome_options.add_extension(direct+'/ua.crx')
     print(ua[1])
     chrome_options.add_argument("user-agent=" + ua[1])
-    if(device=='mobile'):
-       devices = ['Nexus 5','Blackberry PlayBook','Pixel 2','Nexus 6P','iPhone 8 Plus','iPhone 7 Plus','Nokia N9','Nokia Lumia 520','Galaxy S5','iPhone 7','LG Optimus L70','iPhone 5','iPhone 4','Nexus 10','iPhone 8','iPhone 6','Galaxy S III','iPhone 7','iPhone SE','Microsoft Lumia 550','iPad Mini','iPhone 5/SE','iPad Pro','Nexus 5X','iPhone 6 Plus','iPhone 7 Plus','iPhone 8 Plus','Galaxy Note II','iPhone X','Microsoft Lumia 950','Pixel 2 XL','Galaxy Note 3','Kindle Fire HDX','iPad','BlackBerry Z30','Nexus 6','Nexus 7','Nexus 4']
-       random.shuffle(devices)
-       mobile_emulation = { "deviceName": devices[1] }
-       chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
+    #chrome_options.add_argument("user-agent=Mozilla/5.0 (Linux; Android 8.0.0; VTR-L09) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.76 Mobile Safari/537.36")
     #chrome_options = webdriver.ChromeOptions()
     if(prox!="x"):
+        
        chrome_options.add_argument('--proxy-server=%s' % PROXY)
     driver = webdriver.Chrome(executable_path=executable_path, chrome_options=chrome_options)
     driver.delete_all_cookies()
@@ -536,12 +545,9 @@ def config_driver(database,device,prox):
     chrome_options.add_extension('../../tools/ua.crx')
     chrome_options.add_extension('../../tools/Quick-Language-Switcher_v0.0.0.4.crx')
     chrome_options.add_argument("user-agent=" + ua[1])
+    #chrome_options.add_argument("user-agent=Mozilla/5.0 (Linux; Android 8.0.0; VTR-L09) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.76 Mobile Safari/537.36")
      
-    if(device=='mobile'):
-       devices = ['Nexus 5','Blackberry PlayBook','Pixel 2','Nexus 6P','iPhone 8 Plus','iPhone 7 Plus','Nokia N9','Nokia Lumia 520','Galaxy S5','iPhone 7','LG Optimus L70','iPhone 5','iPhone 4','Nexus 10','iPhone 8','iPhone 6','Galaxy S III','iPhone 7','iPhone SE','Microsoft Lumia 550','iPad Mini','iPhone 5/SE','iPad Pro','Nexus 5X','iPhone 6 Plus','iPhone 7 Plus','iPhone 8 Plus','Galaxy Note II','iPhone X','Microsoft Lumia 950','Pixel 2 XL','Galaxy Note 3','Kindle Fire HDX','iPad','BlackBerry Z30','Nexus 6','Nexus 7','Nexus 4']
-       random.shuffle(devices)
-       mobile_emulation = { "deviceName": devices[1] }
-       chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
+    #chrome_options.add_argument("user-agent=Mozilla/5.0 (Linux; Android 8.0.0; VTR-L09) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.76 Mobile Safari/537.36")   
     if(prox!="x"):
        #chrome_options = webdriver.ChromeOptions()
        chrome_options.add_argument('--proxy-server=%s' % PROXY)
