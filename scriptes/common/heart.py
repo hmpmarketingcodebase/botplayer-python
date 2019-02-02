@@ -492,7 +492,6 @@ def config_driver(database,device,prox):
         curs = cnx.cursor()
         curs.execute("select * from user_agent where device = '"+device+"' order by RAND()")
         ua = curs.fetchone() 
-        print(ua)
         cnx.commit() 
  except MySQLdb.Error as err:
         print("Something went wrong: (connection) {}".format(err))
@@ -514,12 +513,14 @@ def config_driver(database,device,prox):
     chrome_options.add_extension(direct+ '/extension_2_0_0_0.crx')
     chrome_options.add_extension(direct+'/Quick-Language-Switcher_v0.0.0.4.crx')
     chrome_options.add_extension(direct+'/ua.crx')
-    print(ua[1])
     chrome_options.add_argument("user-agent=" + ua[1])
-    #chrome_options.add_argument("user-agent=Mozilla/5.0 (Linux; Android 8.0.0; VTR-L09) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.76 Mobile Safari/537.36")
+    if(device=='mobile'):
+       devices = ['Nexus 5','Blackberry PlayBook','Pixel 2','Nexus 6P','iPhone 8 Plus','iPhone 7 Plus','Nokia N9','Nokia Lumia 520','Galaxy S5','iPhone 7','LG Optimus L70','iPhone 5','iPhone 4','Nexus 10','iPhone 8','iPhone 6','Galaxy S III','iPhone 7','iPhone SE','Microsoft Lumia 550','iPad Mini','iPhone 5/SE','iPad Pro','Nexus 5X','iPhone 6 Plus','iPhone 7 Plus','iPhone 8 Plus','Galaxy Note II','iPhone X','Microsoft Lumia 950','Pixel 2 XL','Galaxy Note 3','Kindle Fire HDX','iPad','BlackBerry Z30','Nexus 6','Nexus 7','Nexus 4']
+       random.shuffle(devices)
+       mobile_emulation = { "deviceName": devices[1] }
+       chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
     #chrome_options = webdriver.ChromeOptions()
     if(prox!="x"):
-        
        chrome_options.add_argument('--proxy-server=%s' % PROXY)
     driver = webdriver.Chrome(executable_path=executable_path, chrome_options=chrome_options)
     driver.delete_all_cookies()
@@ -545,9 +546,12 @@ def config_driver(database,device,prox):
     chrome_options.add_extension('../../tools/ua.crx')
     chrome_options.add_extension('../../tools/Quick-Language-Switcher_v0.0.0.4.crx')
     chrome_options.add_argument("user-agent=" + ua[1])
-    #chrome_options.add_argument("user-agent=Mozilla/5.0 (Linux; Android 8.0.0; VTR-L09) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.76 Mobile Safari/537.36")
      
-    #chrome_options.add_argument("user-agent=Mozilla/5.0 (Linux; Android 8.0.0; VTR-L09) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.76 Mobile Safari/537.36")   
+    if(device=='mobile'):
+       devices = ['Nexus 5','Blackberry PlayBook','Pixel 2','Nexus 6P','iPhone 8 Plus','iPhone 7 Plus','Nokia N9','Nokia Lumia 520','Galaxy S5','iPhone 7','LG Optimus L70','iPhone 5','iPhone 4','Nexus 10','iPhone 8','iPhone 6','Galaxy S III','iPhone 7','iPhone SE','Microsoft Lumia 550','iPad Mini','iPhone 5/SE','iPad Pro','Nexus 5X','iPhone 6 Plus','iPhone 7 Plus','iPhone 8 Plus','Galaxy Note II','iPhone X','Microsoft Lumia 950','Pixel 2 XL','Galaxy Note 3','Kindle Fire HDX','iPad','BlackBerry Z30','Nexus 6','Nexus 7','Nexus 4']
+       random.shuffle(devices)
+       mobile_emulation = { "deviceName": devices[1] }
+       chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
     if(prox!="x"):
        #chrome_options = webdriver.ChromeOptions()
        chrome_options.add_argument('--proxy-server=%s' % PROXY)
@@ -559,6 +563,7 @@ def config_driver(database,device,prox):
   except ConnectionResetError:
     sleep(1)
     print("linux error")
+
 
 def mobile_ua(driver):
      #Mobile user agent click extension
