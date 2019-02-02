@@ -382,3 +382,14 @@ while(1):
      print("skip1")
   except:
    print("skip2")  
+   
+  try:
+       #if(opsy=='Linux'):
+       print("KILLL " + str(pid))
+       common.heart.kill_process(driver) 
+       print("KILLLED " + str(pid)) 
+       driver.close()
+       driver.close()
+       driver.close()
+  except:
+       err=1
