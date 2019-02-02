@@ -27,13 +27,11 @@ try:
 except:
    mypubilcip = "-"
 
-
 play_album_ = sys.argv[1] # id album(get from database)
 playlist = sys.argv[2] # id album(get from database)
 playlist_account = sys.argv[3] # id album(get from database)
 proxy_number = sys.argv[4]
-level = sys.argv[5]
-database = 'spoti' # 
+database = 'spoti' #  
 #ip_prox = sys.argv[4] # 
 #min = sys.argv[5] # 
 #max = sys.argv[6] # 
@@ -42,7 +40,7 @@ part_sec = 86400 / int(part) # how many seconds in 1 part per- day
 #prt = int(sys.argv[4])
 opsy = platform.system() #operation system (windows or linux)
 #35.185.98.205
- 
+ #hahah
 proxy_ = ["163.172.39.13","163.172.39.13","51.15.13.157","51.15.13.157","209.205.212.34"]
 port_start =[1151,1163,3226,3239,3000]
 port_end =[1162,1175,3238,3250,3250]
@@ -60,12 +58,8 @@ while(1):
  vv=0
  while(vv<int(part)):
   try:
-       #if(opsy=='Linux'):
-       print("KILLL " + str(pid))
-       common.heart.kill_process(driver) 
-       print("KILLLED " + str(pid)) 
-       driver.close()
-       driver.close()
+       if(opsy=='Linux'):
+          common.heart.kill_process(pid) 
        driver.close()
   except:
        err=1
@@ -252,7 +246,7 @@ while(1):
                         print("Error connection")
                      song_album_url = al[2] 
                      song_album_name = al[1]
-                     song = common.heart.songs_album(p_a[1],playlist,level,cnx)   
+                     song = common.heart.songs_album(p_a[1],playlist,cnx)   
                      try:
                       try:
                           wait = WebDriverWait(driver, 30)
@@ -287,8 +281,8 @@ while(1):
                      for s in song:
                         try:
                          plc=0
-                         if(opsy=='Linux'):
-                            common.heart.clean_memory()
+                         #if(opsy=='Linux'):
+                            #common.heart.clean_memory()
                          ii=ii+1
                          song_name = s[1]
                          client = s[7]
@@ -344,7 +338,7 @@ while(1):
       ##### exceptions 
       try:
           if(opsy=='Linux'):
-             common.heart.kill_process(driver) 
+             common.heart.kill_process(pid) 
           driver.close()
           common.heart.log_update(str(id_insert),pl,database)         
       except:
@@ -369,7 +363,7 @@ while(1):
           e = sys.exc_info()[0]
           print(str(e))
           if(opsy=='Linux'):
-             common.heart.kill_process(driver) 
+             common.heart.kill_process(pid) 
           driver.close()
           common.heart.log_update(str(id_insert),pl,database)         
       except:
@@ -382,14 +376,3 @@ while(1):
      print("skip1")
   except:
    print("skip2")  
-   
-  try:
-       #if(opsy=='Linux'):
-       print("KILLL " + str(pid))
-       common.heart.kill_process(driver) 
-       print("KILLLED " + str(pid)) 
-       driver.close()
-       driver.close()
-       driver.close()
-  except:
-       err=1
