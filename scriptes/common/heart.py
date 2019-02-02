@@ -23,9 +23,9 @@ import csv
 def connectiondb(database):
    #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
    #cnx = MySQLdb.connect("localhost","user",",Dc7aUb)3t>H@1.",database)    
-   cnx = MySQLdb.connect("10.142.0.5","root","anoualwifi10",database)    
+   cnx = MySQLdb.connect("10.142.0.2","root","anoualwifi10",database)    
    return cnx
-'''    
+'''     
 def proxis(country,cnx):
       try:
          curs = cnx.cursor()
@@ -171,10 +171,10 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type,playlist):
            mycountry="--"
     print(mycountry)
     #print(myip)
-    if(type=='Album'):
-        a = proxy_used(myip,cnx,playlist,driver)
-    elif(type=='Artist'):
-        a = 1
+    #if(type=='Album'):
+    a = proxy_used(myip,cnx,playlist,driver)
+    #elif(type=='Artist'):
+    #    a = 1
     print(myip  + " vs " + mypublicip) 
     if((a == 1) and  (myip != '--')):
        return myip + ";" + mycountry
@@ -184,8 +184,6 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type,playlist):
           proxy_ip = proxy + ":" + port
           current=datetime.datetime.now()
           log_insert(str(proxy_ip),str(myip),"Error proxy",str(current),mypublicip,"Error proxy","","",cnx)
-          if(type!=1):
-             proxy_error2(str(proxy_ip),cnx)
           
        else:
           print("Ip already exist")
@@ -300,10 +298,10 @@ def client_follow(client,cnx):
       except MySQLdb.Error as err:
          print("Something went wrong: {}".format(err))
 
-def songs(id_playlist,cnx):
+def songs(id_playlist,level,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from songs where playlist >= " + str(id_playlist) + " order by RAND()")
+         curs.execute("select * from songs where level >= '" +level(level)+ "' and playlist = '" + str(id_playlist) + "' order by RAND()")
          songs = curs.fetchall()
          #s = len(songs)
          #s = int(random.randint(int(int(s)/2),int(s)))
@@ -316,10 +314,21 @@ def songs(id_playlist,cnx):
          print("Something went wrong: (song) {}".format(err)) 
 
 
-def songs_album(id_album,playlist,cnx):
+
+def songs_direct_mobile(playlist,playlist_account,level,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from songs where album = '" + str(id_album) + "' and playlist = '" + str(playlist) + "' order by RAND()")
+         curs.execute("select * from songs where level>='"+str(level)+"' and playlist = '" + str(playlist) + "' and playlist_account = '" + str(playlist_account) + "' order by RAND()")
+         songs = curs.fetchall()
+         
+         return songs
+      except MySQLdb.Error as err:  
+         print("Something went wrong: (song) {}".format(err)) 
+
+def songs_album(id_album,playlist,level,cnx):
+      try:
+         curs = cnx.cursor()
+         curs.execute("select * from songs where level>='"+str(level)+"' and album = '" + str(id_album) + "' and playlist = '" + str(playlist) + "' order by RAND()")
          songs = curs.fetchall()
          #s = len(songs)
          #s = int(random.randint(5,int(s)))
@@ -555,6 +564,7 @@ def config_driver(database,device,prox):
     sleep(1)
     print("linux error")
 
+
 def mobile_ua(driver):
      #Mobile user agent click extension
      driver.get("chrome-extension://lkmofgnohbedopheiphabfhfjgkhfcgf/popup.html")
@@ -734,6 +744,8 @@ def sizeof_fmt(num, suffix='B'):
         num /= 1024.0
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
+	
+  
 def clean_memory():
   # cmd=('sudo bash clean_ram.sh & disown')
   # subprocess.call(cmd, shell=True, cwd='../common/')
@@ -753,10 +765,14 @@ def clean_memory():
          os.system("killall chrome chromedriver")
          sleep(5)
          
-def kill_process(parent_pid):
-   os.system("pkill -TERM -P " + str(parent_pid))
-   print("# " + str(parent_pid) + " Killed")
-
+def kill_process(driver):
+   #os.system("pkill -TERM -P " + str(parent_pid))
+   #p = psutil.Process(parent_pid)
+   #p.terminate()  #or p.kill()
+   #print("# " + str(parent_pid) + " Killed")
+   driver.driver()
+   driver.driver()
+   driver.driver()
 
 def read_log_update(id,database,pat):
    print("#####ssss#######")
