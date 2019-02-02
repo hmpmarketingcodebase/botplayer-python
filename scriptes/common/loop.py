@@ -8,3 +8,4 @@ while(1):
     os.system('nohup sudo bash clean_ram.sh 0</dev/null &')
     sleep(5)
     os.system('nohup sudo killall chrome chromedriver 0</dev/null &')
+    sleep(3600)
