@@ -287,8 +287,8 @@ while(1):
                      for s in song:
                         try:
                          plc=0
-                         #if(opsy=='Linux'):
-                            #common.heart.clean_memory()
+                         if(opsy=='Linux'):
+                            common.heart.clean_memory()
                          ii=ii+1
                          song_name = s[1]
                          client = s[7]
