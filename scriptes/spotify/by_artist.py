@@ -29,7 +29,9 @@ part = 10000
 part_sec = 86400 / int(part) # how many seconds in 1 part per day
 aaa=0
 opsy = platform.system() #operation system (windows or linux)
-proxy_number = sys.argv[1]
+id_playlist = sys.argv[1]
+level = sys.argv[2]
+proxy_number = sys.argv[3]
 
 if(opsy=='Linux'):
    #for server run with virtual display
@@ -47,7 +49,7 @@ while(1):
  #follow = follow + 1
  try:
    if(opsy=='Linux'):
-      common.heart.kill_process(pid) 
+      common.heart.kill_process(driver) 
    driver.close()
  except:
    err=1
@@ -91,7 +93,7 @@ while(1):
       x=[] 
       playlist_x=[] 
       playlist_account_x=[] 
-      song = common.heart.songs(1,cnx)
+      song = common.heart.songs(id_playlist,level,cnx)
       for s in song:
           x.append(s[1])  
           playlist_x.append(s[5])  
@@ -118,7 +120,7 @@ while(1):
       print ("PID : " + str(p.pid))      
       pid = str(p.pid)
 #connect to proxy by extension, connexion browser side
-      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,'Artist',playlist)
+      my = common.heart.proxy_connect(cnx,str(proxy_ip.split(':')[0]),str(proxy_ip.split(':')[1]),usr,pwd,driver,mypubilcip,'Artist','')
       print(my)
       if(my == "error proxy"):
             repeat = repeat + 1
@@ -186,7 +188,7 @@ while(1):
                  state="Error Proxy!" 
                  try:
                    if(opsy=='Linux'):
-                      common.heart.kill_process(pid) 
+                      common.heart.kill_process(driver) 
                    driver.close()
                  except:
                    err=1
@@ -340,7 +342,7 @@ while(1):
       ##### exceptions 
       try:
          if(opsy=='Linux'):
-            common.heart.kill_process(pid) 
+            common.heart.kill_process(driver) 
          driver.close()
          common.heart.log_update(str(id_insert),pl,'spoti') 
       except:
@@ -366,7 +368,7 @@ while(1):
           e = sys.exc_info()[0]
           print(str(e))
           if(opsy=='Linux'):
-             common.heart.kill_process(pid) 
+             common.heart.kill_process(driver) 
           driver.close()
           common.heart.log_update(str(id_insert),pl,'spoti')         
       except:
