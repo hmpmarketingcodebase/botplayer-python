@@ -1,0 +1,13 @@
+sudo apt-get update
+sudo apt-get install apache2
+sudo apache2ctl configtest
+sudo nano /etc/apache2/apache2.conf
+ServerName 35.231.11.77
+sudo apache2ctl configtest
+sudo systemctl restart apache2
+sudo ufw app info "Apache Full"
+sudo ufw allow in "Apache Full"
+http://35.231.11.77
+
+Step 2: Install MySQL
+sudo apt-get install mysql-server

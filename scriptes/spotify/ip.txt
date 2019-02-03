@@ -1,0 +1,58 @@
+35.185.98.205
+104.196.194.68
+
+104.196.194.68 
+nohup python3  by_album5.py 20 20 20000 195.154.161.111 9177 9476 0</dev/null &
+
+python3  by_album5.py 20 20 20000 195.154.161.111 9177 9476 & disown
+
+
+35.243.163.213 
+nohup python3  by_album5.py 24 24 20000 62.210.116.111 7531 7780 0</dev/null &
+
+python3  by_album5.py 25 25 20000 62.210.116.111 7531 7780 & disown
+
+35.196.75.49 
+nohup python3  by_album5.py 19 19 20000 62.210.106.166 3864 3963 0</dev/null &
+
+
+python3  by_album5.py 19 19 20000 62.210.106.166 3864 3963 & disown
+
+
+nohup bash loop.sh 0</dev/null &
+
+
+
+python3  by_album5.py 19 19 20000 62.210.116.111 7531 7780 & disown
+python3  by_album5.py 19 19 20000 62.210.116.111 7531 7780 & disown
+
+23000
+
+
+instance artist-1
+nohup python3 by_artist.py 20000 3155 0</dev/null &
+nohup python3 by_artist.py 20000 3160 0</dev/null &
+nohup python3 by_artist.py 20000 3165 0</dev/null &
+nohup python3 by_artist.py 20000 3170 0</dev/null &
+nohup python3 by_artist.py 20000 3175 0</dev/null &
+nohup python3 by_artist.py 20000 3180 0</dev/null &
+nohup python3 by_artist.py 20000 3185 0</dev/null &
+nohup python3 by_artist.py 20000 3190 0</dev/null &
+
+
+python3 by_artist.py 20000 3190 & disown
+
+
+209.205.212.34:3000
+
+proxy rack
+nohup python3 by_album5.py 25 25 20000 209.205.212.34 3000 3154 0</dev/null &
+
+python3  by_album5.py 25 25 20000 209.205.212.34 3000 3154 & disown
+
+proxy rack 2
+
+
+python3  by_album5.py 19 19 20000 209.205.212.34 3191 3250 & disown
+
+nohup python3  by_album5.py 19 19 20000 209.205.212.34 3191 3250 0</dev/null &
