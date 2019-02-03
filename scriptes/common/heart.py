@@ -749,7 +749,7 @@ def clean_memory():
    if('MiB' in mem_):
       s = mem_[:-3]
       #print('memory use:'+ str(s))
-      if(float(s) < 100 ):
+      if(float(s) < 120 ):
          print("process killed")         
          os.system("killall chrome chromedriver")
          sleep(5)
