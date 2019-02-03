@@ -29,9 +29,7 @@ part = 10000
 part_sec = 86400 / int(part) # how many seconds in 1 part per day
 aaa=0
 opsy = platform.system() #operation system (windows or linux)
-id_playlist = sys.argv[1]
-level = sys.argv[2]
-proxy_number = sys.argv[3]
+proxy_number = sys.argv[1]
 
 if(opsy=='Linux'):
    #for server run with virtual display
@@ -49,7 +47,7 @@ while(1):
  #follow = follow + 1
  try:
    if(opsy=='Linux'):
-      common.heart.kill_process(driver) 
+      common.heart.kill_process(pid) 
    driver.close()
  except:
    err=1
@@ -93,7 +91,7 @@ while(1):
       x=[] 
       playlist_x=[] 
       playlist_account_x=[] 
-      song = common.heart.songs(id_playlist,level,cnx)
+      song = common.heart.songs(1,cnx)
       for s in song:
           x.append(s[1])  
           playlist_x.append(s[5])  
@@ -188,7 +186,7 @@ while(1):
                  state="Error Proxy!" 
                  try:
                    if(opsy=='Linux'):
-                      common.heart.kill_process(driver) 
+                      common.heart.kill_process(pid) 
                    driver.close()
                  except:
                    err=1
@@ -342,7 +340,7 @@ while(1):
       ##### exceptions 
       try:
          if(opsy=='Linux'):
-            common.heart.kill_process(driver) 
+            common.heart.kill_process(pid) 
          driver.close()
          common.heart.log_update(str(id_insert),pl,'spoti') 
       except:
@@ -368,7 +366,7 @@ while(1):
           e = sys.exc_info()[0]
           print(str(e))
           if(opsy=='Linux'):
-             common.heart.kill_process(driver) 
+             common.heart.kill_process(pid) 
           driver.close()
           common.heart.log_update(str(id_insert),pl,'spoti')         
       except:
