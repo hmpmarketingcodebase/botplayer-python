@@ -171,10 +171,10 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type,playlist):
            mycountry="--"
     print(mycountry)
     #print(myip)
-    if(type=='Album'):
-        a = proxy_used(myip,cnx,playlist,driver)
-    elif(type=='Artist'):
-        a = 1
+    #if(type=='Album'):
+    a = proxy_used(myip,cnx,playlist,driver)
+    #elif(type=='Artist'):
+     #   a = 1
     print(myip  + " vs " + mypublicip) 
     if((a == 1) and  (myip != '--')):
        return myip + ";" + mycountry
