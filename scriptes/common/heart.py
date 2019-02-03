@@ -19,7 +19,7 @@ import subprocess
 import shutil
 import json
 import csv
-
+#gggggggggg
 def connectiondb(database):
    #cnx = MySQLdb.connect("52.17.67.92","user",",Dc7aUb)3t>H@1.",database)    
    #cnx = MySQLdb.connect("localhost","user",",Dc7aUb)3t>H@1.",database)    
@@ -171,10 +171,10 @@ def proxy_connect(cnx,proxy,port,user,password,driver,mypublicip,type,playlist):
            mycountry="--"
     print(mycountry)
     #print(myip)
-    #if(type=='Album'):
-    a = proxy_used(myip,cnx,playlist,driver)
-    #elif(type=='Artist'):
-    #    a = 1
+    if(type=='Album'):
+        a = proxy_used(myip,cnx,playlist,driver)
+    elif(type=='Artist'):
+        a = 1
     print(myip  + " vs " + mypublicip) 
     if((a == 1) and  (myip != '--')):
        return myip + ";" + mycountry
@@ -298,10 +298,10 @@ def client_follow(client,cnx):
       except MySQLdb.Error as err:
          print("Something went wrong: {}".format(err))
 
-def songs(id_playlist,level,cnx):
+def songs(id_playlist,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from songs where level >= '" +level(level)+ "' and playlist = '" + str(id_playlist) + "' order by RAND()")
+         curs.execute("select * from songs where playlist >= " + str(id_playlist) + " order by RAND()")
          songs = curs.fetchall()
          #s = len(songs)
          #s = int(random.randint(int(int(s)/2),int(s)))
@@ -314,21 +314,10 @@ def songs(id_playlist,level,cnx):
          print("Something went wrong: (song) {}".format(err)) 
 
 
-
-def songs_direct_mobile(playlist,playlist_account,level,cnx):
+def songs_album(id_album,playlist,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from songs where level>='"+str(level)+"' and playlist = '" + str(playlist) + "' and playlist_account = '" + str(playlist_account) + "' order by RAND()")
-         songs = curs.fetchall()
-         
-         return songs
-      except MySQLdb.Error as err:  
-         print("Something went wrong: (song) {}".format(err)) 
-
-def songs_album(id_album,playlist,level,cnx):
-      try:
-         curs = cnx.cursor()
-         curs.execute("select * from songs where level>='"+str(level)+"' and album = '" + str(id_album) + "' and playlist = '" + str(playlist) + "' order by RAND()")
+         curs.execute("select * from songs where album = '" + str(id_album) + "' and playlist = '" + str(playlist) + "' order by RAND()")
          songs = curs.fetchall()
          #s = len(songs)
          #s = int(random.randint(5,int(s)))
@@ -513,6 +502,7 @@ def config_driver(database,device,prox):
     chrome_options.add_extension(direct+ '/extension_2_0_0_0.crx')
     chrome_options.add_extension(direct+'/Quick-Language-Switcher_v0.0.0.4.crx')
     chrome_options.add_extension(direct+'/ua.crx')
+    print(ua[1])
     chrome_options.add_argument("user-agent=" + ua[1])
     if(device=='mobile'):
        devices = ['Nexus 5','Blackberry PlayBook','Pixel 2','Nexus 6P','iPhone 8 Plus','iPhone 7 Plus','Nokia N9','Nokia Lumia 520','Galaxy S5','iPhone 7','LG Optimus L70','iPhone 5','iPhone 4','Nexus 10','iPhone 8','iPhone 6','Galaxy S III','iPhone 7','iPhone SE','Microsoft Lumia 550','iPad Mini','iPhone 5/SE','iPad Pro','Nexus 5X','iPhone 6 Plus','iPhone 7 Plus','iPhone 8 Plus','Galaxy Note II','iPhone X','Microsoft Lumia 950','Pixel 2 XL','Galaxy Note 3','Kindle Fire HDX','iPad','BlackBerry Z30','Nexus 6','Nexus 7','Nexus 4']
@@ -563,7 +553,6 @@ def config_driver(database,device,prox):
   except ConnectionResetError:
     sleep(1)
     print("linux error")
-
 
 def mobile_ua(driver):
      #Mobile user agent click extension
@@ -760,19 +749,15 @@ def clean_memory():
    if('MiB' in mem_):
       s = mem_[:-3]
       #print('memory use:'+ str(s))
-      if(float(s) < 120 ):
+      if(float(s) < 100 ):
          print("process killed")         
-         os.system("sudo killall chrome chromedriver")
+         os.system("killall chrome chromedriver")
          sleep(5)
          
-def kill_process(driver):
-   #os.system("pkill -TERM -P " + str(parent_pid))
-   #p = psutil.Process(parent_pid)
-   #p.terminate()  #or p.kill()
-   #print("# " + str(parent_pid) + " Killed")
-   driver.driver()
-   driver.driver()
-   driver.driver()
+def kill_process(parent_pid):
+   os.system("pkill -TERM -P " + str(parent_pid))
+   print("# " + str(parent_pid) + " Killed")
+
 
 def read_log_update(id,database,pat):
    print("#####ssss#######")

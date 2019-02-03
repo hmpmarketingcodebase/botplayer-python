@@ -31,7 +31,7 @@ play_album_ = sys.argv[1] # id album(get from database)
 playlist = sys.argv[2] # id album(get from database)
 playlist_account = sys.argv[3] # id album(get from database)
 proxy_number = sys.argv[4]
-database = 'spoti' #  
+database = 'spoti' # 
 #ip_prox = sys.argv[4] # 
 #min = sys.argv[5] # 
 #max = sys.argv[6] # 
@@ -281,8 +281,8 @@ while(1):
                      for s in song:
                         try:
                          plc=0
-                         if(opsy=='Linux'):
-                            common.heart.clean_memory()
+                         #if(opsy=='Linux'):
+                            #common.heart.clean_memory()
                          ii=ii+1
                          song_name = s[1]
                          client = s[7]
