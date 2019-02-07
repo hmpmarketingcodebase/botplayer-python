@@ -27,10 +27,10 @@ try:
 except:
    mypubilcip = "-"
 
-play_album_ = sys.argv[1] # id album(get from database)
-playlist = sys.argv[2] # id album(get from database)
-playlist_account = sys.argv[3] # id album(get from database)
-proxy_number = sys.argv[4]
+playlist = sys.argv[1] # id album(get from database)
+playlist_account = sys.argv[2] # id album(get from database)
+proxy_number = sys.argv[3]
+level = sys.argv[4]
 database = 'spoti' # 
 #ip_prox = sys.argv[4] # 
 #min = sys.argv[5] # 
@@ -106,7 +106,7 @@ while(1):
       albums = common.heart.albums_(cnx)
       
 #get playlist_album
-      play_album = common.heart.playlist_album(str(play_album_),str(playlist),cnx)
+      play_album = common.heart.playlist_album(str(level),str(playlist),cnx)
 
 #get artist      
       artists = common.heart.artist(cnx)
@@ -246,7 +246,7 @@ while(1):
                         print("Error connection")
                      song_album_url = al[2] 
                      song_album_name = al[1]
-                     song = common.heart.songs_album(p_a[1],playlist,cnx)   
+                     song = common.heart.songs_album(p_a[1],playlist,level,cnx)   
                      try:
                       try:
                           wait = WebDriverWait(driver, 30)
