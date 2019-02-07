@@ -109,7 +109,7 @@ while(1):
       play_album = common.heart.playlist_album(str(level),str(playlist),cnx)
 
 #get artist      
-      artists = common.heart.artist(cnx)
+      artists = common.heart.artist(level,cnx)
 
 #log insert      
       current=datetime.datetime.now()
