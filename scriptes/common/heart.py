@@ -298,10 +298,10 @@ def client_follow(client,cnx):
       except MySQLdb.Error as err:
          print("Something went wrong: {}".format(err))
 
-def songs(id_playlist,cnx):
+def songs(id_playlist,level,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from songs where playlist >= " + str(id_playlist) + " order by RAND()")
+         curs.execute("select * from songs where playlist = " + str(id_playlist) + " and level >= '"+level+"' order by RAND()")
          songs = curs.fetchall()
          #s = len(songs)
          #s = int(random.randint(int(int(s)/2),int(s)))
@@ -314,10 +314,26 @@ def songs(id_playlist,cnx):
          print("Something went wrong: (song) {}".format(err)) 
 
 
-def songs_album(id_album,playlist,cnx):
+def song_art(level,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from songs where album = '" + str(id_album) + "' and playlist = '" + str(playlist) + "' order by RAND()")
+         curs.execute("select * from songs where level >= '"+level+"' order by RAND()")
+         songs = curs.fetchall()
+         #s = len(songs)
+         #s = int(random.randint(int(int(s)/2),int(s)))
+ 
+         #curs2 = cnx.cursor()
+         #curs2.execute("select * from songs where playlist >= " + str(id_playlist) + " order by RAND() LIMIT " + str(s))
+         #songs = curs2.fetchall()
+         return songs
+      except MySQLdb.Error as err:  
+         print("Something went wrong: (song) {}".format(err)) 
+
+
+def songs_album(id_album,playlist,level,cnx):
+      try:
+         curs = cnx.cursor()
+         curs.execute("select * from songs where album = '" + str(id_album) + "' and playlist = '" + str(playlist) + "' and level >= '"+level+"' order by RAND()")
          songs = curs.fetchall()
          #s = len(songs)
          #s = int(random.randint(5,int(s)))
@@ -331,16 +347,16 @@ def songs_album(id_album,playlist,cnx):
          print("Something went wrong: (song) {}".format(err)) 
 
 
-def songs_artist(id_artist,cnx):
+def songs_artist(id_artist,level,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from songs where artist = '" + str(id_artist) + "' order by RAND()")
+         curs.execute("select * from songs where artist = '" + str(id_artist) + "' and level >= '"+level+"' order by RAND()")
          songs = curs.fetchall()
          s = len(songs)
          s = int(random.randint(1,int(s)))
 
          curs2 = cnx.cursor()
-         curs2.execute("select * from songs where artist = '" + str(id_artist) + "' order by RAND() LIMIT " + str(s))
+         curs2.execute("select * from songs where artist = '" + str(id_artist) + "' and level >= '"+level+"' order by RAND() LIMIT " + str(s))
          songs = curs2.fetchall()
          
          return songs
@@ -348,10 +364,10 @@ def songs_artist(id_artist,cnx):
          print("Something went wrong: (song) {}".format(err)) 
 
 
-def playlist_album(play_album,playlist,cnx):
+def playlist_album(level,playlist,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from playlist_album where play >= " + str(int(play_album)) + " and playlist = " + str(int(playlist)) + " order by RAND()")
+         curs.execute("select * from playlist_album where play >= " + str(int(level)) + " and playlist = " + str(int(playlist)) + " order by RAND()")
          songs = curs.fetchall()
          return songs
       except MySQLdb.Error as err:  
@@ -366,10 +382,10 @@ def albums_(cnx):
       except MySQLdb.Error as err:  
          print("Something went wrong: (album) {}".format(err)) 
 
-def artist(cnx):
+def artist(level,cnx):
       try:
          curs = cnx.cursor()
-         curs.execute("select * from artist where url<>'' and follow<>'0' order by RAND()")
+         curs.execute("select * from artist where url<>'' and follow<>'0' and id in (select artist from songs where level >= '"+level+"') order by RAND()")
          artists = curs.fetchall()
          return artists
       except MySQLdb.Error as err:  
@@ -547,7 +563,7 @@ def config_driver(database,device,prox):
        chrome_options.add_argument('--proxy-server=%s' % PROXY)
     driver = webdriver.Chrome(executable_path=executable_path, chrome_options=chrome_options)
     driver.delete_all_cookies()
-    clear_cache(driver)
+    #clear_cache(driver)
     driver.maximize_window()
     return driver  
   except ConnectionResetError:
@@ -749,7 +765,7 @@ def clean_memory():
    if('MiB' in mem_):
       s = mem_[:-3]
       #print('memory use:'+ str(s))
-      if(float(s) < 101 ):
+      if(float(s) < 110 ):
          print("process killed")         
          os.system("killall chrome chromedriver")
          sleep(5)
